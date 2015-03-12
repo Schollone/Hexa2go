@@ -34,22 +34,24 @@ public class SetupHexGrid : MonoBehaviour {
 
 	private void initGrid(int width, int height) {
 		Transform gridTransform = GameObject.Find ("Grid").transform;
-		GameObject hexagon;
+
 		
 		float yOffset = 2.415f;
 		
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
 
-				hexagon = Instantiate (prefabHexagon_Empty) as GameObject;
+				GameObject hexagonObject = Instantiate (prefabHexagon_Empty) as GameObject;
+				Hexagon hexagon = new Hexagon ();
 
 				float zValue = -4.83f * y;
 				if ( (x & 1) == 1 ) {
 					zValue =- yOffset;
 				}
 
-				hexagon.transform.position = new Vector3 (4.33f * x, 0, zValue);
-				hexagon.transform.parent = gridTransform;
+				hexagonObject.transform.position = new Vector3 (4.33f * x, 0, zValue);
+				hexagonObject.transform.parent = gridTransform;
+				hexagon.HexagonObject = hexagonObject;
 				
 				world.Grid[x, y] = hexagon;
 			}
@@ -60,11 +62,12 @@ public class SetupHexGrid : MonoBehaviour {
 		Transform gridTransform = GameObject.Find ("Grid").transform;
 		Hexagon hexagon = new Hexagon ();
 
-		GameObject oldHexagon = world.Grid [x, y];
+		Hexagon oldHexagon = world.Grid [x, y];
+		GameObject oldHexagonObject = oldHexagon.HexagonObject;
 
 		GameObject hexagonObject = Instantiate (prefabHexagon_Normal) as GameObject;
 		hexagon.HexagonObject = hexagonObject;
-		hexagon.GridPos = oldHexagon.transform.position;
+		hexagon.GridPos = oldHexagonObject.transform.position;
 		Destroy (oldHexagon);
 
 		hexagonObject.transform.parent = gridTransform;
