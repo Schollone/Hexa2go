@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Character : Object {
+public class Character {
 
 	private Vector3 gridPos;
 	private TeamColor color;

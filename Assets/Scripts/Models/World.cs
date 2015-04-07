@@ -5,12 +5,14 @@ public class World {
 	
 	private static World world;
 	
-	private const int height = 7;
-	private const int width = 10;
-	private Hexagon[,] grid;
+	public const int height = 7;
+	public const int width = 10;
+
+	private Grid grid;
+
 	
 	private World() {
-		grid = new Hexagon[width, height];
+		grid = new Grid (width, height);
 	}
 	
 	public static World getInstance() {
@@ -20,7 +22,7 @@ public class World {
 		return world;
 	}
 	
-	public Hexagon[,] Grid {
+	public Grid Grid {
 		get {
 			return grid;
 		}
