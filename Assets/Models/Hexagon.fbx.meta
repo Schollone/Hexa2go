@@ -1,17 +1,26 @@
 fileFormatVersion: 2
-guid: 7577506c644342944b94635d08f06d70
-timeCreated: 1426079687
+guid: 47a671c03222e3b45bbbb8613e53aebd
+timeCreated: 1428581256
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
     100002: Mesh1
+    100004: Mesh2
+    100006: Schnittpunkt
+    100008: Unterschied_2
     400000: //RootNode
     400002: Mesh1
+    400004: Mesh2
+    400006: Schnittpunkt
+    400008: Unterschied_2
     2300000: Mesh1
+    2300002: Mesh2
     3300000: Mesh1
+    3300002: Mesh2
     4300000: Mesh1
+    4300002: Mesh2
   materials:
     importMaterials: 1
     materialName: 0

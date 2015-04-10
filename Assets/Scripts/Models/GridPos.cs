@@ -3,33 +3,33 @@ using System.Collections;
 
 public struct GridPos {
 
-	private int x;
-	private int y;
+	private int _x;
+	private int _y;
 
 	public GridPos(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this._x = x;
+		this._y = y;
 
-		if (this.x < 0) this.x = 0;
-		if (this.y < 0) this.y = 0;
+		if (this._x < 0) this._x = 0;
+		if (this._y < 0) this._y = 0;
 
-		if (this.x >= World.width) this.x = World.width - 1;
-		if (this.y >= World.height) this.y = World.height - 1;
+		if (this._x >= World.width) this._x = World.width - 1;
+		if (this._y >= World.height) this._y = World.height - 1;
 	}
 
-	public int X {
+	public int x {
 		get {
-			return x;
+			return _x;
 		}
 	}
 
-	public int Y {
+	public int y {
 		get {
-			return y;
+			return _y;
 		}
 	}
 
 	public override string ToString () {
-		return string.Format ("({0}, {1})", X, Y);
+		return string.Format ("({0}, {1})", _x, _y);
 	}
 }

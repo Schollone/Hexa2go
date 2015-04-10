@@ -3,8 +3,7 @@ using System.Collections;
 
 public class InitGrid : MonoBehaviour {
 
-	public GameObject prefabHexagon_Normal;
-	public GameObject prefabHexagon_Empty;
+	public GameObject prefabHexagon;
 
 	private World world;
 	
@@ -12,51 +11,42 @@ public class InitGrid : MonoBehaviour {
 
 		world = World.getInstance ();
 
-		initGridLayer ();
-
-		setNormalHexagon (2, 3);
-		setNormalHexagon (3, 2);
-		setNormalHexagon (3, 3);
-		setNormalHexagon (4, 2);
-		setNormalHexagon (4, 3);
-		setNormalHexagon (4, 4);
-		setNormalHexagon (5, 2);
-		setNormalHexagon (5, 3);
-		setNormalHexagon (5, 4);
-		setNormalHexagon (6, 3);
-		setNormalHexagon (6, 4);
-		setNormalHexagon (7, 3);
+		initGrid ();
 	}
 
-	private void initGridLayer() {
-		GameObject gridContainer = GameObject.Find ("GridLayer");
-		Vector3 gridContainerPosition = gridContainer.transform.position;
-		
-		for (int y = 0; y < world.Grid.Height; ++y) {
-			for (int x = 0; x < world.Grid.Width; ++x) {
+	private void initGrid() {
+		GameObject gridContainer = GameObject.Find ("Grid");
+
+
+		for (int y = 0; y < world.grid.height; ++y) {
+			for (int x = 0; x < world.grid.width; ++x) {
 				
-				GameObject hexagonLayer = Instantiate (prefabHexagon_Empty) as GameObject;
-				hexagonLayer.transform.position = world.Grid.getPositionVector3(new GridPos(x, y));
-				hexagonLayer.transform.parent = gridContainer.transform;
-				
-				Hexagon hexagon = world.Grid.getHexagon(new GridPos(x, y));
-				hexagon.HexagonLayer = hexagonLayer;
-				//world.Grid.setHexagon(new GridPos(x, y), hexagon);
+				GameObject gameObject = Instantiate (prefabHexagon) as GameObject;
+				gameObject.transform.position = world.grid.getPositionVector3(new GridPos(x, y));
+				gameObject.transform.parent = gridContainer.transform;
+
+				GridPos gridPos = new GridPos(x, y);
+
+				Hexagon hexagon = null;
+
+				if (world.grid.gridStartPositions.Contains(gridPos)) {
+					hexagon = new Hexagon(gridPos, gameObject, true);
+				} else {
+					hexagon = new Hexagon(gridPos, gameObject);
+				}
+
+				if (gridPos.Equals(new GridPos(2, 3))) {
+					hexagon = new Hexagon(gridPos, gameObject, true, Hexagon.TeamColor.RED);
+				} else if (gridPos.Equals(new GridPos(7, 3))) {
+					hexagon = new Hexagon(gridPos, gameObject, true, Hexagon.TeamColor.BLUE);
+				}
+
+				world.grid.hexagons[gridPos] = hexagon;
 			}
 		}
-		
-		gridContainer.transform.position = new Vector3(gridContainerPosition.x, -0.5f, gridContainerPosition.z);
+
+		world.grid.selectedField = world.grid.getHexagon (new GridPos(2,3));
+
 	}
 
-	private void setNormalHexagon(int x, int y) {
-		Transform gridTransform = GameObject.Find ("Grid").transform;
-
-		GameObject hexagonObject = Instantiate (prefabHexagon_Normal) as GameObject;
-		hexagonObject.transform.position = world.Grid.getPositionVector3(new GridPos(x, y));
-		hexagonObject.transform.parent = gridTransform;
-
-		Hexagon hexagon = world.Grid.getHexagon(new GridPos(x, y));
-		hexagon.HexagonObject = hexagonObject;
-		//world.Grid.setHexagon(new GridPos(x, y), hexagon);
-	}
 }

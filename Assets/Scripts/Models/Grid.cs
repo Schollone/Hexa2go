@@ -4,95 +4,91 @@ using System.Collections.Generic;
 
 public class Grid {
 
-	private int width = 0;
-	private int height = 0;
-	private Dictionary<GridPos, Hexagon> grid;
-	private Dictionary<GridPos, Vector3> gridPostionsVector3;
-	private Hexagon selectedHexagon;
+	private int _width = 0;
+	private int _height = 0;
+	private Dictionary<GridPos, Hexagon> _hexagons;
+	private Dictionary<GridPos, Vector3> _gridPostionsVector3;
+	private Hexagon _selectedField;
+	
+	private List<GridPos> _gridStartPositions;
 
 	public Grid(int width, int height) {
-		this.width = width;
-		this.height = height;
+		this._width = width;
+		this._height = height;
 
-		this.grid = new Dictionary<GridPos, Hexagon> ();
-		this.gridPostionsVector3 = new Dictionary<GridPos, Vector3> ();
+		this._hexagons = new Dictionary<GridPos, Hexagon> ();
+		this._gridPostionsVector3 = new Dictionary<GridPos, Vector3> ();
 
-		initGridLayer ();
-
-		selectedHexagon = getHexagon (new GridPos(2,3));
+		this._gridStartPositions = new List<GridPos>();
+		this._gridStartPositions.Add(new GridPos(2, 3));
+		this._gridStartPositions.Add(new GridPos(3, 2));
+		this._gridStartPositions.Add(new GridPos(3, 3));
+		this._gridStartPositions.Add(new GridPos(4, 2));
+		this._gridStartPositions.Add(new GridPos(4, 3));
+		this._gridStartPositions.Add(new GridPos(4, 4));
+		this._gridStartPositions.Add(new GridPos(5, 2));
+		this._gridStartPositions.Add(new GridPos(5, 3));
+		this._gridStartPositions.Add(new GridPos(5, 4));
+		this._gridStartPositions.Add(new GridPos(6, 3));
+		this._gridStartPositions.Add(new GridPos(6, 4));
+		this._gridStartPositions.Add(new GridPos(7, 3));
+		
+		initGridPositions ();
 	}
 
-	public int Width {
-		get {
-			return width;
-		}
-	}
+	public int width {get { return _width; }}
 
-	public int Height {
-		get {
-			return height;
-		}
-	}
+	public int height {get { return _height; }}
 
-	public bool hasHexagon(int x, int y) {
-		/*if (grid [x, y] != null) {
-			return true;
-		}*/
-		return false;
-	}
+	public Dictionary<GridPos, Hexagon> hexagons {get { return _hexagons; }}
+	
+	public List<GridPos> gridStartPositions {get { return _gridStartPositions; }}
 
 	public Hexagon getHexagon(GridPos gridPos) {
-		Hexagon result;
-		Debug.Log ("GridPos: " + gridPos);
-		this.grid.TryGetValue (gridPos, out result);
-
-		Debug.Log ("GridPos Result: " + result.GridPos);
-		return result;
+		Hexagon hexagon;
+		this._hexagons.TryGetValue (gridPos, out hexagon);
+		return hexagon;
 	}
 
-	public void updateHexagon(GridPos gridPos, Hexagon hexagon) {
-		this.grid.Remove (gridPos);
-		this.grid.Add (gridPos, hexagon);
-	}
+	/*public void updateHexagon(Hexagon hexagon) {
+		this.grid [hexagon.gridPos] = hexagon;
+		//this.grid.Remove (field.GridPos);
+		//this.grid.Add (field.GridPos, field);
+	}*/
 
 	public Vector3 getPositionVector3(GridPos gridPos) {
 		Vector3 tmp = new Vector3 ();
-		gridPostionsVector3.TryGetValue(gridPos, out tmp);
+		_gridPostionsVector3.TryGetValue(gridPos, out tmp);
 		return tmp;
 	}
 
-	public Hexagon SelectedHexagon {
+	public Hexagon selectedField {
 		get {
-			return selectedHexagon;
+			return this._selectedField;
 		}
 		set {
-			Hexagon currentHexagon = this.selectedHexagon;
-			currentHexagon.IsSelected = false;
-			updateHexagon(currentHexagon.GridPos, currentHexagon);
+			Hexagon currentField = this._selectedField;
+			if (currentField != null) {
+				currentField.isSelected = false;
+			}
 
-			selectedHexagon = value;
-			selectedHexagon.IsSelected = true;
-			updateHexagon(selectedHexagon.GridPos, selectedHexagon);
-
+			this._selectedField = value;
+			this._selectedField.isSelected = true;
 		}
 	}
 
-	private void initGridLayer() {
-		float yOffset = 2.5f;
+	private void initGridPositions() {
+		float yOffset = 4.75f;
 		
-		for (int y = 0; y < this.height; ++y) {
-			for (int x = 0; x < this.width; ++x) {
+		for (int y = 0; y < this._height; ++y) {
+			for (int x = 0; x < this._width; ++x) {
 
-				float zValue = -5 * y;
+				float zValue = -9.5f * y;
 				if ( (x & 1) == 1 ) {
 					zValue -= yOffset;
 				}
 
-				this.gridPostionsVector3.Add(new GridPos(x, y), new Vector3 (4.33f * x, 0, zValue) );
-
-				GridPos gridPos = new GridPos(x, y);
-				Hexagon hexagon = new Hexagon(gridPos);
-				this.grid.Add(gridPos, hexagon);
+				this._gridPostionsVector3.Add(new GridPos(x, y), new Vector3 (8.25f * x, 0, zValue) );
 			}
 		}
 	}

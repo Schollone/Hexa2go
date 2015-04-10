@@ -8,11 +8,10 @@ public class World {
 	public const int height = 7;
 	public const int width = 10;
 
-	private Grid grid;
+	private Grid _grid;
 
-	
 	private World() {
-		grid = new Grid (width, height);
+		this._grid = new Grid (width, height);
 	}
 	
 	public static World getInstance() {
@@ -22,9 +21,10 @@ public class World {
 		return world;
 	}
 	
-	public Grid Grid {
+	public Grid grid {
 		get {
-			return grid;
+			return _grid;
 		}
 	}
+
 }
