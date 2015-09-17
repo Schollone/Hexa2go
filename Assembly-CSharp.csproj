@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{CD131A2C-170F-1670-845E-60FA12D1D62B}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+	<BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_5_1_1;UNITY_5_1;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_LICENSE;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_EDITOR_METRICS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;UNITY_ANDROID;UNITY_ANDROID_API;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;CROSS_PLATFORM_INPUT;MOBILE_INPUT</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="System.Xml.Linq" />
+	<Reference Include="UnityEngine">
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Scripts\InitGrid.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\AbstractButtonController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\AcceptController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\CharacterController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\DiceController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\DicesController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\HexagonController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\IButtonController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\ICharacterController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\IDiceController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\IHexagonController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\IPlayerController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\NextCharacterController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\NextHexagonController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\MVC\Controller\PrevHexagonController.cs" />
+     <Compile Include="Assets\Scripts\MVC\GameManager.cs" />
+     <Compile Include="Assets\Scripts\MVC\Handler\ButtonHandler.cs" />
+     <Compile Include="Assets\Scripts\MVC\Handler\CharacterHandler.cs" />
+     <Compile Include="Assets\Scripts\MVC\Handler\GameModeHandler.cs" />
+     <Compile Include="Assets\Scripts\MVC\Handler\GridHandler.cs" />
+     <Compile Include="Assets\Scripts\MVC\Handler\HexagonHandler.cs" />
+     <Compile Include="Assets\Scripts\MVC\Handler\PlayerHandler.cs" />
+     <Compile Include="Assets\Scripts\MVC\InitGame.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\CharacterModel.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\DiceModel.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\EnemyModel.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\Grid.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\Helper\CharacterType.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\Helper\DiceObject.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\Helper\GridHelper.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\Helper\GridPos.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\Helper\HexagonColors.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\Helper\TeamColor.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\HexagonModel.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\ICharacterModel.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\IDiceModel.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\IHexagonModel.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\IPlayerModel.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\PlayerModel.cs" />
+     <Compile Include="Assets\Scripts\MVC\Model\World.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\AbstractButtonView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\AcceptView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\CharacterView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\DiceView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\HexagonView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\IButtonView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\ICharacterView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\IDiceView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\IHexagonView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\IPlayerView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\Menu\GoToMenu.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\Menu\StartGame.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\NextCharacterView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\NextHexagonView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\PlayerView.cs" />
+     <Compile Include="Assets\Scripts\MVC\View\PrevHexagonView.cs" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+ <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>
