@@ -31,6 +31,15 @@ namespace Hexa2Go {
 		public void Deselect () {
 			transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		}
+
+		public void Move (GridPos gridPos) {
+			Vector3 tmp = GridHelper.HexagonPosition(gridPos);
+			transform.position = tmp;
+		}
+
+		public void Remove () {
+			gameObject.SetActive(false);
+		}
 	}
 
 }

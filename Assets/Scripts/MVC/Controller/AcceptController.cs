@@ -30,7 +30,7 @@ namespace Hexa2Go {
 
 			} else if (GameManager.Instance.MatchState == MatchState.FocusHexagonTarget) {
 
-				View.Hide();
+				GameManager.Instance.MatchState = MatchState.Moving;
 				// Start Move Hexagon Animation
 
 			}

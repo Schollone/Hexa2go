@@ -9,25 +9,36 @@ namespace Hexa2Go {
 
 		private GameMode _gameMode = GameMode.Singleplayer;
 
-		public GameModeHandler(GameMode gameMode) {
+		public GameModeHandler (GameMode gameMode) {
 
 			_gameMode = gameMode;
 
+			_playerHandler = new PlayerHandler ();
+
 			GameManager.Instance.OnGameStateChange += HandleOnGameStateChange;
 
-			switch(_gameMode) {
-				case GameMode.Singleplayer: {
-					Debug.Log("Singleplayer");
-					break;
-				}
-				case GameMode.Multiplayer: {
-					Debug.Log("Multiplayer");
-					break;
-				}
-				case GameMode.OnlineMultiplayer: {
-					Debug.Log("OnlineMultiplayer");
-					break;
-				}
+			switch (_gameMode) {
+				case GameMode.Singleplayer:
+					{
+						Debug.Log ("Singleplayer");
+						_playerHandler.PlayerController_One.Model.Name = "Spieler";
+						_playerHandler.PlayerController_Two.Model.Name = "Computer";
+						break;
+					}
+				case GameMode.Multiplayer:
+					{
+						Debug.Log ("Multiplayer");
+						_playerHandler.PlayerController_One.Model.Name = "Spieler 1";
+						_playerHandler.PlayerController_Two.Model.Name = "Spieler 2";
+						break;
+					}
+				case GameMode.OnlineMultiplayer:
+					{
+						Debug.Log ("OnlineMultiplayer");
+						_playerHandler.PlayerController_One.Model.Name = "Spieler";
+						_playerHandler.PlayerController_Two.Model.Name = "Gegner";
+						break;
+					}
 			}
 
 			// choose player random
@@ -38,13 +49,12 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnGameStateChange (GameState prevGameState, GameState nextGameState) {
-			if (prevGameState == GameState.NullState) {
-				// Init
-			}
 
-			if (nextGameState == GameState.Game) {
-				//Debug.Log("Change To Game");
-				//GameManager.Instance.SetMatchState(MatchState.ThrowDice);
+		}
+
+		public void Unregister () {
+			if (_playerHandler != null) {
+				_playerHandler.Unregister ();
 			}
 		}
 	}

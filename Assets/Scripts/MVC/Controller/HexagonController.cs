@@ -8,18 +8,18 @@ namespace Hexa2Go {
 		private readonly IHexagonModel _hexagonModel;
 		private readonly IHexagonView _hexagonView;
 
-		public HexagonController(GridPos gridPos) {
-			GameObject prefab = Resources.Load("Hexagon", typeof(GameObject)) as GameObject;
-			GameObject instance = GameObject.Instantiate(prefab);
+		public HexagonController (GridPos gridPos) {
+			GameObject prefab = Resources.Load ("Hexagon", typeof(GameObject)) as GameObject;
+			GameObject instance = GameObject.Instantiate (prefab);
 
-			GameObject grid = GameObject.Find("Grid");
-			instance.transform.SetParent(grid.transform);
-			IHexagonView view = instance.GetComponent<IHexagonView>();
-			view.Init(gridPos);
+			GameObject grid = GameObject.Find ("Grid");
+			instance.transform.SetParent (grid.transform);
+			IHexagonView view = instance.GetComponent<IHexagonView> ();
+			view.Init (gridPos);
 
 			_hexagonView = view;
 
-			_hexagonModel = new HexagonModel(gridPos);
+			_hexagonModel = new HexagonModel (gridPos);
 			
 			_hexagonModel.OnActivationChanged += HandleOnActivationChanged;
 			_hexagonModel.OnDeclaredTargetChanged += HandleOnDeclaredTargetChanged;
@@ -27,20 +27,24 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnSelectionChanged (object sender, HexagonValueChangedEventArgs e) {
-			if (e.IsSelected) {
-				View.Select();
+			if (Model.IsSelected) {
+				View.Select ();
 			} else {
-				View.ResetTint();
+				View.ResetTint ();
 			}
 		}
 
 		void HandleOnDeclaredTargetChanged (object sender, HexagonValueChangedEventArgs e) {
-			Color color = (e.TeamColor == TeamColor.NONE) ? View.DefaultBorderColor : (e.TeamColor == TeamColor.BLUE) ? HexagonColors.BLUE : HexagonColors.RED;
-			View.DeclareTarget(color);
+			Color color = HexagonColors.GetColor (Model.TeamColor, View.DefaultBorderColor);
+			View.DeclareTarget (color);
 		}
 
 		void HandleOnActivationChanged (object sender, HexagonValueChangedEventArgs e) {
-			View.Activate();
+			if (Model.IsActivated) {
+				View.Activate ();
+			} else {
+				View.Deactivate ();
+			}
 		}
 
 		#region IHexagonController implementation

@@ -3,14 +3,41 @@ using System.Collections;
 
 namespace Hexa2Go {
 
-	public enum GameState { NullState, MainMenu, Game, Pause, Credits, Options, Quit }
-	public enum MatchState { NullState, ThrowDice, Throwing, SelectCharacter, FocusCharacterTarget, SelectHexagon, FocusHexagonTarget, Moving, Win, Lose }
-	public enum PlayerState { NullState, Player, Enemy }
-	public enum GameMode { Singleplayer, Multiplayer, OnlineMultiplayer }
+	public enum GameState {
+		NullState,
+		MainMenu,
+		Game,
+		Pause,
+		Credits,
+		Options,
+		Quit
+	}
+	public enum MatchState {
+		NullState,
+		ThrowDice,
+		Throwing,
+		SelectCharacter,
+		FocusCharacterTarget,
+		SelectHexagon,
+		FocusHexagonTarget,
+		Moving,
+		Win,
+		Lose
+	}
+	public enum PlayerState {
+		NullState,
+		Player,
+		Enemy
+	}
+	public enum GameMode {
+		Singleplayer,
+		Multiplayer,
+		OnlineMultiplayer
+	}
 
-	public delegate void GameStateChangeHandler(GameState prevGameState, GameState nextGameState);
-	public delegate void MatchStateChangeHandler(MatchState prevMatchState, MatchState nextMatchState);
-	public delegate void PlayerStateChangeHandler(PlayerState prevPlayerState, PlayerState nextPlayerState);
+	public delegate void GameStateChangeHandler (GameState prevGameState,GameState nextGameState);
+	public delegate void MatchStateChangeHandler (MatchState prevMatchState,MatchState nextMatchState);
+	public delegate void PlayerStateChangeHandler (PlayerState prevPlayerState,PlayerState nextPlayerState);
 
 	public class GameManager {
 
@@ -24,17 +51,15 @@ namespace Hexa2Go {
 		private GameModeHandler _gameModeHandler;
 		private ButtonHandler _buttonHandler;
 
-		private World _world;
-
 		private GameMode _gameMode;
 		private GameState _gameState;
 		private MatchState _matchState;
 		private PlayerState _playerState;
 
-		protected GameManager() {
+		protected GameManager () {
 			_gameState = GameState.NullState;
-			_matchState = MatchState.Moving;
-			_playerState = PlayerState.Player;
+			_matchState = MatchState.NullState;
+			_playerState = PlayerState.NullState;
 
 			OnGameStateChange += HandleOnGameStateChange;
 		}
@@ -42,7 +67,7 @@ namespace Hexa2Go {
 		public static GameManager Instance {
 			get {
 				if (GameManager._instance == null) {
-					GameManager._instance = new GameManager();
+					GameManager._instance = new GameManager ();
 				}
 				return GameManager._instance;
 			}
@@ -80,7 +105,7 @@ namespace Hexa2Go {
 				return _gameState;
 			}
 			set {
-				Debug.LogWarning(_gameState + " ==> " + value);
+				Debug.LogWarning (_gameState + " ==> " + value);
 				if (_gameState == value) {
 					return;
 				}
@@ -89,7 +114,7 @@ namespace Hexa2Go {
 				_gameState = value;
 				
 				if (OnGameStateChange != null) {
-					OnGameStateChange(prevState, value);
+					OnGameStateChange (prevState, value);
 				}
 
 			}
@@ -100,7 +125,7 @@ namespace Hexa2Go {
 				return _matchState;
 			}
 			set {
-				Debug.LogWarning(_matchState + " ==> " + value);
+				Debug.LogWarning (_matchState + " ==> " + value);
 				if (_matchState == value) {
 					return;
 				}
@@ -109,7 +134,7 @@ namespace Hexa2Go {
 				_matchState = value;
 				
 				if (OnMatchStateChange != null) {
-					OnMatchStateChange(prevState, value);
+					OnMatchStateChange (prevState, value);
 				}
 
 			}
@@ -120,49 +145,46 @@ namespace Hexa2Go {
 				return _playerState;
 			}
 			set {
-				Debug.LogWarning(_playerState + " ==> " + value);
+				Debug.LogWarning (_playerState + " ==> " + value);
 
 				PlayerState prevState = _playerState;
 				_playerState = value;
 
 				if (OnPlayerStateChange != null) {
-					OnPlayerStateChange(prevState, value);
+					OnPlayerStateChange (prevState, value);
 				}
 
 			}
 		}
 
-		public void InitGame() {
-			Debug.LogWarning("InitGame");
-			_gridHandler = new GridHandler();
-			_buttonHandler = new ButtonHandler();
-			_gameModeHandler = new GameModeHandler(_gameMode);
+		public void InitGame () {
+			Debug.LogWarning ("InitGame");
+			_gridHandler = new GridHandler ();
+			_buttonHandler = new ButtonHandler ();
+			_gameModeHandler = new GameModeHandler (_gameMode);
 		}
 
 		void HandleOnGameStateChange (GameState prevGameState, GameState nextGameState) {
 			if (prevGameState == GameState.MainMenu && nextGameState == GameState.Game) {
-				InitGame();
+				InitGame ();
 			} else {
-				Debug.LogWarning("ResetGame");
+				Debug.LogWarning ("ResetGame");
 				if (_buttonHandler != null) {
-					_buttonHandler.Unregister();
+					_buttonHandler.Unregister ();
 				}
 				if (_gridHandler != null) {
-					_gridHandler.Unregister();
+					_gridHandler.Unregister ();
+				}
+				if (_gameModeHandler != null) {
+					_gameModeHandler.Unregister ();
 				}
 				_gridHandler = null;
 				_buttonHandler = null;
 				_gameModeHandler = null;
 			}
 		}
-
-		public World World {
-			get {
-				return _world;
-			}
-		}
 		
-		public void OnApplicationQuit() {
+		public void OnApplicationQuit () {
 			GameManager._instance = null;
 		}
 

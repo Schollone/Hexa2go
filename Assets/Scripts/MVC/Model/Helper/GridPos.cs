@@ -35,6 +35,11 @@ namespace Hexa2Go {
 			return string.Format ("({0}, {1})", _x, _y);
 		}
 
+		public override bool Equals (object obj) {
+			GridPos gridPos = (GridPos) obj;
+			return (this.x == gridPos.x && this.y == gridPos.y);
+		}
+
 	}
 
 }

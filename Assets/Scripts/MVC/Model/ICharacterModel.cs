@@ -6,8 +6,6 @@ namespace Hexa2Go {
 
 	public class CharacterValueChangedEventArgs : EventArgs {
 		public GridPos GridPos;
-		public TeamColor TeamColor;
-		public bool IsSelected;
 		
 		public CharacterValueChangedEventArgs() {}
 	}
@@ -15,23 +13,24 @@ namespace Hexa2Go {
 	public interface ICharacterModel {
 
 		event EventHandler<CharacterValueChangedEventArgs> OnSelectionChanged;
+		event EventHandler<CharacterValueChangedEventArgs> OnGridPosChanged;
+		event EventHandler<CharacterValueChangedEventArgs> OnTargetReached;
 
-		GameObject gameObject { get; }
+		bool IsSelected { get; set; }
 
-		bool isSelected { get; set; }
+		bool IsInGame { get; }
 
-		TeamColor teamColor { get; }
+		TeamColor TeamColor { get; }
 
-		CharacterPosition characterPosition { get; set; }
+		CharacterPosition CharacterPosition { get; set; }
 
-
-		string ToString();
+		GridPos GridPos { get; set; }
 
 		void Select();
 
 		void Deselect();
 
-		GridPos GridPos { get; set; }
+		void Remove();
 	}
 
 }

@@ -10,7 +10,7 @@ namespace Hexa2Go {
 		
 		// -- Basic object related
 		private GridPos _gridPos;
-		private bool _isField = false;
+		private bool _isActivated = false;
 		private bool _canReceiveHexagon = false;
 		private IList<GridPos> _neighbors;
 		private int _neighborIndex = 0;
@@ -33,7 +33,7 @@ namespace Hexa2Go {
 		public HexagonModel(GridPos gridPos) {
 
 			this._gridPos = gridPos;
-			this._isField = false;
+			this._isActivated = false;
 			this._isSelected = false;
 
 			InitNeighbors();
@@ -64,6 +64,13 @@ namespace Hexa2Go {
 				this._defaultBorderColor = HexagonModel.RED;
 			}*/
 		}
+
+		#region IHexagonModel implementation
+		public event System.EventHandler<HexagonValueChangedEventArgs> OnSelectionChanged;
+		public event System.EventHandler<HexagonValueChangedEventArgs> OnFocusChanged;
+		public event System.EventHandler<HexagonValueChangedEventArgs> OnActivationChanged;
+		public event System.EventHandler<HexagonValueChangedEventArgs> OnDeclaredTargetChanged;
+		#endregion
 		
 		public GridPos GridPos {
 			get {
@@ -71,22 +78,41 @@ namespace Hexa2Go {
 			}
 		}
 
-		public bool IsField {
+		public bool IsActivated {
 			get {
-				return _isField;
-			}
-			set {
-				this._isField = value;
+				return _isActivated;
 			}
 		}
 
-		public bool IsFocusable {
+		public bool IsSelected {
+			get {
+				return _isSelected;
+			}
+		}
+
+		public bool IsFocusableForCharacter {
 			get {
 				//if (canReceiveCharacter)
-				if (_isField) {
+				if (_isActivated) {
 					return true;
 				}
 				return false;
+			}
+		}
+
+		public bool IsFocusableForHexagon {
+			get {
+				//if (canReceiveCharacter)
+				if (!_isActivated) {
+					return true;
+				}
+				return false;
+			}
+		}
+
+		public TeamColor TeamColor {
+			get {
+				return _teamColor;
 			}
 		}
 
@@ -97,7 +123,13 @@ namespace Hexa2Go {
 		}
 
 		public void Activate() {
-			_isField = true;
+			_isActivated = true;
+			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
+			OnActivationChanged(this, eventArgs);
+		}
+
+		public void Deactivate() {
+			_isActivated = false;
 			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
 			OnActivationChanged(this, eventArgs);
 		}
@@ -106,21 +138,21 @@ namespace Hexa2Go {
 			_isTarget = true;
 			_teamColor = teamColor;
 			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
-			eventArgs.TeamColor = teamColor;
+			//eventArgs.TeamColor = teamColor;
 			OnDeclaredTargetChanged(this, eventArgs);
 		}
 
 		public void Select() {
 			_isSelected = true;
 			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
-			eventArgs.IsSelected = _isSelected;
+			//eventArgs.IsSelected = _isSelected;
 			OnSelectionChanged(this, eventArgs);
 		}
 
 		public void Deselect() {
 			_isSelected = false;
 			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
-			eventArgs.IsSelected = _isSelected;
+			//eventArgs.IsSelected = _isSelected;
 			OnSelectionChanged(this, eventArgs);
 		}
 
@@ -161,7 +193,7 @@ namespace Hexa2Go {
 		public bool canReceiveHexagon {
 			get {
 				_canReceiveHexagon = false;
-				if (!this._isField) {
+				if (!this._isActivated) {
 					_canReceiveHexagon = true;
 				}
 				return _canReceiveHexagon;
@@ -181,23 +213,6 @@ namespace Hexa2Go {
 		}
 		
 		// --------------------------------------------------------------------------------------
-		
-		public bool IsSelected {
-			get {
-				return this._isSelected;
-			}
-			set {
-				this._isSelected = value;
-				/*if (!value) {
-					this._gameObject.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = this._defaultAreaColor;
-					this._gameObject.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material.color = this._defaultBorderColor;
-				}
-				if (value) {
-					changeAreaColor(HexagonModel.ORANGE);
-					changeBorderColor(HexagonModel.ORANGE);
-				}*/
-			}
-		}
 		
 		public bool isFocused {
 			get {
@@ -266,7 +281,7 @@ namespace Hexa2Go {
 		public bool canReceiveCharacter {
 			get {
 				this._canReceiveCharacter = false;
-				if (IsField && !isBlocked) {
+				if (IsActivated && !isBlocked) {
 					this._canReceiveCharacter = true;
 				}
 				return this._canReceiveCharacter;
@@ -285,7 +300,7 @@ namespace Hexa2Go {
 		
 		public bool isTarget {
 			get {
-				if (this._isField && this._teamColor != TeamColor.NONE) {
+				if (this._isActivated && this._teamColor != TeamColor.NONE) {
 					return true;
 				}
 				return _isTarget;
@@ -294,14 +309,7 @@ namespace Hexa2Go {
 		
 		//
 		
-		public TeamColor teamColor {
-			get {
-				return _teamColor;
-			}
-			set {
-				this._teamColor = value;
-			}
-		}
+
 		
 		public bool hasEmptyCharacter1Slot() {
 			if (character1 == null) {
@@ -319,14 +327,6 @@ namespace Hexa2Go {
 		
 		// --------------------------------------------------------------------------------------		
 
-
-		
-		#region IHexagonModel implementation
-		public event System.EventHandler<HexagonValueChangedEventArgs> OnSelectionChanged;
-		public event System.EventHandler<HexagonValueChangedEventArgs> OnFocusChanged;
-		public event System.EventHandler<HexagonValueChangedEventArgs> OnActivationChanged;
-		public event System.EventHandler<HexagonValueChangedEventArgs> OnDeclaredTargetChanged;
-		#endregion
 	}
 
 }

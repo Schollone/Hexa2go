@@ -11,6 +11,8 @@ namespace Hexa2Go {
 		private ArrayList _neighborHexagons = null;
 		private IHexagonController _focusedHexagon = null;
 		private int _focusedHexagonIndex = 0;
+		private ArrayList _selectableHexagons = null;
+		private int _selectedHexagonIndex = 0;
 
 		public HexagonHandler(int width, int height) {
 			_width = width;
@@ -28,6 +30,7 @@ namespace Hexa2Go {
 
 			}
 
+			_selectableHexagons = new ArrayList();
 			_neighborHexagons = new ArrayList();
 
 			Setup();
@@ -88,7 +91,7 @@ namespace Hexa2Go {
 			hexagonController.Model.Deselect();
 		}
 
-		private void InitNeighbors(GridPos gridPos, bool onlyFocusable = false) {
+		private void InitNeighbors(GridPos gridPos, bool onlyFocusable = false, bool useForPasch = false) {
 			_neighborHexagons.Clear();
 			IHexagonController hexagonController = null;
 			_hexagons.TryGetValue(gridPos, out hexagonController);
@@ -99,7 +102,11 @@ namespace Hexa2Go {
 				_hexagons.TryGetValue(pos, out neighbor);
 
 				if (onlyFocusable) {
-					if (neighbor.Model.IsFocusable) _neighborHexagons.Add(neighbor);
+					if (useForPasch) {
+						if (neighbor.Model.IsFocusableForHexagon) _neighborHexagons.Add(neighbor);
+					} else {
+						if (neighbor.Model.IsFocusableForCharacter) _neighborHexagons.Add(neighbor);
+					}
 				} else {
 					_neighborHexagons.Add(neighbor);
 				}
@@ -110,7 +117,7 @@ namespace Hexa2Go {
 		public void TintFocusableNeighbors(GridPos gridPos) {
 			InitNeighbors(gridPos, true);
 			foreach(IHexagonController neighbor in _neighborHexagons) {
-				if (neighbor.Model.IsFocusable) neighbor.View.Focusable();
+				if (neighbor.Model.IsFocusableForCharacter) neighbor.View.Focusable();
 			}
 		}
 
@@ -134,8 +141,8 @@ namespace Hexa2Go {
 			_focusedHexagon.View.Focus();
 		}
 
-		public void FocusNextHexagon(GridPos gridPos) {
-			InitNeighbors(gridPos, true);
+		public void FocusNextHexagon(GridPos gridPos, bool useForPasch) {
+			InitNeighbors(gridPos, true, useForPasch);
 			ResetLastHexagons();
 			_focusedHexagonIndex++;
 			if (_focusedHexagonIndex >= _neighborHexagons.Count) {
@@ -156,6 +163,51 @@ namespace Hexa2Go {
 
 		public void ResetFocusedHexagon() {
 			_focusedHexagon = null;
+		}
+
+		public IHexagonController FocusedHexagon {
+			get {
+				return _focusedHexagon;
+			}
+		}
+
+		public void InitSelectableHexagons() {
+			_selectableHexagons.Clear();
+
+			foreach(IHexagonController hexagon in _hexagons.Values) {
+				Debug.Log(hexagon.Model.IsActivated);
+				if (hexagon.Model.IsActivated) {
+					_selectableHexagons.Add(hexagon);
+				}
+			}
+		}
+
+		public IHexagonController SelectNextHexagon() {
+			IHexagonController hexagon = (IHexagonController) _selectableHexagons[_selectedHexagonIndex];
+			hexagon.Model.Deselect();
+			GameManager.Instance.GridHandler.HexagonHandler.Deselect(hexagon.Model.GridPos);
+			_selectedHexagonIndex++;
+			if (_selectedHexagonIndex >= _selectableHexagons.Count) {
+				_selectedHexagonIndex = 0;
+			}
+			hexagon = (IHexagonController) _selectableHexagons[_selectedHexagonIndex];
+			GameManager.Instance.GridHandler.HexagonHandler.Select(hexagon.Model.GridPos);
+			hexagon.Model.Select();
+			return hexagon;
+		}
+
+		public IHexagonController SelectPrevHexagon() {
+			IHexagonController hexagon = (IHexagonController) _selectableHexagons[_selectedHexagonIndex];
+			hexagon.Model.Deselect();
+			GameManager.Instance.GridHandler.HexagonHandler.Deselect(hexagon.Model.GridPos);
+			_selectedHexagonIndex--;
+			if (_selectedHexagonIndex < 0) {
+				_selectedHexagonIndex = _selectableHexagons.Count-1;
+			}
+			hexagon = (IHexagonController) _selectableHexagons[_selectedHexagonIndex];
+			GameManager.Instance.GridHandler.HexagonHandler.Select(hexagon.Model.GridPos);
+			hexagon.Model.Select();
+			return hexagon;
 		}
 	}
 

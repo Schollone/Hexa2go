@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hexa2Go {
 
@@ -21,9 +22,9 @@ namespace Hexa2Go {
 		public CharacterHandler(TeamColor teamColor) {
 			if (teamColor == TeamColor.RED) {
 
-				_characterController_Circle = new CharacterController(new GridPos(2, 3), "Character_Circle");
-				_characterController_Square = new CharacterController(new GridPos(3, 2), "Character_Square");
-				_characterController_Triangle = new CharacterController(new GridPos(3, 3), "Character_Triangle");
+				_characterController_Circle = new CharacterController(new GridPos(2, 3), "Character_Circle", teamColor);
+				_characterController_Square = new CharacterController(new GridPos(3, 2), "Character_Square", teamColor);
+				_characterController_Triangle = new CharacterController(new GridPos(3, 3), "Character_Triangle", teamColor);
 
 				_characterController_Circle.View.Tint(HexagonColors.RED);
 				_characterController_Square.View.Tint(HexagonColors.RED);
@@ -31,9 +32,9 @@ namespace Hexa2Go {
 
 			} else {
 
-				_characterController_Circle = new CharacterController(new GridPos(7, 3), "Character_Circle");
-				_characterController_Square = new CharacterController(new GridPos(6, 4), "Character_Square");
-				_characterController_Triangle = new CharacterController(new GridPos(6, 3), "Character_Triangle");
+				_characterController_Circle = new CharacterController(new GridPos(7, 3), "Character_Circle", teamColor);
+				_characterController_Square = new CharacterController(new GridPos(6, 4), "Character_Square", teamColor);
+				_characterController_Triangle = new CharacterController(new GridPos(6, 3), "Character_Triangle", teamColor);
 				
 				_characterController_Circle.View.Tint(HexagonColors.BLUE);
 				_characterController_Square.View.Tint(HexagonColors.BLUE);
@@ -66,11 +67,16 @@ namespace Hexa2Go {
 
 		public void InitSelectedCharacters(CharacterType type1, CharacterType type2) {
 			_selectedCharacters.Clear();
+			_selectedCharacterIndex = 0;
 			ICharacterController characterController = null;
 			_characters.TryGetValue(type1, out characterController);
-			_selectedCharacters.Add(characterController);
+			if (characterController.Model.IsInGame) {
+				_selectedCharacters.Add(characterController);
+			}
 			_characters.TryGetValue(type2, out characterController);
-			_selectedCharacters.Add(characterController);
+			if (characterController.Model.IsInGame) {
+				_selectedCharacters.Add(characterController);
+			}
 		}
 
 		public ICharacterController SelectNextCharacter() {
@@ -88,6 +94,18 @@ namespace Hexa2Go {
 			//GameManager.Instance.GridHandler.CharacterHandler_P1.Characters;
 			//GameManager.Instance.ButtonHandler.DicesController.DiceController_left.Model.CharacterType;
 
+		}
+
+		public IList<ICharacterController> GetCharacters(GridPos gridPos) {
+			IList<ICharacterController> result = new List<ICharacterController>();
+
+			foreach(ICharacterController character in Characters.Values) {
+				if (character.Model.GridPos.Equals(gridPos)) {
+					result.Add(character);
+				}
+			}
+
+			return result;
 		}
 
 	}

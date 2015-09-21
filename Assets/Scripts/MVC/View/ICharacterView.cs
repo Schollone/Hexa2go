@@ -13,6 +13,10 @@ namespace Hexa2Go {
 
 		void Deselect ();
 
+		void Move (GridPos gridPos);
+
+		void Remove ();
+
 	}
 	
 }

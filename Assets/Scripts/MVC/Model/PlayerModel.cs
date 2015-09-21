@@ -6,22 +6,32 @@ namespace Hexa2Go {
 	public class PlayerModel : IPlayerModel {
 
 		private TeamColor _teamColor;
-		private bool _isCOM = false;
+		private int _savedCharacters = 0;
+		private string _name = "";
 		
-		public PlayerModel(TeamColor newTeamColor, bool isCOM = false) {
-			this._teamColor = newTeamColor;
-			this._isCOM = isCOM;
+		public PlayerModel (TeamColor teamColor) {
+			_teamColor = teamColor;
+			_savedCharacters = 0;
 		}
 		
-		public TeamColor teamColor {
+		public TeamColor TeamColor {
 			get {
 				return _teamColor;
 			}
 		}
-		
-		public bool isComputer {
+
+		public int SavedCharacters {
 			get {
-				return _isCOM;
+				return _savedCharacters;
+			}
+		}
+
+		public string Name {
+			get {
+				return _name;
+			}
+			set {
+				_name = value;
 			}
 		}
 	}

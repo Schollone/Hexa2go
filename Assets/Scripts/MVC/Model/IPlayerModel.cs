@@ -5,9 +5,11 @@ namespace Hexa2Go {
 
 	public interface IPlayerModel {
 
-		TeamColor teamColor { get; }
+		TeamColor TeamColor { get; }
 
-		bool isComputer { get; }
+		int SavedCharacters { get; }
+
+		string Name { get; set; }
 
 	}
 

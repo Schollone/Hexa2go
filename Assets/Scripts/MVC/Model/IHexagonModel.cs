@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,9 +6,6 @@ using System.Collections.Generic;
 namespace Hexa2Go {
 
 	public class HexagonValueChangedEventArgs : EventArgs {
-		public GridPos GridPos;
-		public TeamColor TeamColor;
-		public bool IsSelected;
 
 		public HexagonValueChangedEventArgs() {}
 	}
@@ -22,13 +19,21 @@ namespace Hexa2Go {
 
 		GridPos GridPos { get; }
 
-		bool IsField { get; set; }
+		bool IsActivated { get; }
+
+		bool IsSelected { get; }
 
 		IList<GridPos> Neighbors { get; }
 		
-		bool IsFocusable { get; }
+		bool IsFocusableForCharacter { get; }
+
+		bool IsFocusableForHexagon { get; }
+
+		TeamColor TeamColor { get; }
 
 		void Activate();
+
+		void Deactivate();
 
 		void DeclareTarget(TeamColor teamColor);
 

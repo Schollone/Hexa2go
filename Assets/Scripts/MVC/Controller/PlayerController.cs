@@ -5,11 +5,31 @@ namespace Hexa2Go {
 
 	public class PlayerController : IPlayerController {
 
-		private readonly IPlayerModel _playerModel_One;
-		private readonly IPlayerModel _playerModel_Two;
+		private readonly IPlayerModel _model;
 		
-		private readonly IPlayerView _playerView_One;
-		private readonly IPlayerView _playerView_Two;
+		private readonly IPlayerView _view;
+
+		public PlayerController(TeamColor teamColor) {
+			GameObject player_change = GameObject.Find("Player_Change");
+			IPlayerView playerView = player_change.GetComponent<IPlayerView>();
+			
+			_view = playerView;
+
+			_model = new PlayerModel(teamColor);
+		}
+
+		#region IPlayerController implementation
+		public IPlayerModel Model {
+			get {
+				return _model;
+			}
+		}
+		public IPlayerView View {
+			get {
+				return _view;
+			}
+		}
+		#endregion
 	}
 
 }

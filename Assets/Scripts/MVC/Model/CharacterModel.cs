@@ -1,76 +1,29 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 namespace Hexa2Go {
 
 	public class CharacterModel : ICharacterModel {
 
-		private GameObject _gameObject;
 		private GridPos _gridPos;
 		private TeamColor _teamColor;
-		private CharacterType _type;
 		private bool _isSelected = false;
+		private bool _isInGame = true;
 		private CharacterPosition _characterPosition;
-		
-		
-		public CharacterModel(GameObject newGameObject, TeamColor newTeamColor, CharacterType characterType) {
-			this._gameObject = newGameObject;
-			this._teamColor = newTeamColor;
-			this._type = characterType;
-			
-			if (this._teamColor == TeamColor.BLUE) {
-				this._gameObject.transform.GetChild (0).GetComponent<MeshRenderer> ().material.color = HexagonColors.BLUE;
-			} else {
-				this._gameObject.transform.GetChild (0).GetComponent<MeshRenderer> ().material.color = HexagonColors.RED;
-			}
+
+		public CharacterModel(GridPos gridPos, TeamColor teamColor) {
+			_gridPos = gridPos;
+			_teamColor = teamColor;
 		}
 
-		public CharacterModel(GridPos gridPos) {
-			this._gridPos = gridPos;
-		}
+		#region ICharacterModel implementation
 
-		public void Select() {
-			this._isSelected = true;
-			CharacterValueChangedEventArgs eventArgs = new CharacterValueChangedEventArgs();
-			eventArgs.IsSelected = _isSelected;
-			OnSelectionChanged(this, eventArgs);
-		}
-
-		public void Deselect() {
-			this._isSelected = false;
-			CharacterValueChangedEventArgs eventArgs = new CharacterValueChangedEventArgs();
-			eventArgs.IsSelected = _isSelected;
-			OnSelectionChanged(this, eventArgs);
-		}
+		public event EventHandler<CharacterValueChangedEventArgs> OnSelectionChanged;
+		public event EventHandler<CharacterValueChangedEventArgs> OnGridPosChanged;
+		public event EventHandler<CharacterValueChangedEventArgs> OnTargetReached;
 		
-		public GameObject gameObject {
-			get {
-				return _gameObject;
-			}
-		}
-		
-		public GridPos GridPos {
-			get {
-				return _gridPos;
-			}
-			set {
-				_gridPos = value;
-			}
-		}
-		
-		public TeamColor teamColor {
-			get {
-				return _teamColor;
-			}
-		}
-		
-		public CharacterType type {
-			get {
-				return _type;
-			}
-		}
-		
-		public bool isSelected {
+		public bool IsSelected {
 			get {
 				return _isSelected;
 			}
@@ -78,8 +31,20 @@ namespace Hexa2Go {
 				_isSelected = value;
 			}
 		}
-		
-		public CharacterPosition characterPosition {
+
+		public bool IsInGame {
+			get {
+				return _isInGame;
+			}
+		}
+
+		public TeamColor TeamColor {
+			get {
+				return _teamColor;
+			}
+		}
+
+		public CharacterPosition CharacterPosition {
 			get {
 				return _characterPosition;
 			}
@@ -87,15 +52,41 @@ namespace Hexa2Go {
 				_characterPosition = value;
 			}
 		}
-		
-		public override string ToString ()
-		{
-			return string.Format ("[Character: gameObject={0}, vectorPos={1}, teamColor={2}, type={3}, isSelected={4}, position={5}]", gameObject, GridPos, teamColor, type, isSelected, characterPosition);
+
+		public GridPos GridPos {
+			get {
+				return _gridPos;
+			}
+			set {
+				GridPos oldGridPos = _gridPos;
+				_gridPos = value;
+				CharacterValueChangedEventArgs eventArgs = new CharacterValueChangedEventArgs();
+				eventArgs.GridPos = oldGridPos;
+				OnGridPosChanged(this, eventArgs);
+			}
 		}
 
-		#region ICharacterModel implementation
-		public event System.EventHandler<CharacterValueChangedEventArgs> OnSelectionChanged;
+		public void Select() {
+			_isSelected = true;
+			CharacterValueChangedEventArgs eventArgs = new CharacterValueChangedEventArgs();
+			OnSelectionChanged(this, eventArgs);
+		}
+
+		public void Deselect() {
+			_isSelected = false;
+			CharacterValueChangedEventArgs eventArgs = new CharacterValueChangedEventArgs();
+			OnSelectionChanged(this, eventArgs);
+		}
+
+		public void Remove() {
+			_isInGame = false;
+			CharacterValueChangedEventArgs eventArgs = new CharacterValueChangedEventArgs();
+			OnTargetReached(this, eventArgs);
+		}
+
 		#endregion
+
+
 	}
 
 }

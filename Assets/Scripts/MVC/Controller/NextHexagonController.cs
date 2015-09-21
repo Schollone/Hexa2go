@@ -10,13 +10,13 @@ namespace Hexa2Go {
 		}
 		
 		protected override void HandleOnClicked (object sender, ButtonClickedEventArgs e) {
-			Debug.Log("HandleOnClicked");
-			Debug.Log("Sender: " + sender.GetType() + " ; " + GameManager.Instance.MatchState);
-			if (GameManager.Instance.MatchState == MatchState.SelectCharacter) {
-				//GameManager.Instance.SetMatchState(MatchState.FocusCharacterTarget);
+			if (GameManager.Instance.MatchState == MatchState.FocusCharacterTarget) {
+				GameManager.Instance.GridHandler.FocusNextHexagon();
+			} else if (GameManager.Instance.MatchState == MatchState.SelectHexagon) {
+				GameManager.Instance.GridHandler.SelectNextHexagon();
+			} else if (GameManager.Instance.MatchState == MatchState.FocusHexagonTarget) {
+				GameManager.Instance.GridHandler.FocusNextHexagon(true);
 			}
-			//View.Hide();
-			GameManager.Instance.GridHandler.FocusNextHexagon();
 		}
 
 	}
