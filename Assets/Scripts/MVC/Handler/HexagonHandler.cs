@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -41,8 +41,7 @@ namespace Hexa2Go {
 			IHexagonController hexagon = null;
 
 			hexagon = Get (new GridPos (2, 3));
-			hexagon.Model.Activate ();
-			hexagon.Model.DeclareTarget (TeamColor.BLUE);
+			hexagon.Model.Activate (false, TeamColor.BLUE);
 
 			hexagon = Get (new GridPos (3, 2));
 			hexagon.Model.Activate ();
@@ -66,8 +65,7 @@ namespace Hexa2Go {
 			hexagon.Model.Activate ();
 
 			hexagon = Get (new GridPos (7, 3));
-			hexagon.Model.Activate ();
-			hexagon.Model.DeclareTarget (TeamColor.RED);
+			hexagon.Model.Activate (false, TeamColor.RED);
 
 		}
 
@@ -114,21 +112,22 @@ namespace Hexa2Go {
 		}
 
 		private bool IsFocusableForHexagon (IHexagonController selectedHexagon, IHexagonController focusableHexagon) {
+			TeamColor originalTeamColor = selectedHexagon.Model.TeamColor;
 			selectedHexagon.Model.Deactivate (true);
 			bool resetSelectedHexagon = false;
 			if (!focusableHexagon.Model.IsActivated) {
 				resetSelectedHexagon = true;
 			}
-			focusableHexagon.Model.WasVisit = true;
+			focusableHexagon.Model.Visited = true;
 			focusableHexagon.Model.Activate (true);
 
 			int fields = 1 + look (focusableHexagon);
 
 			foreach (IHexagonController hexagon in _hexagons.Values) {
-				hexagon.Model.WasVisit = false;
+				hexagon.Model.Visited = false;
 			}
 
-			selectedHexagon.Model.Activate (true);
+			selectedHexagon.Model.Activate (true, originalTeamColor);
 			if (resetSelectedHexagon) {
 				focusableHexagon.Model.Deactivate (true);
 			}
@@ -145,8 +144,8 @@ namespace Hexa2Go {
 			foreach (GridPos neighborGridPos in hexagon.Model.Neighbors) {
 				IHexagonController neighborHexagon = GameManager.Instance.GridHandler.HexagonHandler.Get (neighborGridPos);
 				
-				if (neighborHexagon != null && neighborHexagon.Model.IsActivated && !neighborHexagon.Model.WasVisit) {
-					neighborHexagon.Model.WasVisit = true;
+				if (neighborHexagon != null && neighborHexagon.Model.IsActivated && !neighborHexagon.Model.Visited) {
+					neighborHexagon.Model.Visited = true;
 					result += 1 + look (neighborHexagon);
 				}
 			}

@@ -16,7 +16,6 @@ namespace Hexa2Go {
 		event EventHandler<HexagonValueChangedEventArgs> OnSelectionChanged;
 		event EventHandler<HexagonValueChangedEventArgs> OnFocusChanged;
 		event EventHandler<HexagonValueChangedEventArgs> OnActivationChanged;
-		event EventHandler<HexagonValueChangedEventArgs> OnDeclaredTargetChanged;
 
 		GridPos GridPos { get; }
 
@@ -24,21 +23,21 @@ namespace Hexa2Go {
 
 		bool IsSelected { get; }
 
+		bool IsTarget { get; }
+
+		bool Visited { get; set; }
+
+		TeamColor TeamColor { get; }
+
 		IList<GridPos> Neighbors { get; }
 		
 		bool IsFocusableForCharacter { get; }
 
 		bool IsFocusableForHexagon { get; }
 
-		TeamColor TeamColor { get; }
-
-		bool WasVisit { get; set; }
-
-		void Activate (bool ignoreView = false);
+		void Activate (bool ignoreView = false, TeamColor teamColor = TeamColor.NONE);
 
 		void Deactivate (bool ignoreView = false);
-
-		void DeclareTarget (TeamColor teamColor);
 
 		void Select ();
 

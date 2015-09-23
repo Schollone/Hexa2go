@@ -82,9 +82,9 @@ namespace Hexa2Go {
 			TintBorder (_defaultBorderColor);
 		}
 
-		public void Activate () {
-			_defaultAreaColor = HexagonColors.LIGHT_GRAY;
-			_defaultBorderColor = HexagonColors.LIGHT_GRAY;
+		public void Activate (Color? color = null) {
+			_defaultAreaColor = (color != null) ? (Color)color : HexagonColors.LIGHT_GRAY;
+			_defaultBorderColor = (color != null) ? (Color)color : HexagonColors.LIGHT_GRAY;
 			TintArea (_defaultAreaColor);
 			TintBorder (_defaultBorderColor);
 			
@@ -100,12 +100,12 @@ namespace Hexa2Go {
 			transform.position = new Vector3 (transform.position.x, 0, transform.position.z);
 		}
 
-		public void DeclareTarget (Color color) {
+		/*public void DeclareTarget (Color color) {
 			_defaultAreaColor = color;
 			_defaultBorderColor = color;
 			TintArea (color);
 			TintBorder (color);
-		}
+		}*/
 
 		public Vector3 SlotPosition1 {
 			get {

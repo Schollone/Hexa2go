@@ -109,19 +109,19 @@ namespace Hexa2Go {
 
 		private void MoveCharacter () {
 			_selectedCharacter.Model.GridPos = _hexagonHandler.FocusedHexagon.Model.GridPos;
-			Debug.Log (_selectedCharacter.Model.TeamColor + " == " + _hexagonHandler.FocusedHexagon.Model.TeamColor);
 			if (_selectedCharacter.Model.TeamColor == _hexagonHandler.FocusedHexagon.Model.TeamColor) {
-				// Remove character if target is reached.
 				_selectedCharacter.Model.Remove ();
-				/*if (GameManager.Instance.GameModeHandler.PlayerHandler.PlayerController_One.Model.SavedCharacters >= 3) {
-
-							}*/
 			}
 		}
 
 		private void MoveHexagon () {
+			Debug.Log ("Move Hexagon " + _selectedHexagon.Model.TeamColor);
+			_hexagonHandler.FocusedHexagon.Model.Activate (false, _selectedHexagon.Model.TeamColor);
+			/*if (_selectedHexagon.Model.IsTarget) {
+				_hexagonHandler.FocusedHexagon.Model.DeclareTarget (_selectedHexagon.Model.TeamColor);
+			}*/
 			_selectedHexagon.Model.Deactivate ();
-			_hexagonHandler.FocusedHexagon.Model.Activate ();
+
 			List<ICharacterController> characters1 = (List<ICharacterController>)_characterHandler_P1.GetCharacters (_selectedHexagon.Model.GridPos);
 			List<ICharacterController> characters2 = (List<ICharacterController>)_characterHandler_P2.GetCharacters (_selectedHexagon.Model.GridPos);
 			characters1.AddRange (characters2);

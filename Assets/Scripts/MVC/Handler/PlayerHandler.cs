@@ -47,10 +47,10 @@ namespace Hexa2Go {
 				case MatchState.ThrowDice:
 					{
 						if (playerState == PlayerState.Player) {
-							Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor, Color.white);
+							Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
 							_playerController_One.View.UpdatePlayer (color, _playerController_One.Model.Name);
 						} else if (playerState == PlayerState.Enemy) {
-							Color color = HexagonColors.GetColor (_playerController_Two.Model.TeamColor, Color.white);
+							Color color = HexagonColors.GetColor (_playerController_Two.Model.TeamColor);
 							_playerController_Two.View.UpdatePlayer (color, _playerController_Two.Model.Name);
 						}
 						break;
@@ -62,10 +62,10 @@ namespace Hexa2Go {
 							case GameMode.OnlineMultiplayer:
 								{
 									if (playerState == PlayerState.Player) {
-										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor, Color.white);
+										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
 										_playerController_One.View.UpdatePlayer (color, "Gewonnen");
 									} else if (playerState == PlayerState.Enemy) {
-										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor, Color.white);
+										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
 										_playerController_One.View.UpdatePlayer (color, "Verloren");
 									}
 									break;
@@ -73,10 +73,10 @@ namespace Hexa2Go {
 							case GameMode.Multiplayer:
 								{
 									if (playerState == PlayerState.Player) {
-										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor, Color.white);
+										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
 										_playerController_One.View.UpdatePlayer (color, "Gewonnen");
 									} else if (playerState == PlayerState.Enemy) {
-										Color color = HexagonColors.GetColor (_playerController_Two.Model.TeamColor, Color.white);
+										Color color = HexagonColors.GetColor (_playerController_Two.Model.TeamColor);
 										_playerController_Two.View.UpdatePlayer (color, "Gewonnen");
 									}
 									break;

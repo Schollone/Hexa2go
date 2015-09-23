@@ -11,16 +11,20 @@ namespace Hexa2Go {
 		// -- Basic object related
 		private GridPos _gridPos;
 		private bool _isActivated = false;
-		private bool _canReceiveHexagon = false;
+		private bool _isSelected = false;
+		private bool _isTarget = false;
+		private bool _visited = false;
+		private TeamColor _teamColor = TeamColor.NONE;
 		private IList<GridPos> _neighbors;
-		private int _neighborIndex = 0;
-		private bool _wasVisit = false;
+
+
+
 		
 		// -- Color related --
-		private bool _isSelected = false;
+
 		//private bool _isFocusable = false;
 		private bool _isFocused = false;
-
+		private bool _canReceiveHexagon = false;
 		// -- Character related --
 		private ICharacterModel _character1;
 		private ICharacterModel _character2;
@@ -28,8 +32,8 @@ namespace Hexa2Go {
 		private bool _hasCharacterWithTeamColor = false;
 		private bool _canReceiveCharacter = false;
 		private bool _isBlocked = false;
-		private bool _isTarget = false;
-		private TeamColor _teamColor = TeamColor.NONE;
+
+		private int _neighborIndex = 0;
 		
 		public HexagonModel (GridPos gridPos) {
 
@@ -70,7 +74,6 @@ namespace Hexa2Go {
 		public event System.EventHandler<HexagonValueChangedEventArgs> OnSelectionChanged;
 		public event System.EventHandler<HexagonValueChangedEventArgs> OnFocusChanged;
 		public event System.EventHandler<HexagonValueChangedEventArgs> OnActivationChanged;
-		public event System.EventHandler<HexagonValueChangedEventArgs> OnDeclaredTargetChanged;
 		#endregion
 		
 		public GridPos GridPos {
@@ -88,6 +91,21 @@ namespace Hexa2Go {
 		public bool IsSelected {
 			get {
 				return _isSelected;
+			}
+		}
+
+		public bool IsTarget {
+			get {
+				return _isTarget;
+			}
+		}
+
+		public bool Visited {
+			get {
+				return _visited;
+			}
+			set {
+				_visited = value;
 			}
 		}
 
@@ -119,17 +137,10 @@ namespace Hexa2Go {
 			}
 		}
 
-		public bool WasVisit {
-			get {
-				return _wasVisit;
-			}
-			set {
-				_wasVisit = value;
-			}
-		}
-
-		public void Activate (bool ignoreView = false) {
+		public void Activate (bool ignoreView = false, TeamColor teamColor = TeamColor.NONE) {
 			_isActivated = true;
+			_isTarget = (teamColor == TeamColor.NONE) ? false : true;
+			_teamColor = teamColor;
 			if (!ignoreView) {
 				HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
 				OnActivationChanged (this, eventArgs);
@@ -138,18 +149,12 @@ namespace Hexa2Go {
 
 		public void Deactivate (bool ignoreView = false) {
 			_isActivated = false;
+			_isTarget = false;
+			_teamColor = TeamColor.NONE;
 			if (!ignoreView) {
 				HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
 				OnActivationChanged (this, eventArgs);
 			}
-		}
-
-		public void DeclareTarget (TeamColor teamColor) {
-			_isTarget = true;
-			_teamColor = teamColor;
-			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
-			//eventArgs.TeamColor = teamColor;
-			OnDeclaredTargetChanged (this, eventArgs);
 		}
 
 		public void Select () {

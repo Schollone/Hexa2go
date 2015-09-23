@@ -9,23 +9,21 @@ namespace Hexa2Go {
 
 		Color DefaultBorderColor { get; set; }
 
-		void Init(GridPos gridPos);
+		void Init (GridPos gridPos);
 
-		void Select();
+		void Select ();
 
-		void Deselect();
+		void Deselect ();
 
-		void Focus();
+		void Focus ();
 
-		void Focusable();
+		void Focusable ();
 
-		void ResetTint();
+		void ResetTint ();
 
-		void Activate();
+		void Activate (Color? color = null);
 
-		void Deactivate();
-
-		void DeclareTarget(Color color);
+		void Deactivate ();
 
 		Vector3 SlotPosition1 { get; }
 

@@ -13,8 +13,12 @@ namespace Hexa2Go {
 		public static Color GREEN = Color.green;
 		public static Color ORANGE = new Color (1f, 0.68f, 0f);
 
-		public static Color GetColor (TeamColor teamColor, Color defaultColor) {
-			Color color = (teamColor == TeamColor.NONE) ? defaultColor : (teamColor == TeamColor.BLUE) ? HexagonColors.BLUE : HexagonColors.RED;
+		public static Color GetColor (TeamColor teamColor, Color? defaultColor = null) {
+			if (teamColor == TeamColor.NONE && defaultColor == null) {
+				return HexagonColors.LIGHT_GRAY;
+			}
+			//Color color = (teamColor == TeamColor.NONE) ? (Color)defaultColor : (teamColor == TeamColor.BLUE) ? HexagonColors.BLUE : HexagonColors.RED;
+			Color color = (teamColor == TeamColor.BLUE) ? HexagonColors.BLUE : HexagonColors.RED;
 			return color;
 		}
 	}

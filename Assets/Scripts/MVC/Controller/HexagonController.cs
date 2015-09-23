@@ -22,7 +22,6 @@ namespace Hexa2Go {
 			_hexagonModel = new HexagonModel (gridPos);
 			
 			_hexagonModel.OnActivationChanged += HandleOnActivationChanged;
-			_hexagonModel.OnDeclaredTargetChanged += HandleOnDeclaredTargetChanged;
 			_hexagonModel.OnSelectionChanged += HandleOnSelectionChanged;
 		}
 
@@ -34,14 +33,16 @@ namespace Hexa2Go {
 			}
 		}
 
-		void HandleOnDeclaredTargetChanged (object sender, HexagonValueChangedEventArgs e) {
+		/*void HandleOnDeclaredTargetChanged (object sender, HexagonValueChangedEventArgs e) {
 			Color color = HexagonColors.GetColor (Model.TeamColor, View.DefaultBorderColor);
-			View.DeclareTarget (color);
-		}
+			11111111111View.Activate ();
+		}*/
 
 		void HandleOnActivationChanged (object sender, HexagonValueChangedEventArgs e) {
 			if (Model.IsActivated) {
-				View.Activate ();
+				Color color = HexagonColors.GetColor (Model.TeamColor);
+				//Color color = HexagonColors.GetColor (Model.TeamColor, View.DefaultBorderColor);
+				View.Activate (color);
 			} else {
 				View.Deactivate ();
 			}
