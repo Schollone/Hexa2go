@@ -45,130 +45,180 @@ namespace Hexa2Go {
 		}
 
 		public void SelectNextCharacter () {
-			_hexagonHandler.ResetFocusableNeighbors (_selectedCharacter.Model.GridPos);
+			_hexagonHandler.InitNeighbors (_selectedCharacter.Model.GridPos, true);
+			_hexagonHandler.ResetFocusableNeighbors ();
 			if (GameManager.Instance.PlayerState == PlayerState.Player) {
 				_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
 			} else if (GameManager.Instance.PlayerState == PlayerState.Enemy) {
 				_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();
 			}
 			_selectedHexagon = _hexagonHandler.Get (_selectedCharacter.Model.GridPos);
-			_hexagonHandler.TintFocusableNeighbors (_selectedHexagon.Model.GridPos);
+			_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true);
+			_hexagonHandler.TintFocusableNeighbors ();
 		}
 
 		public void SelectNextHexagon () {
-			//_hexagonHandler.ResetFocusableNeighbors(_selectedHexagon.Model.GridPos);
+			_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true, true);
+			_hexagonHandler.ResetFocusableNeighbors ();
 			_selectedHexagon = _hexagonHandler.SelectNextHexagon ();
+			_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true, true);
+			_hexagonHandler.TintFocusableNeighbors ();
 		}
 
 		public void SelectPrevHexagon () {
-			//_hexagonHandler.ResetFocusableNeighbors(_selectedHexagon.Model.GridPos);
+			_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true, true);
+			_hexagonHandler.ResetFocusableNeighbors ();
 			_selectedHexagon = _hexagonHandler.SelectPrevHexagon ();
+			_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true, true);
+			_hexagonHandler.TintFocusableNeighbors ();
 		}
 
 		public void FocusNextHexagon (bool useForPasch = false) {
-			Debug.Log (_selectedHexagon.Model.GridPos);
 			_hexagonHandler.FocusNextHexagon (_selectedHexagon.Model.GridPos, useForPasch);
 		}
 
-		public void FocusPrevHexagon () {
-			Debug.Log (_selectedHexagon.Model.GridPos);
-			_hexagonHandler.FocusPrevHexagon (_selectedHexagon.Model.GridPos);
+		public void FocusPrevHexagon (bool useForPasch = false) {
+			_hexagonHandler.FocusPrevHexagon (_selectedHexagon.Model.GridPos, useForPasch);
 		}
 
 		public void Unregister () {
 			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
 		}
 
+		private void SwitchToNextPlayer () {
+			PlayerState playerState = (GameManager.Instance.PlayerState == PlayerState.Player) ? PlayerState.Enemy : PlayerState.Player;
+			GameManager.Instance.PlayerState = playerState;
+			GameManager.Instance.MatchState = MatchState.ThrowDice;
+		}
+
+		private void ResetSelectedCharacterAndNeighbors () {
+			if (_selectedCharacter != null) {
+				_selectedCharacter.Model.Deselect ();
+				_hexagonHandler.InitNeighbors (_selectedCharacter.Model.GridPos);
+				_hexagonHandler.ResetFocusableNeighbors ();
+			}
+		}
+
+		private void ResetSelectedHexagonAndNeighbors () {
+			if (_selectedHexagon != null) {
+				_selectedHexagon.Model.Deselect ();
+				_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos);
+				_hexagonHandler.ResetFocusableNeighbors ();
+			}
+		}
+
+		private void MoveCharacter () {
+			_selectedCharacter.Model.GridPos = _hexagonHandler.FocusedHexagon.Model.GridPos;
+			Debug.Log (_selectedCharacter.Model.TeamColor + " == " + _hexagonHandler.FocusedHexagon.Model.TeamColor);
+			if (_selectedCharacter.Model.TeamColor == _hexagonHandler.FocusedHexagon.Model.TeamColor) {
+				// Remove character if target is reached.
+				_selectedCharacter.Model.Remove ();
+				/*if (GameManager.Instance.GameModeHandler.PlayerHandler.PlayerController_One.Model.SavedCharacters >= 3) {
+
+							}*/
+			}
+		}
+
+		private void MoveHexagon () {
+			_selectedHexagon.Model.Deactivate ();
+			_hexagonHandler.FocusedHexagon.Model.Activate ();
+			List<ICharacterController> characters1 = (List<ICharacterController>)_characterHandler_P1.GetCharacters (_selectedHexagon.Model.GridPos);
+			List<ICharacterController> characters2 = (List<ICharacterController>)_characterHandler_P2.GetCharacters (_selectedHexagon.Model.GridPos);
+			characters1.AddRange (characters2);
+			foreach (ICharacterController character in characters1) {
+				character.Model.GridPos = _hexagonHandler.FocusedHexagon.Model.GridPos;
+			}
+		}
+
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
 
-			if (nextMatchState == MatchState.Moving) {
-
-				//Debug.LogWarning(_selectedCharacter.Model.GridPos + " - " + _selectedHexagon.Model.GridPos);
-
-				if (_selectedCharacter != null) {
-					_selectedCharacter.Model.Deselect ();
-					_hexagonHandler.ResetFocusableNeighbors (_selectedCharacter.Model.GridPos);
-				}
-				if (_selectedHexagon != null) {
-					_selectedHexagon.Model.Deselect ();
-					//_selectedHexagon.View.ResetTint();
-				}
-
-				if (_hexagonHandler.FocusedHexagon != null) {
-					if (_selectedCharacter != null) { // Move Character
-
-						_selectedCharacter.Model.GridPos = _hexagonHandler.FocusedHexagon.Model.GridPos;
-
-						Debug.Log (_selectedCharacter.Model.TeamColor + " == " + _hexagonHandler.FocusedHexagon.Model.TeamColor);
-						if (_selectedCharacter.Model.TeamColor == _hexagonHandler.FocusedHexagon.Model.TeamColor) {
-							_selectedCharacter.Model.Remove ();
+			switch (nextMatchState) {
+				case MatchState.SelectCharacter:
+					{
+						Debug.Log ("SelectCharacter GridHandler");
+					
+						_selectedCharacter = null;
+						_selectedHexagon = null;
+					
+						CharacterType characterType_1 = GameManager.Instance.ButtonHandler.DicesController.DiceController_left.Model.CharacterType;
+						CharacterType characterType_2 = GameManager.Instance.ButtonHandler.DicesController.DiceController_right.Model.CharacterType;
+					
+						if (GameManager.Instance.PlayerState == PlayerState.Player) {
+						
+							_characterHandler_P1.InitSelectedCharacters (characterType_1, characterType_2);
+							_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
+						
+						} else if (GameManager.Instance.PlayerState == PlayerState.Enemy) {
+						
+							_characterHandler_P2.InitSelectedCharacters (characterType_1, characterType_2);
+							_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();
+						
 						}
-					} else { // Move Hexagon
-						_selectedHexagon.Model.Deactivate ();
-						_hexagonHandler.FocusedHexagon.Model.Activate ();
 
-						List<ICharacterController> characters1 = (List<ICharacterController>)_characterHandler_P1.GetCharacters (_selectedHexagon.Model.GridPos);
-						List<ICharacterController> characters2 = (List<ICharacterController>)_characterHandler_P2.GetCharacters (_selectedHexagon.Model.GridPos);
-						characters1.AddRange (characters2);
-						foreach (ICharacterController character in characters1) {
-							character.Model.GridPos = _hexagonHandler.FocusedHexagon.Model.GridPos;
+						if (_selectedCharacter != null) {
+							_selectedHexagon = _hexagonHandler.Get (_selectedCharacter.Model.GridPos);
+							_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true);
+							_hexagonHandler.TintFocusableNeighbors ();
+						} else {
+							SwitchToNextPlayer ();
 						}
+						break;
 					}
-				}
 
-				_hexagonHandler.ResetFocusedHexagon ();
-				_selectedCharacter = null;
-				_selectedHexagon = null;
+				case MatchState.FocusCharacterTarget:
+					{
+						Debug.Log ("FocusCharacterTarget GridHandler");
+						if (_selectedHexagon != null) {
+							Debug.LogWarning (_selectedCharacter.Model.GridPos + " - " + _selectedHexagon.Model.GridPos);
+							_hexagonHandler.FocusNextHexagon (_selectedHexagon.Model.GridPos);
+						}
+						break;
+					}
 
-				PlayerState playerState = (GameManager.Instance.PlayerState == PlayerState.Player) ? PlayerState.Enemy : PlayerState.Player;
-				GameManager.Instance.PlayerState = playerState;
-				GameManager.Instance.MatchState = MatchState.ThrowDice;
+				case MatchState.SelectHexagon:
+					{
+						Debug.Log ("SelectHexagon GridHandler");
+						_selectedCharacter = null;
+						_selectedHexagon = null;
+					
+						_hexagonHandler.InitSelectableHexagons ();
+						_selectedHexagon = _hexagonHandler.SelectNextHexagon ();
+						_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true, true);
+						_hexagonHandler.TintFocusableNeighbors ();
+						break; 
+					}
 
+				case MatchState.FocusHexagonTarget:
+					{
+						Debug.Log ("FocusHexagonTarget GridHandler");
+						if (_selectedHexagon != null) {
+							_hexagonHandler.FocusNextHexagon (_selectedHexagon.Model.GridPos, true);
+						}
+						break;
+					}
 
-			} else if (nextMatchState == MatchState.SelectCharacter) {
+				case MatchState.Moving:
+					{
+						Debug.Log ("Moving GridHandler");
+					
+						ResetSelectedCharacterAndNeighbors ();
+						ResetSelectedHexagonAndNeighbors ();
+					
+						if (_hexagonHandler.FocusedHexagon != null) {
+							if (_selectedCharacter != null) {
+								MoveCharacter ();
+							} else {
+								MoveHexagon ();
+							}
+						}
+					
+						_hexagonHandler.ResetFocusedHexagon ();
+						_selectedCharacter = null;
+						_selectedHexagon = null;
 
-				//Debug.LogWarning(_selectedCharacter.Model.GridPos + " - " + _selectedHexagon.Model.GridPos);
-
-				_selectedCharacter = null;
-				_selectedHexagon = null;
-
-				CharacterType characterType_1 = GameManager.Instance.ButtonHandler.DicesController.DiceController_left.Model.CharacterType;
-				CharacterType characterType_2 = GameManager.Instance.ButtonHandler.DicesController.DiceController_right.Model.CharacterType;
-
-				if (GameManager.Instance.PlayerState == PlayerState.Player) {
-
-					_characterHandler_P1.InitSelectedCharacters (characterType_1, characterType_2);
-					_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
-
-				} else if (GameManager.Instance.PlayerState == PlayerState.Enemy) {
-
-					_characterHandler_P2.InitSelectedCharacters (characterType_1, characterType_2);
-					_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();
-
-				}
-
-				_selectedHexagon = _hexagonHandler.Get (_selectedCharacter.Model.GridPos);
-				_hexagonHandler.TintFocusableNeighbors (_selectedHexagon.Model.GridPos);
-				Debug.LogWarning (_selectedCharacter.Model.GridPos + " - " + _selectedHexagon.Model.GridPos);
-
-				/*
-				 * TODO Select Hexagon and Character of player
-				 */
-			} else if (nextMatchState == MatchState.FocusCharacterTarget) {
-				if (_selectedHexagon != null) {
-					Debug.LogWarning (_selectedCharacter.Model.GridPos + " - " + _selectedHexagon.Model.GridPos);
-					_hexagonHandler.FocusNextHexagon (_selectedHexagon.Model.GridPos, false);
-				}
-			} else if (nextMatchState == MatchState.SelectHexagon) {
-				_selectedCharacter = null;
-				_selectedHexagon = null;
-				
-				_hexagonHandler.InitSelectableHexagons ();
-				_selectedHexagon = _hexagonHandler.SelectNextHexagon ();
-			} else if (nextMatchState == MatchState.FocusHexagonTarget) {
-				if (_selectedHexagon != null) {
-					_hexagonHandler.FocusNextHexagon (_selectedHexagon.Model.GridPos, true);
-				}
+						SwitchToNextPlayer ();
+						break;
+					}
 			}
 		}
 

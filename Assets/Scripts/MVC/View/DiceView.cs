@@ -21,7 +21,7 @@ namespace Hexa2Go {
 		
 		// Use this for initialization
 		protected override void Awake () {
-			base.Awake();
+			base.Awake ();
 
 			_characterTypes = new Dictionary<CharacterType, Sprite> ();
 			_characterTypes.Add (CharacterType.CIRCLE, symbol_Circle);
@@ -32,19 +32,19 @@ namespace Hexa2Go {
 			_teamColors.Add (TeamColor.BLUE, HexagonColors.BLUE);
 			_teamColors.Add (TeamColor.RED, HexagonColors.RED);
 
-			_symbol = transform.FindChild("Symbol");
+			_symbol = transform.FindChild ("Symbol");
 
-			UpdateViewByIndex(-1, -1);
+			UpdateViewByIndex (-1, -1);
 		}
 
 		// Use this for initialization
 		protected override void Start () {
-			base.Start();
+			base.Start ();
 		}
 		
 		// Update is called once per frame
 		protected override void Update () {
-			base.Update();
+			base.Update ();
 		}
 		
 		#region IDiceView implementation
@@ -59,12 +59,12 @@ namespace Hexa2Go {
 		}
 
 		public DiceObject UpdateViewByIndex (int characterTypeIndex, int teamColorIndex) {
-			CharacterType characterType = getCharacterType(characterTypeIndex);
-			TeamColor teamColor = getTeamColor(teamColorIndex);
+			CharacterType characterType = getCharacterType (characterTypeIndex);
+			TeamColor teamColor = getTeamColor (teamColorIndex);
 
 			UpdateView (characterType, teamColor);
 
-			DiceObject diceObject = new DiceObject(characterType, teamColor);
+			DiceObject diceObject = new DiceObject (characterType, teamColor);
 			return diceObject;
 		}
 
@@ -76,15 +76,15 @@ namespace Hexa2Go {
 
 		public event EventHandler<DiceThrowedEventArgs> OnThrowed = (sender, e) => {};
 
-		public void StartThrow() {
-			StartCoroutine("Throw");
+		public void StartThrow () {
+			StartCoroutine ("Throw");
 			//Throw();
 		}
 		#endregion
 
-		public IEnumerator Throw() {
+		public IEnumerator Throw () {
 
-			DiceObject diceObject = new DiceObject();
+			DiceObject diceObject = new DiceObject ();
 			float elapsedTime = UnityEngine.Random.value;
 			float interval = 0f;
 			
@@ -94,43 +94,38 @@ namespace Hexa2Go {
 				interval += Time.deltaTime;
 				//Debug.LogWarning(Time.time);
 				
-				if (interval >= Mathf.Exp(elapsedTime - 4)) {
+				if (interval >= Mathf.Exp (elapsedTime - 4)) {
 					//Debug.LogWarning(Time.time);
-					diceObject = UpdateViewByIndex(-1, -1);
+					diceObject = UpdateViewByIndex (-1, -1);
 					interval = 0;
 				}
 				
 				yield return null;
 			}
 
-			DiceThrowedEventArgs eventArgs = new DiceThrowedEventArgs(diceObject);
-			Debug.Log ("Throw: " + diceObject.CharacterType + " _ " + diceObject.TeamColor);
-			OnThrowed(this, eventArgs);
-			//Model.SetDiceValue(diceObject);
+			DiceThrowedEventArgs eventArgs = new DiceThrowedEventArgs (diceObject);
+			//Debug.Log ("Throw: " + diceObject.CharacterType + " _ " + diceObject.TeamColor);
+			OnThrowed (this, eventArgs);
 		}
 
-		private CharacterType getCharacterType(int index) {
+		private CharacterType getCharacterType (int index) {
 			CharacterType[] typeArray = new CharacterType[_characterTypes.Count];
-			_characterTypes.Keys.CopyTo(typeArray, 0);
+			_characterTypes.Keys.CopyTo (typeArray, 0);
 			if (index < 0 || index >= typeArray.Length) { // use random value
-				//Debug.Log("1: " + Time.time);
-				//System.Random random = new System.Random();
-				//index = random.Next(0, typeArray.Length);
-				//UnityEngine.Random.seed = 42;
-				index = UnityEngine.Random.Range(0, 3);
+				index = UnityEngine.Random.Range (0, 3);
 			}
-			return typeArray[index];
+			return typeArray [index];
 		}
 
-		private TeamColor getTeamColor(int index) {
+		private TeamColor getTeamColor (int index) {
 			TeamColor[] colorArray = new TeamColor[_teamColors.Count];
-			_teamColors.Keys.CopyTo(colorArray, 0);
+			_teamColors.Keys.CopyTo (colorArray, 0);
 			if (index < 0 || index >= colorArray.Length) { // use random value
 				//Debug.Log("2: " + Time.time);
-				System.Random random = new System.Random();
-				index = random.Next(0, colorArray.Length);
+				System.Random random = new System.Random ();
+				index = random.Next (0, colorArray.Length);
 			}
-			return colorArray[index];
+			return colorArray [index];
 		}
 	}
 

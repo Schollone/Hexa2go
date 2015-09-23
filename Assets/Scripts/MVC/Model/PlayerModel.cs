@@ -9,8 +9,9 @@ namespace Hexa2Go {
 		private int _savedCharacters = 0;
 		private string _name = "";
 		
-		public PlayerModel (TeamColor teamColor) {
+		public PlayerModel (TeamColor teamColor, string name) {
 			_teamColor = teamColor;
+			_name = name;
 			_savedCharacters = 0;
 		}
 		
@@ -29,9 +30,6 @@ namespace Hexa2Go {
 		public string Name {
 			get {
 				return _name;
-			}
-			set {
-				_name = value;
 			}
 		}
 	}

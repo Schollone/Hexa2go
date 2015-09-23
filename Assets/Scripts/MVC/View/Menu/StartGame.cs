@@ -6,12 +6,14 @@ namespace Hexa2Go {
 
 	public class StartGame : MonoBehaviour {
 
-		[SerializeField] private GameMode gameMode;
+		[SerializeField]
+		private GameMode
+			gameMode;
 
 		// Use this for initialization
 		void Start () {
-			Button start = GetComponent<Button>();	
-			start.onClick.AddListener(HandleOnClicked);
+			Button start = GetComponent<Button> ();	
+			start.onClick.AddListener (HandleOnClicked);
 		}
 		
 		// Update is called once per frame
@@ -19,10 +21,11 @@ namespace Hexa2Go {
 		
 		}
 
-		private void HandleOnClicked() {
-			Debug.Log("Start Game: " + gameMode);
-			GameManager.Instance.GameMode = gameMode;
-			Application.LoadLevel(1);
+		private void HandleOnClicked () {
+			Debug.Log ("Start Game: " + gameMode);
+			GameManager.Instance.GameModeHandler.GameMode = gameMode;
+			//GameManager.Instance.InitGame (gameMode);
+			Application.LoadLevel (1);
 		}
 	}
 

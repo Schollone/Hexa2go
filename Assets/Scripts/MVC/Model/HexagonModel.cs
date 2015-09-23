@@ -14,6 +14,7 @@ namespace Hexa2Go {
 		private bool _canReceiveHexagon = false;
 		private IList<GridPos> _neighbors;
 		private int _neighborIndex = 0;
+		private bool _wasVisit = false;
 		
 		// -- Color related --
 		private bool _isSelected = false;
@@ -30,13 +31,13 @@ namespace Hexa2Go {
 		private bool _isTarget = false;
 		private TeamColor _teamColor = TeamColor.NONE;
 		
-		public HexagonModel(GridPos gridPos) {
+		public HexagonModel (GridPos gridPos) {
 
 			this._gridPos = gridPos;
 			this._isActivated = false;
 			this._isSelected = false;
 
-			InitNeighbors();
+			InitNeighbors ();
 
 			/*this._canReceiveHexagon = false;
 
@@ -102,14 +103,10 @@ namespace Hexa2Go {
 
 		public bool IsFocusableForHexagon {
 			get {
-				//if (canReceiveCharacter)
-				if (!_isActivated) {
-					return true;
-				}
 				return false;
 			}
 		}
-
+		
 		public TeamColor TeamColor {
 			get {
 				return _teamColor;
@@ -122,62 +119,75 @@ namespace Hexa2Go {
 			}
 		}
 
-		public void Activate() {
+		public bool WasVisit {
+			get {
+				return _wasVisit;
+			}
+			set {
+				_wasVisit = value;
+			}
+		}
+
+		public void Activate (bool ignoreView = false) {
 			_isActivated = true;
-			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
-			OnActivationChanged(this, eventArgs);
+			if (!ignoreView) {
+				HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
+				OnActivationChanged (this, eventArgs);
+			}
 		}
 
-		public void Deactivate() {
+		public void Deactivate (bool ignoreView = false) {
 			_isActivated = false;
-			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
-			OnActivationChanged(this, eventArgs);
+			if (!ignoreView) {
+				HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
+				OnActivationChanged (this, eventArgs);
+			}
 		}
 
-		public void DeclareTarget(TeamColor teamColor) {
+		public void DeclareTarget (TeamColor teamColor) {
 			_isTarget = true;
 			_teamColor = teamColor;
-			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
+			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
 			//eventArgs.TeamColor = teamColor;
-			OnDeclaredTargetChanged(this, eventArgs);
+			OnDeclaredTargetChanged (this, eventArgs);
 		}
 
-		public void Select() {
+		public void Select () {
 			_isSelected = true;
-			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
+			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
 			//eventArgs.IsSelected = _isSelected;
-			OnSelectionChanged(this, eventArgs);
+			OnSelectionChanged (this, eventArgs);
 		}
 
-		public void Deselect() {
+		public void Deselect () {
 			_isSelected = false;
-			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs();
+			HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
 			//eventArgs.IsSelected = _isSelected;
-			OnSelectionChanged(this, eventArgs);
+			OnSelectionChanged (this, eventArgs);
 		}
 
-		private void InitNeighbors() {
+		private void InitNeighbors () {
 			this._neighbors = new List<GridPos> ();
 
 			int x = _gridPos.x;
 			int y = _gridPos.y;
 			
-			List<GridPos> neighbors = (List<GridPos>) _neighbors;
+			List<GridPos> neighbors = (List<GridPos>)_neighbors;
 			
 			if ((x & 1) == 0) {
-				neighbors.Add(new GridPos(x, y-1));
-				neighbors.Add(new GridPos(x+1, y-1));
-				neighbors.Add(new GridPos(x+1, y));
-				neighbors.Add(new GridPos(x, y+1));
-				neighbors.Add(new GridPos(x-1, y));
-				neighbors.Add(new GridPos(x-1, y-1));
+				neighbors.Add (new GridPos (x, y - 1));
+				neighbors.Add (new GridPos (x + 1, y - 1));
+				neighbors.Add (new GridPos (x + 1, y));
+				neighbors.Add (new GridPos (x, y + 1));
+				neighbors.Add (new GridPos (x - 1, y));
+				neighbors.Add (new GridPos (x - 1, y - 1));
 			} else {
-				neighbors.Add(new GridPos(x, y-1));
-				neighbors.Add(new GridPos(x+1, y));
-				neighbors.Add(new GridPos(x+1, y+1));
-				neighbors.Add(new GridPos(x, y+1));
-				neighbors.Add(new GridPos(x-1, y+1));
-				neighbors.Add(new GridPos(x-1, y));
+				neighbors.Add (new GridPos (x, y - 1));
+				neighbors.Add (new GridPos (x + 1, y));
+				neighbors.Add (new GridPos (x + 1, y + 1));
+				neighbors.Add (new GridPos (x, y + 1));
+				neighbors.Add (new GridPos (x - 1, y + 1));
+				neighbors.Add (new GridPos (x - 1, y));
 			}
 			
 			neighbors.RemoveAll (item => item.x < 0 && item.y < 0);
@@ -259,7 +269,7 @@ namespace Hexa2Go {
 			}
 		}
 		
-		public bool hasCharacterWithTeamColor(TeamColor teamColor) {
+		public bool hasCharacterWithTeamColor (TeamColor teamColor) {
 			this._hasCharacterWithTeamColor = false;
 			/*if ( (_character1 != null && _character1.teamColor == teamColor) || (_character2 != null && _character2.teamColor == teamColor) ) {
 				this._hasCharacterWithTeamColor = true;
@@ -267,8 +277,8 @@ namespace Hexa2Go {
 			return this._hasCharacterWithTeamColor;
 		}
 		
-		public ICharacterModel getCharacterWithTeamColor(TeamColor teamColor) {
-			if (hasCharacterWithTeamColor(teamColor)) {
+		public ICharacterModel getCharacterWithTeamColor (TeamColor teamColor) {
+			if (hasCharacterWithTeamColor (teamColor)) {
 				/*if (_character1.teamColor == teamColor) {
 					return _character1;
 				} else if (_character2.teamColor == teamColor) {
@@ -311,14 +321,14 @@ namespace Hexa2Go {
 		
 
 		
-		public bool hasEmptyCharacter1Slot() {
+		public bool hasEmptyCharacter1Slot () {
 			if (character1 == null) {
 				return true;
 			}
 			return false;
 		}
 		
-		public bool hasEmptyCharacter2Slot() {
+		public bool hasEmptyCharacter2Slot () {
 			if (character2 == null) {
 				return true;
 			}

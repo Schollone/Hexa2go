@@ -9,13 +9,13 @@ namespace Hexa2Go {
 		
 		private readonly IPlayerView _view;
 
-		public PlayerController(TeamColor teamColor) {
-			GameObject player_change = GameObject.Find("Player_Change");
-			IPlayerView playerView = player_change.GetComponent<IPlayerView>();
+		public PlayerController (TeamColor teamColor, string name) {
+			GameObject player_change = GameObject.Find ("Player_Change");
+			IPlayerView playerView = player_change.GetComponent<IPlayerView> ();
 			
 			_view = playerView;
 
-			_model = new PlayerModel(teamColor);
+			_model = new PlayerModel (teamColor, name);
 		}
 
 		#region IPlayerController implementation

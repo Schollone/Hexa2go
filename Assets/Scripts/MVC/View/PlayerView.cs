@@ -11,7 +11,6 @@ namespace Hexa2Go {
 		Text text;
 
 		void Awake () {
-			Debug.LogWarning ("Awake PlayerView");
 			animator = GameObject.Find ("Player_Change").GetComponent<Animator> ();
 			background = GameObject.Find ("Background").GetComponent<Image> ();
 			text = GetComponent<Text> ();
@@ -19,7 +18,7 @@ namespace Hexa2Go {
 
 		// Use this for initialization
 		void Start () {
-			Debug.LogWarning ("Start PlayerView");
+
 		}
 		
 		// Update is called once per frame
@@ -28,7 +27,7 @@ namespace Hexa2Go {
 		}
 
 		public void UpdatePlayer (Color color, string name) {
-			Debug.LogWarning ("Update PlayerView: " + color);
+			//Debug.LogWarning ("Update PlayerView: " + color);
 			text.text = name;
 			text.color = color;
 

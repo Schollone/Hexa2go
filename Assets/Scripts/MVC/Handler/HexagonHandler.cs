@@ -14,136 +14,175 @@ namespace Hexa2Go {
 		private ArrayList _selectableHexagons = null;
 		private int _selectedHexagonIndex = 0;
 
-		public HexagonHandler(int width, int height) {
+		public HexagonHandler (int width, int height) {
 			_width = width;
 			_height = height;
 
-			_hexagons = new Dictionary<GridPos, IHexagonController>();
+			_hexagons = new Dictionary<GridPos, IHexagonController> ();
 
 			for (int x = 0; x < _width; ++x) {
 				for (int y = 0; y < _height; ++y) {
-					GridPos gridPos = new GridPos(x, y);
+					GridPos gridPos = new GridPos (x, y);
 
-					IHexagonController hexagon = new HexagonController(gridPos);
-					_hexagons.Add(gridPos, hexagon);
+					IHexagonController hexagon = new HexagonController (gridPos);
+					_hexagons.Add (gridPos, hexagon);
 				}
 
 			}
 
-			_selectableHexagons = new ArrayList();
-			_neighborHexagons = new ArrayList();
+			_selectableHexagons = new ArrayList ();
+			_neighborHexagons = new ArrayList ();
 
-			Setup();
+			Setup ();
 
 		}
 
-		private void Setup() {
+		private void Setup () {
 			IHexagonController hexagon = null;
 
-			_hexagons.TryGetValue(new GridPos(2,3), out hexagon);
-			hexagon.Model.Activate();
-			hexagon.Model.DeclareTarget(TeamColor.BLUE);
+			hexagon = Get (new GridPos (2, 3));
+			hexagon.Model.Activate ();
+			hexagon.Model.DeclareTarget (TeamColor.BLUE);
 
-			_hexagons.TryGetValue(new GridPos(3,2), out hexagon);
-			hexagon.Model.Activate();
-			_hexagons.TryGetValue(new GridPos(3,3), out hexagon);
-			hexagon.Model.Activate();
-			_hexagons.TryGetValue(new GridPos(4,2), out hexagon);
-			hexagon.Model.Activate();
-			_hexagons.TryGetValue(new GridPos(4,3), out hexagon);
-			hexagon.Model.Activate();
-			_hexagons.TryGetValue(new GridPos(4,4), out hexagon);
-			hexagon.Model.Activate();
-			_hexagons.TryGetValue(new GridPos(5,2), out hexagon);
-			hexagon.Model.Activate();
-			_hexagons.TryGetValue(new GridPos(5,3), out hexagon);
-			hexagon.Model.Activate();
-			_hexagons.TryGetValue(new GridPos(5,4), out hexagon);
-			hexagon.Model.Activate();
-			_hexagons.TryGetValue(new GridPos(6,3), out hexagon);
-			hexagon.Model.Activate();
-			_hexagons.TryGetValue(new GridPos(6,4), out hexagon);
-			hexagon.Model.Activate();
+			hexagon = Get (new GridPos (3, 2));
+			hexagon.Model.Activate ();
+			hexagon = Get (new GridPos (3, 3));
+			hexagon.Model.Activate ();
+			hexagon = Get (new GridPos (4, 2));
+			hexagon.Model.Activate ();
+			hexagon = Get (new GridPos (4, 3));
+			hexagon.Model.Activate ();
+			hexagon = Get (new GridPos (4, 4));
+			hexagon.Model.Activate ();
+			hexagon = Get (new GridPos (5, 2));
+			hexagon.Model.Activate ();
+			hexagon = Get (new GridPos (5, 3));
+			hexagon.Model.Activate ();
+			hexagon = Get (new GridPos (5, 4));
+			hexagon.Model.Activate ();
+			hexagon = Get (new GridPos (6, 3));
+			hexagon.Model.Activate ();
+			hexagon = Get (new GridPos (6, 4));
+			hexagon.Model.Activate ();
 
-			_hexagons.TryGetValue(new GridPos(7,3), out hexagon);
-			hexagon.Model.Activate();
-			hexagon.Model.DeclareTarget(TeamColor.RED);
+			hexagon = Get (new GridPos (7, 3));
+			hexagon.Model.Activate ();
+			hexagon.Model.DeclareTarget (TeamColor.RED);
 
 		}
 
-		public IHexagonController Get(GridPos gridPos) {
+		public IHexagonController Get (GridPos gridPos) {
 			IHexagonController result = null;
-			_hexagons.TryGetValue(gridPos, out result);
+			_hexagons.TryGetValue (gridPos, out result);
 			return result;
 		}
 
-		public void Select(GridPos gridPos) {
-			IHexagonController hexagonController = null;
-			_hexagons.TryGetValue(gridPos, out hexagonController);
-			
-			hexagonController.Model.Select();
+		public void Select (GridPos gridPos) {
+			IHexagonController hexagonController = Get (gridPos);
+
+			hexagonController.Model.Select ();
 		}
 
-		public void Deselect(GridPos gridPos) {
-			IHexagonController hexagonController = null;
-			_hexagons.TryGetValue(gridPos, out hexagonController);
+		public void Deselect (GridPos gridPos) {
+			IHexagonController hexagonController = Get (gridPos);
 
-			hexagonController.Model.Deselect();
+			hexagonController.Model.Deselect ();
 		}
 
-		private void InitNeighbors(GridPos gridPos, bool onlyFocusable = false, bool useForPasch = false) {
-			_neighborHexagons.Clear();
-			IHexagonController hexagonController = null;
-			_hexagons.TryGetValue(gridPos, out hexagonController);
-			
-			List<GridPos> gridPosNeighbors = (List<GridPos>) hexagonController.Model.Neighbors;
+		public void InitNeighbors (GridPos gridPos, bool onlyFocusable = false, bool useForPasch = false) {
+			_neighborHexagons.Clear ();
+			IHexagonController hexagonController = Get (gridPos);
+
+			List<GridPos> gridPosNeighbors = (List<GridPos>)hexagonController.Model.Neighbors;
 			foreach (GridPos pos in gridPosNeighbors) {
-				IHexagonController neighbor = null;
-				_hexagons.TryGetValue(pos, out neighbor);
+				IHexagonController neighbor = Get (pos);
 
 				if (onlyFocusable) {
 					if (useForPasch) {
-						if (neighbor.Model.IsFocusableForHexagon) _neighborHexagons.Add(neighbor);
+						if (!neighbor.Model.IsActivated && IsFocusableForHexagon (hexagonController, neighbor)) {
+							_neighborHexagons.Add (neighbor);
+						}
 					} else {
-						if (neighbor.Model.IsFocusableForCharacter) _neighborHexagons.Add(neighbor);
+						if (neighbor.Model.IsFocusableForCharacter)
+							_neighborHexagons.Add (neighbor);
 					}
 				} else {
-					_neighborHexagons.Add(neighbor);
+					_neighborHexagons.Add (neighbor);
 				}
 
 			}
 		}
 
-		public void TintFocusableNeighbors(GridPos gridPos) {
-			InitNeighbors(gridPos, true);
-			foreach(IHexagonController neighbor in _neighborHexagons) {
-				if (neighbor.Model.IsFocusableForCharacter) neighbor.View.Focusable();
+		private bool IsFocusableForHexagon (IHexagonController selectedHexagon, IHexagonController focusableHexagon) {
+			selectedHexagon.Model.Deactivate (true);
+			bool resetSelectedHexagon = false;
+			if (!focusableHexagon.Model.IsActivated) {
+				resetSelectedHexagon = true;
+			}
+			focusableHexagon.Model.WasVisit = true;
+			focusableHexagon.Model.Activate (true);
+
+			int fields = 1 + look (focusableHexagon);
+
+			foreach (IHexagonController hexagon in _hexagons.Values) {
+				hexagon.Model.WasVisit = false;
+			}
+
+			selectedHexagon.Model.Activate (true);
+			if (resetSelectedHexagon) {
+				focusableHexagon.Model.Deactivate (true);
+			}
+			
+			if (fields == 12) {
+				return true;
+			}
+			return false;
+		}
+
+		private int look (IHexagonController hexagon) {
+			int result = 0;
+			
+			foreach (GridPos neighborGridPos in hexagon.Model.Neighbors) {
+				IHexagonController neighborHexagon = GameManager.Instance.GridHandler.HexagonHandler.Get (neighborGridPos);
+				
+				if (neighborHexagon != null && neighborHexagon.Model.IsActivated && !neighborHexagon.Model.WasVisit) {
+					neighborHexagon.Model.WasVisit = true;
+					result += 1 + look (neighborHexagon);
+				}
+			}
+			return result;
+		}
+
+		public void TintFocusableNeighbors (bool useForPasch = false) {
+			foreach (IHexagonController neighbor in _neighborHexagons) {
+				neighbor.View.Focusable ();
 			}
 		}
 
-		public void ResetFocusableNeighbors(GridPos gridPos) {
-			InitNeighbors(gridPos);
-			foreach(IHexagonController neighbor in _neighborHexagons) {
-				neighbor.View.ResetTint();
+		public void ResetFocusableNeighbors () {
+			foreach (IHexagonController neighbor in _neighborHexagons) {
+				neighbor.View.ResetTint ();
 			}
 		}
 
-		private void ResetLastHexagons() {
+		private void ResetLastHexagons () {
 			if (_focusedHexagon != null) {
-				_focusedHexagon.View.ResetTint();
-				_focusedHexagon.View.Focusable();
+				_focusedHexagon.View.ResetTint ();
+				_focusedHexagon.View.Focusable ();
 				_focusedHexagon = null;
 			}
 		}
 
-		private void FocusHexagon() {
-			_focusedHexagon = (IHexagonController) _neighborHexagons[_focusedHexagonIndex];
-			_focusedHexagon.View.Focus();
+		private void FocusHexagon () {
+			if (_neighborHexagons.Count > 0) {
+				_focusedHexagon = (IHexagonController)_neighborHexagons [_focusedHexagonIndex];
+				_focusedHexagon.View.Focus ();
+			}
 		}
 
-		public void FocusNextHexagon(GridPos gridPos, bool useForPasch) {
-			InitNeighbors(gridPos, true, useForPasch);
-			ResetLastHexagons();
+		public void FocusNextHexagon (GridPos gridPos, bool useForPasch = false) {
+			InitNeighbors (gridPos, true, useForPasch);
+			ResetLastHexagons ();
 			_focusedHexagonIndex++;
 			if (_focusedHexagonIndex >= _neighborHexagons.Count) {
 				_focusedHexagonIndex = 0;
@@ -151,17 +190,17 @@ namespace Hexa2Go {
 			FocusHexagon ();
 		}
 
-		public void FocusPrevHexagon(GridPos gridPos) {
-			InitNeighbors(gridPos, true);
-			ResetLastHexagons();
+		public void FocusPrevHexagon (GridPos gridPos, bool useForPasch = false) {
+			InitNeighbors (gridPos, true, useForPasch);
+			ResetLastHexagons ();
 			_focusedHexagonIndex--;
 			if (_focusedHexagonIndex < 0) {
-				_focusedHexagonIndex = _neighborHexagons.Count-1;
+				_focusedHexagonIndex = _neighborHexagons.Count - 1;
 			}
 			FocusHexagon ();
 		}
 
-		public void ResetFocusedHexagon() {
+		public void ResetFocusedHexagon () {
 			_focusedHexagon = null;
 		}
 
@@ -171,42 +210,51 @@ namespace Hexa2Go {
 			}
 		}
 
-		public void InitSelectableHexagons() {
-			_selectableHexagons.Clear();
+		public void InitSelectableHexagons () {
+			_selectableHexagons.Clear ();
 
-			foreach(IHexagonController hexagon in _hexagons.Values) {
-				Debug.Log(hexagon.Model.IsActivated);
+			foreach (IHexagonController hexagon in _hexagons.Values) {
 				if (hexagon.Model.IsActivated) {
-					_selectableHexagons.Add(hexagon);
+
+					foreach (GridPos neighborGridPos in hexagon.Model.Neighbors) {
+						IHexagonController neighbor = Get (neighborGridPos);
+						if (!neighbor.Model.IsActivated) {
+							_selectableHexagons.Add (hexagon);
+							break;
+						}
+					}
+
 				}
 			}
 		}
 
-		public IHexagonController SelectNextHexagon() {
-			IHexagonController hexagon = (IHexagonController) _selectableHexagons[_selectedHexagonIndex];
-			hexagon.Model.Deselect();
-			GameManager.Instance.GridHandler.HexagonHandler.Deselect(hexagon.Model.GridPos);
-			_selectedHexagonIndex++;
-			if (_selectedHexagonIndex >= _selectableHexagons.Count) {
-				_selectedHexagonIndex = 0;
+		public IHexagonController SelectNextHexagon () {
+			IHexagonController hexagon = null;
+			if (_selectableHexagons.Count > 0) {
+				hexagon = (IHexagonController)_selectableHexagons [_selectedHexagonIndex];
+				hexagon.Model.Deselect ();
+				_selectedHexagonIndex++;
+				if (_selectedHexagonIndex >= _selectableHexagons.Count) {
+					_selectedHexagonIndex = 0;
+				}
+				hexagon = (IHexagonController)_selectableHexagons [_selectedHexagonIndex];
+				hexagon.Model.Select ();
 			}
-			hexagon = (IHexagonController) _selectableHexagons[_selectedHexagonIndex];
-			GameManager.Instance.GridHandler.HexagonHandler.Select(hexagon.Model.GridPos);
-			hexagon.Model.Select();
 			return hexagon;
 		}
 
-		public IHexagonController SelectPrevHexagon() {
-			IHexagonController hexagon = (IHexagonController) _selectableHexagons[_selectedHexagonIndex];
-			hexagon.Model.Deselect();
-			GameManager.Instance.GridHandler.HexagonHandler.Deselect(hexagon.Model.GridPos);
-			_selectedHexagonIndex--;
-			if (_selectedHexagonIndex < 0) {
-				_selectedHexagonIndex = _selectableHexagons.Count-1;
+		public IHexagonController SelectPrevHexagon () {
+			IHexagonController hexagon = null;
+			if (_selectableHexagons.Count > 0) {
+				hexagon = (IHexagonController)_selectableHexagons [_selectedHexagonIndex];
+				hexagon.Model.Deselect ();
+				_selectedHexagonIndex--;
+				if (_selectedHexagonIndex < 0) {
+					_selectedHexagonIndex = _selectableHexagons.Count - 1;
+				}
+				hexagon = (IHexagonController)_selectableHexagons [_selectedHexagonIndex];
+				hexagon.Model.Select ();
 			}
-			hexagon = (IHexagonController) _selectableHexagons[_selectedHexagonIndex];
-			GameManager.Instance.GridHandler.HexagonHandler.Select(hexagon.Model.GridPos);
-			hexagon.Model.Select();
 			return hexagon;
 		}
 	}

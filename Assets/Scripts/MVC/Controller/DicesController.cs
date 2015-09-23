@@ -11,7 +11,7 @@ namespace Hexa2Go {
 		private bool _diceThrowed;
 		private bool _pasch = false;
 		
-		public DicesController(IDiceController diceController_left, IDiceController diceController_right) {
+		public DicesController (IDiceController diceController_left, IDiceController diceController_right) {
 			_diceController_left = diceController_left;
 			_diceController_right = diceController_right;
 
@@ -34,10 +34,10 @@ namespace Hexa2Go {
 		void HandleOnDiceValueChanged (object sender, DiceValueChangedEventArgs e) {
 
 			if (!_diceThrowed) {
-				Debug.LogWarning("DICE 1 " + e.DiceObject.CharacterType + " _ " + e.DiceObject.TeamColor);
+				//Debug.LogWarning("DICE 1 " + e.DiceObject.CharacterType + " _ " + e.DiceObject.TeamColor);
 				_diceThrowed = true;
 			} else {
-				Debug.LogWarning("DICE 2 " + e.DiceObject.CharacterType + " _ " + e.DiceObject.TeamColor);
+				//Debug.LogWarning("DICE 2 " + e.DiceObject.CharacterType + " _ " + e.DiceObject.TeamColor);
 				if (Pasch) {
 					GameManager.Instance.MatchState = MatchState.SelectHexagon;
 				} else {
@@ -48,36 +48,36 @@ namespace Hexa2Go {
 			}
 		}
 
-		public void Enable() {
-			_diceController_left.View.Enable();
-			_diceController_right.View.Enable();
+		public void Enable () {
+			_diceController_left.View.Enable ();
+			_diceController_right.View.Enable ();
 		}
 
-		public void Disable() {
-			_diceController_left.View.Disable();
-			_diceController_right.View.Disable();
+		public void Disable () {
+			_diceController_left.View.Disable ();
+			_diceController_right.View.Disable ();
 		}
 
-		public void Show() {
-			_diceController_left.View.Show();
-			_diceController_right.View.Show();
+		public void Show () {
+			_diceController_left.View.Show ();
+			_diceController_right.View.Show ();
 		}
 		
-		public void Hide() {
-			_diceController_left.View.Hide();
-			_diceController_right.View.Hide();
+		public void Hide () {
+			_diceController_left.View.Hide ();
+			_diceController_right.View.Hide ();
 		}
 
-		public void StartThrow() {
-			_diceController_left.StartThrow();
-			_diceController_right.StartThrow();
+		public void StartThrow () {
+			_diceController_left.StartThrow ();
+			_diceController_right.StartThrow ();
 		}
 
 		public bool Pasch {
 			get {
 				_pasch = false;
 				if (_diceController_left.Model.CharacterType == _diceController_right.Model.CharacterType &&
-				    _diceController_left.Model.TeamColor == _diceController_right.Model.TeamColor) {
+					_diceController_left.Model.TeamColor == _diceController_right.Model.TeamColor) {
 					_pasch = true;
 				}
 				return _pasch;

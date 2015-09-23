@@ -9,7 +9,7 @@ namespace Hexa2Go {
 
 		int SavedCharacters { get; }
 
-		string Name { get; set; }
+		string Name { get; }
 
 	}
 

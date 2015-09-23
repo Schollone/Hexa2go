@@ -7,7 +7,8 @@ namespace Hexa2Go {
 
 	public class HexagonValueChangedEventArgs : EventArgs {
 
-		public HexagonValueChangedEventArgs() {}
+		public HexagonValueChangedEventArgs () {
+		}
 	}
 
 	public interface IHexagonModel {
@@ -31,15 +32,17 @@ namespace Hexa2Go {
 
 		TeamColor TeamColor { get; }
 
-		void Activate();
+		bool WasVisit { get; set; }
 
-		void Deactivate();
+		void Activate (bool ignoreView = false);
 
-		void DeclareTarget(TeamColor teamColor);
+		void Deactivate (bool ignoreView = false);
 
-		void Select();
+		void DeclareTarget (TeamColor teamColor);
 
-		void Deselect();
+		void Select ();
+
+		void Deselect ();
 		
 
 		/*GameObject gameObject;

@@ -51,15 +51,17 @@ namespace Hexa2Go {
 		private GameModeHandler _gameModeHandler;
 		private ButtonHandler _buttonHandler;
 
-		private GameMode _gameMode;
 		private GameState _gameState;
 		private MatchState _matchState;
 		private PlayerState _playerState;
 
 		protected GameManager () {
+			Debug.LogWarning ("GameManager");
 			_gameState = GameState.NullState;
 			_matchState = MatchState.NullState;
 			_playerState = PlayerState.NullState;
+
+			_gameModeHandler = new GameModeHandler ();
 
 			OnGameStateChange += HandleOnGameStateChange;
 		}
@@ -88,15 +90,6 @@ namespace Hexa2Go {
 		public GridHandler GridHandler {
 			get {
 				return _gridHandler;
-			}
-		}
-
-		public GameMode GameMode {
-			get {
-				return _gameMode;
-			}
-			set {
-				this._gameMode = value;
 			}
 		}
 
@@ -159,9 +152,10 @@ namespace Hexa2Go {
 
 		public void InitGame () {
 			Debug.LogWarning ("InitGame");
-			_gridHandler = new GridHandler ();
 			_buttonHandler = new ButtonHandler ();
-			_gameModeHandler = new GameModeHandler (_gameMode);
+			_gridHandler = new GridHandler ();
+			_gameModeHandler.Init ();
+			//_gameModeHandler = new GameModeHandler ();
 		}
 
 		void HandleOnGameStateChange (GameState prevGameState, GameState nextGameState) {
@@ -180,7 +174,6 @@ namespace Hexa2Go {
 				}
 				_gridHandler = null;
 				_buttonHandler = null;
-				_gameModeHandler = null;
 			}
 		}
 		

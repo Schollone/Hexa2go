@@ -11,241 +11,260 @@ namespace Hexa2Go {
 		private NextCharacterController _nextCharcarterController;
 		private AcceptController _acceptController;
 
-		public ButtonHandler() {
-			Debug.Log("ButtonHandler");
+		public ButtonHandler () {
+			Debug.Log ("ButtonHandler");
 			//GameObject prefab = Resources.Load<GameObject>("Btn_Accept");
 			//GameObject instance = UnityEngine.Object.Instantiate(prefab);
 			//IButtonView acceptView = instance.GetComponent<IButtonView>();
-			initAcceptController();
+			initAcceptController ();
 
-			initNextCharacterController();
+			initNextCharacterController ();
 
-			initHexagonController();
+			initHexagonController ();
 
-			initDicesController();
+			initDicesController ();
 
 			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 
-		private void initAcceptController() {
+		private void initAcceptController () {
 			GameObject accept = GameObject.Find ("Btn_Accept");
-			AcceptView acceptView = accept.GetComponent<AcceptView>();
-			_acceptController = new AcceptController(acceptView);
+			AcceptView acceptView = accept.GetComponent<AcceptView> ();
+			_acceptController = new AcceptController (acceptView);
 		}
 
-		private void initNextCharacterController() {
+		private void initNextCharacterController () {
 			GameObject nextCharacter = GameObject.Find ("Btn_NextCharacter");
-			NextCharacterView nextCharacterView = nextCharacter.GetComponent<NextCharacterView>();
-			_nextCharcarterController = new NextCharacterController(nextCharacterView);
+			NextCharacterView nextCharacterView = nextCharacter.GetComponent<NextCharacterView> ();
+			_nextCharcarterController = new NextCharacterController (nextCharacterView);
 		}
 
-		private void initHexagonController() {
+		private void initHexagonController () {
 			GameObject prevHexagon = GameObject.Find ("Btn_PrevHexagon");
-			PrevHexagonView prevHexagonView = prevHexagon.GetComponent<PrevHexagonView>();
-			_prevHexagonController = new PrevHexagonController(prevHexagonView);
+			PrevHexagonView prevHexagonView = prevHexagon.GetComponent<PrevHexagonView> ();
+			_prevHexagonController = new PrevHexagonController (prevHexagonView);
 
 			GameObject nextHexagon = GameObject.Find ("Btn_NextHexagon");
-			NextHexagonView nextHexagonView = nextHexagon.GetComponent<NextHexagonView>();
-			_nextHexagonController = new NextHexagonController(nextHexagonView);
+			NextHexagonView nextHexagonView = nextHexagon.GetComponent<NextHexagonView> ();
+			_nextHexagonController = new NextHexagonController (nextHexagonView);
 		}
 
-		private void initDicesController() {
-			GameObject dice_left = GameObject.Find("Btn_Dice_Left");
-			IDiceView diceView_left = dice_left.GetComponent<IDiceView>();
-			GameObject dice_right = GameObject.Find("Btn_Dice_Right");
-			IDiceView diceView_right = dice_right.GetComponent<IDiceView>();
+		private void initDicesController () {
+			GameObject dice_left = GameObject.Find ("Btn_Dice_Left");
+			IDiceView diceView_left = dice_left.GetComponent<IDiceView> ();
+			GameObject dice_right = GameObject.Find ("Btn_Dice_Right");
+			IDiceView diceView_right = dice_right.GetComponent<IDiceView> ();
 
 			//IDiceView diceView_left = dice_left.AddComponent<DiceView>() as DiceView;
 			//IDiceView diceView_right = dice_right.AddComponent<DiceView>() as DiceView;
 			
-			IDiceController diceController_left = new DiceController(diceView_left);
-			IDiceController diceController_right = new DiceController(diceView_right);
-			_dicesController = new DicesController(diceController_left, diceController_right);
+			IDiceController diceController_left = new DiceController (diceView_left);
+			IDiceController diceController_right = new DiceController (diceView_right);
+			_dicesController = new DicesController (diceController_left, diceController_right);
 		}
 
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
 			PlayerState playerState = GameManager.Instance.PlayerState;
+			GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
 
-			switch(nextMatchState) {
-				case MatchState.NullState: {
-
-					break;
-				}
-				case MatchState.ThrowDice: {
-
-					_dicesController.Show();
-					_prevHexagonController.View.Hide();
-					_nextHexagonController.View.Hide();
-					_nextCharcarterController.View.Hide();
-					_acceptController.View.Hide();
-
-					switch(GameManager.Instance.GameMode) {
-						case GameMode.Singleplayer:
-						case GameMode.OnlineMultiplayer: {
-							if (playerState == PlayerState.Player) {
-								_dicesController.Enable();
-							} else if (playerState == PlayerState.Enemy) {
-								_dicesController.Disable();
-							}
-							
-							break;
-						}
-						case GameMode.Multiplayer: {
-							_dicesController.Enable();
-							break;
-						}
+			switch (nextMatchState) {
+				case MatchState.NullState:
+					{
+						Debug.Log ("NullState ButtonHandler");
+						break;
 					}
+				case MatchState.ThrowDice:
+					{
+						Debug.Log ("ThrowDice ButtonHandler");						
+						_dicesController.Show ();
+						_prevHexagonController.View.Hide ();
+						_nextHexagonController.View.Hide ();
+						_nextCharcarterController.View.Hide ();
+						_acceptController.View.Hide ();
 
-					break;
-				}
-				case MatchState.Throwing: {
-
-					_dicesController.Show();
-					_dicesController.Disable();
-					_dicesController.StartThrow();
-					_prevHexagonController.View.Hide();
-					_nextHexagonController.View.Hide();
-					_nextCharcarterController.View.Hide();
-					_acceptController.View.Hide();
-
-					break;
-				}
-				case MatchState.SelectCharacter: {
-
-					_dicesController.Show();
-					_dicesController.Disable();
-					_prevHexagonController.View.Hide();
-					_nextHexagonController.View.Hide();
-
-					switch(GameManager.Instance.GameMode) {
-						case GameMode.Singleplayer:
-						case GameMode.OnlineMultiplayer: {
-							if (playerState == PlayerState.Player) {
-								_nextCharcarterController.View.Show();
-								_acceptController.View.Show();
-							} else if (playerState == PlayerState.Enemy) {
-								_nextCharcarterController.View.Hide();
-								_acceptController.View.Hide();
-							}
+						switch (gameMode) {
+							case GameMode.Singleplayer:
+							case GameMode.OnlineMultiplayer:
+								{
+									if (playerState == PlayerState.Player) {
+										_dicesController.Enable ();
+									} else if (playerState == PlayerState.Enemy) {
+										_dicesController.Disable ();
+									}
 							
-							break;
+									break;
+								}
+							case GameMode.Multiplayer:
+								{
+									Debug.Log ("Enable Dices");
+									_dicesController.Enable ();
+									break;
+								}
 						}
-						case GameMode.Multiplayer: {
-							_nextCharcarterController.View.Show();
-							_acceptController.View.Show();
-							break;
-						}
+
+						break;
 					}
+				case MatchState.Throwing:
+					{
+						Debug.Log ("Throwing ButtonHandler");
+						_dicesController.Show ();
+						_dicesController.Disable ();
+						_dicesController.StartThrow ();
+						_prevHexagonController.View.Hide ();
+						_nextHexagonController.View.Hide ();
+						_nextCharcarterController.View.Hide ();
+						_acceptController.View.Hide ();
+
+						break;
+					}
+				case MatchState.SelectCharacter:
+					{
+						Debug.Log ("SelectCharacter ButtonHandler");
+						_dicesController.Show ();
+						_dicesController.Disable ();
+						_prevHexagonController.View.Hide ();
+						_nextHexagonController.View.Hide ();
+
+						switch (gameMode) {
+							case GameMode.Singleplayer:
+							case GameMode.OnlineMultiplayer:
+								{
+									if (playerState == PlayerState.Player) {
+										_nextCharcarterController.View.Show ();
+										_acceptController.View.Show ();
+									} else if (playerState == PlayerState.Enemy) {
+										_nextCharcarterController.View.Hide ();
+										_acceptController.View.Hide ();
+									}
+							
+									break;
+								}
+							case GameMode.Multiplayer:
+								{
+									_nextCharcarterController.View.Show ();
+									_acceptController.View.Show ();
+									break;
+								}
+						}
 				
-				break;
-				}
-				case MatchState.FocusCharacterTarget: {
-
-					_dicesController.Show();
-					_dicesController.Disable();
-					_prevHexagonController.View.Show();
-					_nextHexagonController.View.Show();
-					_nextCharcarterController.View.Hide();
-					_acceptController.View.Show();
-
-					switch(GameManager.Instance.GameMode) {
-						case GameMode.Singleplayer:
-						case GameMode.OnlineMultiplayer: {
-							if (playerState == PlayerState.Player) {
-								_prevHexagonController.View.Enable();
-								_nextHexagonController.View.Enable();
-								_acceptController.View.Enable();
-							} else if (playerState == PlayerState.Enemy) {
-								_prevHexagonController.View.Disable();
-								_nextHexagonController.View.Disable();
-								_acceptController.View.Disable();
-							}
-					
-							break;
-						}
-						case GameMode.Multiplayer: {
-							_prevHexagonController.View.Enable();
-							_nextHexagonController.View.Enable();
-							_acceptController.View.Enable();
-							break;
-						}
+						break;
 					}
+				case MatchState.FocusCharacterTarget:
+					{
+						Debug.Log ("FocusCharacterTarget ButtonHandler");
+						_dicesController.Show ();
+						_dicesController.Disable ();
+						_prevHexagonController.View.Show ();
+						_nextHexagonController.View.Show ();
+						_nextCharcarterController.View.Hide ();
+						_acceptController.View.Show ();
+
+						switch (gameMode) {
+							case GameMode.Singleplayer:
+							case GameMode.OnlineMultiplayer:
+								{
+									if (playerState == PlayerState.Player) {
+										_prevHexagonController.View.Enable ();
+										_nextHexagonController.View.Enable ();
+										_acceptController.View.Enable ();
+									} else if (playerState == PlayerState.Enemy) {
+										_prevHexagonController.View.Disable ();
+										_nextHexagonController.View.Disable ();
+										_acceptController.View.Disable ();
+									}
+					
+									break;
+								}
+							case GameMode.Multiplayer:
+								{
+									_prevHexagonController.View.Enable ();
+									_nextHexagonController.View.Enable ();
+									_acceptController.View.Enable ();
+									break;
+								}
+						}
 				
-					break;
-				}
-				case MatchState.SelectHexagon: {
+						break;
+					}
+				case MatchState.SelectHexagon:
+					{
+						Debug.Log ("SelectHexagon ButtonHandler");
+						_dicesController.Show ();
+						_dicesController.Disable ();
+						_prevHexagonController.View.Show ();
+						_nextHexagonController.View.Show ();
+						_nextCharcarterController.View.Hide ();
+						_acceptController.View.Show ();
 
-					_dicesController.Show();
-					_dicesController.Disable();
-					_prevHexagonController.View.Show();
-					_nextHexagonController.View.Show();
-					_nextCharcarterController.View.Hide();
-					_acceptController.View.Show();
-
-					switch(GameManager.Instance.GameMode) {
-						case GameMode.Singleplayer:
-						case GameMode.OnlineMultiplayer: {
-							if (playerState == PlayerState.Player) {
-								_prevHexagonController.View.Enable();
-								_nextHexagonController.View.Enable();
-								_acceptController.View.Enable();
-							} else if (playerState == PlayerState.Enemy) {
-								_prevHexagonController.View.Disable();
-								_nextHexagonController.View.Disable();
-								_acceptController.View.Disable();
-							}
+						switch (gameMode) {
+							case GameMode.Singleplayer:
+							case GameMode.OnlineMultiplayer:
+								{
+									if (playerState == PlayerState.Player) {
+										_prevHexagonController.View.Enable ();
+										_nextHexagonController.View.Enable ();
+										_acceptController.View.Enable ();
+									} else if (playerState == PlayerState.Enemy) {
+										_prevHexagonController.View.Disable ();
+										_nextHexagonController.View.Disable ();
+										_acceptController.View.Disable ();
+									}
 							
-							break;
+									break;
+								}
+							case GameMode.Multiplayer:
+								{
+									_prevHexagonController.View.Enable ();
+									_nextHexagonController.View.Enable ();
+									_acceptController.View.Enable ();
+									break;
+								}
 						}
-						case GameMode.Multiplayer: {
-							_prevHexagonController.View.Enable();
-							_nextHexagonController.View.Enable();
-							_acceptController.View.Enable();
-							break;
-						}
+
+						break;
 					}
+				case MatchState.FocusHexagonTarget:
+					{
+						Debug.Log ("FocusHexagonTarget ButtonHandler");
+						_dicesController.Show ();
+						_dicesController.Disable ();
+						_prevHexagonController.View.Show ();
+						_nextHexagonController.View.Show ();
+						_nextCharcarterController.View.Hide ();
+						_acceptController.View.Show ();
 
-				break;
-				}
-				case MatchState.FocusHexagonTarget: {
-
-					_dicesController.Show();
-					_dicesController.Disable();
-					_prevHexagonController.View.Show();
-					_nextHexagonController.View.Show();
-					_nextCharcarterController.View.Hide();
-					_acceptController.View.Show();
-
-					switch(GameManager.Instance.GameMode) {
-						case GameMode.Singleplayer:
-						case GameMode.OnlineMultiplayer: {
-							if (playerState == PlayerState.Player) {
-								_prevHexagonController.View.Enable();
-								_nextHexagonController.View.Enable();
-								_acceptController.View.Enable();
-							} else if (playerState == PlayerState.Enemy) {
-								_prevHexagonController.View.Disable();
-								_nextHexagonController.View.Disable();
-								_acceptController.View.Disable();
-							}
+						switch (gameMode) {
+							case GameMode.Singleplayer:
+							case GameMode.OnlineMultiplayer:
+								{
+									if (playerState == PlayerState.Player) {
+										_prevHexagonController.View.Enable ();
+										_nextHexagonController.View.Enable ();
+										_acceptController.View.Enable ();
+									} else if (playerState == PlayerState.Enemy) {
+										_prevHexagonController.View.Disable ();
+										_nextHexagonController.View.Disable ();
+										_acceptController.View.Disable ();
+									}
 					
-							break;
+									break;
+								}
+							case GameMode.Multiplayer:
+								{
+									_prevHexagonController.View.Enable ();
+									_nextHexagonController.View.Enable ();
+									_acceptController.View.Enable ();
+									break;
+								}
 						}
-						case GameMode.Multiplayer: {
-							_prevHexagonController.View.Enable();
-							_nextHexagonController.View.Enable();
-							_acceptController.View.Enable();
-							break;
-						}
-					}
 
-					break;
-				}
+						break;
+					}
 				
 			}
 		}
 
-		public void Unregister() {
+		public void Unregister () {
 			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
 		}
 
