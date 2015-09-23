@@ -8,8 +8,8 @@ namespace Hexa2Go {
 
 		// Use this for initialization
 		void Start () {
-			Button start = GetComponent<Button>();	
-			start.onClick.AddListener(HandleOnClicked);
+			Button start = GetComponent<Button> ();	
+			start.onClick.AddListener (HandleOnClicked);
 		}
 		
 		// Update is called once per frame
@@ -17,11 +17,11 @@ namespace Hexa2Go {
 			
 		}
 		
-		private void HandleOnClicked() {
-			Debug.Log("GoTo Menu");
+		private void HandleOnClicked () {
+			Debug.Log ("GoTo Menu");
 
-			//GameManager.Instance.GameMode = GameMode.Singleplayer;
-			Application.LoadLevel(0);
+			Application.LoadLevel (0);
+
 		}
 	}
 

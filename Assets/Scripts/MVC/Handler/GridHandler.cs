@@ -216,7 +216,11 @@ namespace Hexa2Go {
 						_selectedCharacter = null;
 						_selectedHexagon = null;
 
-						SwitchToNextPlayer ();
+						if (GameManager.Instance.GameFinished) {
+							GameManager.Instance.MatchState = MatchState.Win;
+						} else {
+							SwitchToNextPlayer ();
+						}
 						break;
 					}
 			}

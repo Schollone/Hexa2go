@@ -9,24 +9,30 @@ namespace Hexa2Go {
 		}
 
 		protected override void HandleOnClicked (object sender, ButtonClickedEventArgs e) {
-			if (GameManager.Instance.MatchState == MatchState.SelectCharacter) {
+			MatchState matchState = GameManager.Instance.MatchState;
 
-				GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
-
-			} else if (GameManager.Instance.MatchState == MatchState.FocusCharacterTarget) {
-
-				GameManager.Instance.MatchState = MatchState.Moving;
-				// Start Move Character Animation
-
-			} else if (GameManager.Instance.MatchState == MatchState.SelectHexagon) {
-
-				GameManager.Instance.MatchState = MatchState.FocusHexagonTarget;
-
-			} else if (GameManager.Instance.MatchState == MatchState.FocusHexagonTarget) {
-
-				GameManager.Instance.MatchState = MatchState.Moving;
-				// Start Move Hexagon Animation
-
+			switch (matchState) {
+				case MatchState.SelectCharacter:
+					{
+						GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
+						break;
+					}
+				case MatchState.FocusCharacterTarget:
+				case MatchState.FocusHexagonTarget:
+					{
+						GameManager.Instance.MatchState = MatchState.Moving;
+						break;
+					}
+				case MatchState.SelectHexagon:
+					{
+						GameManager.Instance.MatchState = MatchState.FocusHexagonTarget;
+						break;
+					}
+				case MatchState.Win:
+					{
+						Application.LoadLevel (0);
+						break;
+					}
 			}
 
 		}

@@ -44,6 +44,7 @@ namespace Hexa2Go {
 					progress--;
 				}
 			}
+
 			return progress;
 		}
 	}

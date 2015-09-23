@@ -55,6 +55,36 @@ namespace Hexa2Go {
 						}
 						break;
 					}
+				case MatchState.Win:
+					{
+						switch (GameManager.Instance.GameModeHandler.GameMode) {
+							case GameMode.Singleplayer:
+							case GameMode.OnlineMultiplayer:
+								{
+									if (playerState == PlayerState.Player) {
+										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor, Color.white);
+										_playerController_One.View.UpdatePlayer (color, "Gewonnen");
+									} else if (playerState == PlayerState.Enemy) {
+										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor, Color.white);
+										_playerController_One.View.UpdatePlayer (color, "Verloren");
+									}
+									break;
+								}
+							case GameMode.Multiplayer:
+								{
+									if (playerState == PlayerState.Player) {
+										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor, Color.white);
+										_playerController_One.View.UpdatePlayer (color, "Gewonnen");
+									} else if (playerState == PlayerState.Enemy) {
+										Color color = HexagonColors.GetColor (_playerController_Two.Model.TeamColor, Color.white);
+										_playerController_Two.View.UpdatePlayer (color, "Gewonnen");
+									}
+									break;
+								}
+						}
+
+						break;
+					}
 			}
 		}
 

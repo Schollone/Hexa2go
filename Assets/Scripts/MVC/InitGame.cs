@@ -17,8 +17,8 @@ public class InitGame : MonoBehaviour {
 	
 	}
 
-	void OnLevelWasLoaded(int level) {
-		Debug.LogWarning("Loaded Scene: " + level);
+	void OnLevelWasLoaded (int level) {
+		Debug.LogWarning ("Loaded Scene: " + level);
 
 		if (level == 0) {
 			GameManager.Instance.GameState = GameState.MainMenu;
@@ -27,7 +27,6 @@ public class InitGame : MonoBehaviour {
 		
 		if (level == 1) {
 			GameManager.Instance.GameState = GameState.Game;
-			//GameManager.Instance.SetMatchState(MatchState.ThrowDice);
 		}
 	}
 

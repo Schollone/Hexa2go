@@ -24,7 +24,6 @@ namespace Hexa2Go {
 		private void HandleOnClicked () {
 			Debug.Log ("Start Game: " + gameMode);
 			GameManager.Instance.GameModeHandler.GameMode = gameMode;
-			//GameManager.Instance.InitGame (gameMode);
 			Application.LoadLevel (1);
 		}
 	}

@@ -17,27 +17,30 @@ namespace Hexa2Go {
 		private int _selectedCharacterIndex = 0;
 
 		public CharacterHandler (TeamColor teamColor) {
-			if (teamColor == TeamColor.RED) {
+			Color color = HexagonColors.GetColor (teamColor, Color.white);
 
+			if (teamColor == TeamColor.RED) {
 				_characterController_Circle = new CharacterController (new GridPos (5, 2), "Character_Circle", teamColor);
 				_characterController_Square = new CharacterController (new GridPos (6, 3), "Character_Square", teamColor);
 				_characterController_Triangle = new CharacterController (new GridPos (6, 4), "Character_Triangle", teamColor);
 
-				_characterController_Circle.View.Tint (HexagonColors.RED);
-				_characterController_Square.View.Tint (HexagonColors.RED);
-				_characterController_Triangle.View.Tint (HexagonColors.RED);
+				//_characterController_Circle.View.Tint (HexagonColors.RED);
+				//_characterController_Square.View.Tint (HexagonColors.RED);
+				//_characterController_Triangle.View.Tint (HexagonColors.RED);
 
 			} else {
-
 				_characterController_Circle = new CharacterController (new GridPos (4, 2), "Character_Circle", teamColor);
 				_characterController_Square = new CharacterController (new GridPos (3, 2), "Character_Square", teamColor);
 				_characterController_Triangle = new CharacterController (new GridPos (3, 3), "Character_Triangle", teamColor);
-				
-				_characterController_Circle.View.Tint (HexagonColors.BLUE);
-				_characterController_Square.View.Tint (HexagonColors.BLUE);
-				_characterController_Triangle.View.Tint (HexagonColors.BLUE);
-
 			}
+
+			_characterController_Circle.View.Tint (color);
+			_characterController_Square.View.Tint (color);
+			_characterController_Triangle.View.Tint (color);
+
+			_characterController_Circle.Model.OnTargetReached += HandleOnTargetReached;
+			_characterController_Square.Model.OnTargetReached += HandleOnTargetReached;
+			_characterController_Triangle.Model.OnTargetReached += HandleOnTargetReached;
 
 			_selectedCharacters = new ArrayList ();
 
@@ -53,6 +56,21 @@ namespace Hexa2Go {
 			}
 			set {
 				_characters = value;
+			}
+		}
+
+		void HandleOnTargetReached (object sender, CharacterValueChangedEventArgs e) {
+			int charactersRemoved = 0;
+			ICollection<ICharacterController> collection = Characters.Values;
+			foreach (ICharacterController character in collection) {
+				if (!character.Model.IsInGame) {
+					charactersRemoved++;
+				}
+			}
+
+			if (charactersRemoved == collection.Count) {
+				Debug.Log ("WIN");
+				GameManager.Instance.GameFinished = true;
 			}
 		}
 

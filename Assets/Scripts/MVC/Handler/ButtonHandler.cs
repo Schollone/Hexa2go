@@ -96,7 +96,6 @@ namespace Hexa2Go {
 								}
 							case GameMode.Multiplayer:
 								{
-									Debug.Log ("Enable Dices");
 									_dicesController.Enable ();
 									break;
 								}
@@ -257,6 +256,17 @@ namespace Hexa2Go {
 									break;
 								}
 						}
+
+						break;
+					}
+				case MatchState.Win:
+					{
+						Debug.Log ("FocusHexagonTarget ButtonHandler");
+						_dicesController.Hide ();
+						_prevHexagonController.View.Hide ();
+						_nextHexagonController.View.Hide ();
+						_nextCharcarterController.View.Hide ();
+						_acceptController.View.Show ();
 
 						break;
 					}
