@@ -51,7 +51,7 @@ namespace Hexa2Go {
 			hexagon.Model.Activate ();
 			hexagon = Get (new GridPos (4, 3));
 			hexagon.Model.Activate ();
-			hexagon = Get (new GridPos (4, 4));
+			hexagon = Get (new GridPos (5, 5)); //4, 4
 			hexagon.Model.Activate ();
 			hexagon = Get (new GridPos (5, 2));
 			hexagon.Model.Activate ();
@@ -61,7 +61,7 @@ namespace Hexa2Go {
 			hexagon.Model.Activate ();
 			hexagon = Get (new GridPos (6, 3));
 			hexagon.Model.Activate ();
-			hexagon = Get (new GridPos (6, 4));
+			hexagon = Get (new GridPos (5, 6)); //6, 4
 			hexagon.Model.Activate ();
 
 			hexagon = Get (new GridPos (7, 3));
@@ -96,6 +96,10 @@ namespace Hexa2Go {
 				IHexagonController neighbor = Get (pos);
 
 				if (onlyFocusable) {
+					if (neighbor == null) {
+						break;
+					}
+
 					if (useForPasch) {
 						if (!neighbor.Model.IsActivated && IsFocusableForHexagon (hexagonController, neighbor)) {
 							_neighborHexagons.Add (neighbor);
@@ -142,7 +146,7 @@ namespace Hexa2Go {
 			int result = 0;
 			
 			foreach (GridPos neighborGridPos in hexagon.Model.Neighbors) {
-				IHexagonController neighborHexagon = GameManager.Instance.GridHandler.HexagonHandler.Get (neighborGridPos);
+				IHexagonController neighborHexagon = Get (neighborGridPos);
 				
 				if (neighborHexagon != null && neighborHexagon.Model.IsActivated && !neighborHexagon.Model.Visited) {
 					neighborHexagon.Model.Visited = true;
@@ -217,7 +221,11 @@ namespace Hexa2Go {
 
 					foreach (GridPos neighborGridPos in hexagon.Model.Neighbors) {
 						IHexagonController neighbor = Get (neighborGridPos);
-						if (!neighbor.Model.IsActivated) {
+						if (neighbor == null) {
+							break;
+						}
+
+						if (!neighbor.Model.IsActivated && IsFocusableForHexagon (hexagon, neighbor)) {
 							_selectableHexagons.Add (hexagon);
 							break;
 						}

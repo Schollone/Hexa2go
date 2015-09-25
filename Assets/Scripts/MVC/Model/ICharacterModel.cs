@@ -7,7 +7,8 @@ namespace Hexa2Go {
 	public class CharacterValueChangedEventArgs : EventArgs {
 		public GridPos GridPos;
 		
-		public CharacterValueChangedEventArgs() {}
+		public CharacterValueChangedEventArgs () {
+		}
 	}
 
 	public interface ICharacterModel {
@@ -24,13 +25,15 @@ namespace Hexa2Go {
 
 		CharacterPosition CharacterPosition { get; set; }
 
+		GridHelper.OffsetPosition OffsetPosition { get; set; }
+
 		GridPos GridPos { get; set; }
 
-		void Select();
+		void Select ();
 
-		void Deselect();
+		void Deselect ();
 
-		void Remove();
+		void Remove ();
 	}
 
 }

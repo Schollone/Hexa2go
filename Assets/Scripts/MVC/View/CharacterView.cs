@@ -15,8 +15,10 @@ namespace Hexa2Go {
 		
 		}
 
-		public void Init (GridPos gridPos) {
+		public void Init (GridPos gridPos, GridHelper.OffsetPosition offsetPosition) {
 			Vector3 tmp = GridHelper.HexagonPosition (gridPos);
+			//GridHelper.OffsetPosition offsetPosition = (GridHelper.OffsetPosition)Random.Range (0, 4);
+			tmp += GridHelper.CharacterOffset (offsetPosition);
 			transform.position = tmp;
 		}
 
@@ -32,8 +34,10 @@ namespace Hexa2Go {
 			transform.position = new Vector3 (transform.position.x, 0, transform.position.z);
 		}
 
-		public void Move (GridPos gridPos) {
+		public void Move (GridPos gridPos, GridHelper.OffsetPosition offsetPosition) {
 			Vector3 tmp = GridHelper.HexagonPosition (gridPos);
+			//GridHelper.OffsetPosition offsetPosition = (GridHelper.OffsetPosition)Random.Range (0, 4);
+			tmp += GridHelper.CharacterOffset (offsetPosition);
 			transform.position = tmp;
 		}
 

@@ -5,7 +5,7 @@ namespace Hexa2Go {
 
 	public interface ICharacterView {
 
-		void Init (GridPos gridPos);
+		void Init (GridPos gridPos, GridHelper.OffsetPosition offsetPosition);
 
 		void Tint (Color color);
 
@@ -13,7 +13,7 @@ namespace Hexa2Go {
 
 		void Deselect ();
 
-		void Move (GridPos gridPos);
+		void Move (GridPos gridPos, GridHelper.OffsetPosition offsetPosition);
 
 		void Remove ();
 

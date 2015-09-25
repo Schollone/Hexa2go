@@ -15,7 +15,6 @@ namespace Hexa2Go {
 			GameObject characters = GameObject.Find ("Characters");
 			instance.transform.SetParent (characters.transform);
 			ICharacterView view = instance.GetComponent<ICharacterView> ();
-			view.Init (gridPos);
 			
 			_view = view;
 			
@@ -24,9 +23,8 @@ namespace Hexa2Go {
 
 			_model.OnGridPosChanged += HandleOnGridPosChanged;
 			_model.OnTargetReached += HandleOnTargetReached;
-			
-			//_model.OnActivationChanged += HandleOnActivationChanged;
-			//_model.OnDeclaredTargetChanged += HandleOnDeclaredTargetChanged;
+
+			_view.Init (gridPos, _model.OffsetPosition);
 		}
 
 		void HandleOnTargetReached (object sender, CharacterValueChangedEventArgs e) {
@@ -35,19 +33,13 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnGridPosChanged (object sender, CharacterValueChangedEventArgs e) {
-			ICharacterModel model = (ICharacterModel)sender;
-			//model.GridPos
-			View.Move (model.GridPos);
+			View.Move (Model.GridPos, Model.OffsetPosition);
 		}
 
 		void HandleOnSelectionChanged (object sender, CharacterValueChangedEventArgs e) {
-			//GameManager.Instance.GridHandler.HexagonHandler.TintHexagon(Model.GridPos);
-			ICharacterModel model = (ICharacterModel)sender;
-			if (model.IsSelected) {
-				//GameManager.Instance.GridHandler.HexagonHandler.TintHexagon(Model.GridPos);
+			if (Model.IsSelected) {
 				View.Select ();
 			} else {
-				//GameManager.Instance.GridHandler.HexagonHandler.TintHexagon(Model.GridPos);
 				View.Deselect ();
 			}
 
