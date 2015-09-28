@@ -42,8 +42,6 @@ namespace Hexa2Go {
 			} else {
 				View.Deselect ();
 			}
-
-
 		}
 
 		#region ICharacterController implementation

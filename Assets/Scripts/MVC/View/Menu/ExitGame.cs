@@ -13,11 +13,6 @@ namespace Hexa2Go {
 			button = transform.GetComponent<Button> ();
 			button.onClick.AddListener (Exit);
 		}
-	
-		// Update is called once per frame
-		void Update () {
-	
-		}
 
 		void Exit () {
 			Debug.Log ("Exit");

@@ -6,7 +6,7 @@ namespace Hexa2Go {
 
 	public class DiceValueChangedEventArgs : EventArgs {
 		public DiceObject DiceObject;
-		public DiceValueChangedEventArgs(DiceObject diceObject) {
+		public DiceValueChangedEventArgs (DiceObject diceObject) {
 			this.DiceObject = diceObject;
 		}
 	}
@@ -19,7 +19,7 @@ namespace Hexa2Go {
 
 		CharacterType CharacterType { get; }
 
-		void SetDiceValue(DiceObject diceObject);
+		void SetDiceValue (DiceObject diceObject);
 	}
 
 }

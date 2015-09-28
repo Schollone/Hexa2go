@@ -3,6 +3,10 @@ using System.Collections;
 
 namespace Hexa2Go {
 
-	public enum TeamColor { NONE, BLUE, RED }
+	public enum TeamColor {
+		NONE,
+		BLUE,
+		RED
+	}
 
 }

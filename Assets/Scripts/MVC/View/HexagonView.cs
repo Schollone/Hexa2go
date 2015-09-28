@@ -15,16 +15,6 @@ namespace Hexa2Go {
 			_defaultBorderColor = HexagonColors.WHITE;
 		}
 
-		// Use this for initialization
-		void Start () {
-		
-		}
-		
-		// Update is called once per frame
-		void Update () {
-		
-		}
-
 		public Color DefaultAreaColor {
 			get {
 				return _defaultAreaColor;
@@ -60,7 +50,6 @@ namespace Hexa2Go {
 
 		public void Select () {
 			TintArea (HexagonColors.ORANGE);
-			//TintBorder(HexagonColors.ORANGE);
 		}
 
 		public void Deselect () {
@@ -99,13 +88,6 @@ namespace Hexa2Go {
 			
 			transform.position = new Vector3 (transform.position.x, 0, transform.position.z);
 		}
-
-		/*public void DeclareTarget (Color color) {
-			_defaultAreaColor = color;
-			_defaultBorderColor = color;
-			TintArea (color);
-			TintBorder (color);
-		}*/
 
 		public Vector3 SlotPosition1 {
 			get {

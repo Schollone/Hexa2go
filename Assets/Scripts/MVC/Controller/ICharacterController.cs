@@ -8,7 +8,6 @@ namespace Hexa2Go {
 		ICharacterModel Model { get; }
 		
 		ICharacterView View { get; }
-
 	}
 
 }

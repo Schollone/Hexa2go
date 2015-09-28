@@ -6,7 +6,6 @@ namespace Hexa2Go {
 	public class PrevHexagonController : AbstractButtonController {
 
 		public PrevHexagonController (PrevHexagonView view) : base(view) {
-			
 		}
 		
 		protected override void HandleOnClicked (object sender, ButtonClickedEventArgs e) {

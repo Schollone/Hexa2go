@@ -34,10 +34,8 @@ namespace Hexa2Go {
 		void HandleOnDiceValueChanged (object sender, DiceValueChangedEventArgs e) {
 
 			if (!_diceThrowed) {
-				//Debug.LogWarning("DICE 1 " + e.DiceObject.CharacterType + " _ " + e.DiceObject.TeamColor);
 				_diceThrowed = true;
 			} else {
-				//Debug.LogWarning("DICE 2 " + e.DiceObject.CharacterType + " _ " + e.DiceObject.TeamColor);
 				if (Pasch) {
 					GameManager.Instance.MatchState = MatchState.SelectHexagon;
 				} else {

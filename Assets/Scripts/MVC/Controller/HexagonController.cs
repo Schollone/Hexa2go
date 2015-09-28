@@ -7,10 +7,13 @@ namespace Hexa2Go {
 
 		private readonly IHexagonModel _hexagonModel;
 		private readonly IHexagonView _hexagonView;
+		private GridPos _pred;
 
 		public HexagonController (GridPos gridPos) {
 			GameObject prefab = Resources.Load ("Hexagon", typeof(GameObject)) as GameObject;
 			GameObject instance = GameObject.Instantiate (prefab);
+
+			_pred = new GridPos ();
 
 			GameObject grid = GameObject.Find ("Grid");
 			instance.transform.SetParent (grid.transform);
@@ -33,15 +36,9 @@ namespace Hexa2Go {
 			}
 		}
 
-		/*void HandleOnDeclaredTargetChanged (object sender, HexagonValueChangedEventArgs e) {
-			Color color = HexagonColors.GetColor (Model.TeamColor, View.DefaultBorderColor);
-			11111111111View.Activate ();
-		}*/
-
 		void HandleOnActivationChanged (object sender, HexagonValueChangedEventArgs e) {
 			if (Model.IsActivated) {
 				Color color = HexagonColors.GetColor (Model.TeamColor);
-				//Color color = HexagonColors.GetColor (Model.TeamColor, View.DefaultBorderColor);
 				View.Activate (color);
 			} else {
 				View.Deactivate ();
@@ -59,6 +56,15 @@ namespace Hexa2Go {
 		public IHexagonView View {
 			get {
 				return this._hexagonView;
+			}
+		}
+
+		public GridPos Pred {
+			get {
+				return _pred;
+			}
+			set {
+				_pred = value;
 			}
 		}
 

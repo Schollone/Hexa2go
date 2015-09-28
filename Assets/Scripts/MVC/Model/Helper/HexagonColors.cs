@@ -17,7 +17,6 @@ namespace Hexa2Go {
 			if (teamColor == TeamColor.NONE && defaultColor == null) {
 				return HexagonColors.LIGHT_GRAY;
 			}
-			//Color color = (teamColor == TeamColor.NONE) ? (Color)defaultColor : (teamColor == TeamColor.BLUE) ? HexagonColors.BLUE : HexagonColors.RED;
 			Color color = (teamColor == TeamColor.BLUE) ? HexagonColors.BLUE : HexagonColors.RED;
 			return color;
 		}

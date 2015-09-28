@@ -17,8 +17,19 @@ namespace Hexa2Go {
 		private IHexagonController _selectedHexagon = null;
 		private ICharacterController _selectedCharacter = null;
 
-		public GridHandler () {
+		public IHexagonController SelectedHexagon {
+			get {
+				return _selectedHexagon;
+			}
+		}
 
+		public ICharacterController SelectedCharacter {
+			get {
+				return _selectedCharacter;
+			}
+		}
+
+		public GridHandler () {
 			_hexagonHandler = new HexagonHandler (WIDTH, HEIGHT);
 			_characterHandler_P1 = new CharacterHandler (TeamColor.RED);
 			_characterHandler_P2 = new CharacterHandler (TeamColor.BLUE);
@@ -117,9 +128,6 @@ namespace Hexa2Go {
 		private void MoveHexagon () {
 			Debug.Log ("Move Hexagon " + _selectedHexagon.Model.TeamColor);
 			_hexagonHandler.FocusedHexagon.Model.Activate (false, _selectedHexagon.Model.TeamColor);
-			/*if (_selectedHexagon.Model.IsTarget) {
-				_hexagonHandler.FocusedHexagon.Model.DeclareTarget (_selectedHexagon.Model.TeamColor);
-			}*/
 			_selectedHexagon.Model.Deactivate ();
 
 			List<ICharacterController> characters1 = (List<ICharacterController>)_characterHandler_P1.GetCharacters (_selectedHexagon.Model.GridPos);
@@ -225,6 +233,9 @@ namespace Hexa2Go {
 					}
 			}
 		}
+
+
+
 
 
 	}

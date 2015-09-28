@@ -5,19 +5,8 @@ namespace Hexa2Go {
 
 	public class CharacterView : MonoBehaviour, ICharacterView {
 
-		// Use this for initialization
-		void Start () {
-		
-		}
-		
-		// Update is called once per frame
-		void Update () {
-		
-		}
-
 		public void Init (GridPos gridPos, GridHelper.OffsetPosition offsetPosition) {
 			Vector3 tmp = GridHelper.HexagonPosition (gridPos);
-			//GridHelper.OffsetPosition offsetPosition = (GridHelper.OffsetPosition)Random.Range (0, 4);
 			tmp += GridHelper.CharacterOffset (offsetPosition);
 			transform.position = tmp;
 		}
@@ -36,7 +25,6 @@ namespace Hexa2Go {
 
 		public void Move (GridPos gridPos, GridHelper.OffsetPosition offsetPosition) {
 			Vector3 tmp = GridHelper.HexagonPosition (gridPos);
-			//GridHelper.OffsetPosition offsetPosition = (GridHelper.OffsetPosition)Random.Range (0, 4);
 			tmp += GridHelper.CharacterOffset (offsetPosition);
 			transform.position = tmp;
 		}

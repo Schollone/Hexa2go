@@ -16,24 +16,13 @@ namespace Hexa2Go {
 			text = GetComponent<Text> ();
 		}
 
-		// Use this for initialization
-		void Start () {
-
-		}
-		
-		// Update is called once per frame
-		void Update () {
-		
-		}
-
 		public void UpdatePlayer (Color color, string name) {
-			//Debug.LogWarning ("Update PlayerView: " + color);
 			text.text = name;
 			text.color = color;
 
 			background.color = color;
 
-			animator.SetTrigger (Animator.StringToHash ("ChangePlayer")); // ("ChangePlayer");
+			animator.SetTrigger (Animator.StringToHash ("ChangePlayer"));
 			//animator.Play ("player_change");
 		}
 	}

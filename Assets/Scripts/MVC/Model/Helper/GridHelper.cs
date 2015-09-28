@@ -1,9 +1,13 @@
 using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Hexa2Go {
 
 	public static class GridHelper {
+
+		//HexagonTree<GridPos> _tree;
 
 		public enum OffsetPosition {
 			TopLeft,

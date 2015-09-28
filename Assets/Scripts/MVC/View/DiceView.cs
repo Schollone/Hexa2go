@@ -48,6 +48,8 @@ namespace Hexa2Go {
 		}
 		
 		#region IDiceView implementation
+		public event EventHandler<DiceThrowedEventArgs> OnThrowed = (sender, e) => {};
+
 		public void UpdateView (CharacterType characterType, TeamColor teamColor) {
 			Sprite sprite = null;
 			_characterTypes.TryGetValue (characterType, out sprite);
@@ -55,7 +57,6 @@ namespace Hexa2Go {
 			Color color;
 			_teamColors.TryGetValue (teamColor, out color);
 			_symbol.GetComponent<Image> ().color = color;
-			//Debug.Log(characterType + " ; " + teamColor + " !!!!!!!!!");
 		}
 
 		public DiceObject UpdateViewByIndex (int characterTypeIndex, int teamColorIndex) {
@@ -74,11 +75,8 @@ namespace Hexa2Go {
 			}
 		}
 
-		public event EventHandler<DiceThrowedEventArgs> OnThrowed = (sender, e) => {};
-
 		public void StartThrow () {
 			StartCoroutine ("Throw");
-			//Throw();
 		}
 		#endregion
 
@@ -92,10 +90,8 @@ namespace Hexa2Go {
 				
 				elapsedTime += Time.deltaTime;
 				interval += Time.deltaTime;
-				//Debug.LogWarning(Time.time);
-				
+
 				if (interval >= Mathf.Exp (elapsedTime - 4)) {
-					//Debug.LogWarning(Time.time);
 					diceObject = UpdateViewByIndex (-1, -1);
 					interval = 0;
 				}
@@ -104,7 +100,6 @@ namespace Hexa2Go {
 			}
 
 			DiceThrowedEventArgs eventArgs = new DiceThrowedEventArgs (diceObject);
-			//Debug.Log ("Throw: " + diceObject.CharacterType + " _ " + diceObject.TeamColor);
 			OnThrowed (this, eventArgs);
 		}
 
@@ -121,7 +116,6 @@ namespace Hexa2Go {
 			TeamColor[] colorArray = new TeamColor[_teamColors.Count];
 			_teamColors.Keys.CopyTo (colorArray, 0);
 			if (index < 0 || index >= colorArray.Length) { // use random value
-				//Debug.Log("2: " + Time.time);
 				System.Random random = new System.Random ();
 				index = random.Next (0, colorArray.Length);
 			}

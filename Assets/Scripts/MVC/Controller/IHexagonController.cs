@@ -8,8 +8,8 @@ namespace Hexa2Go {
 		IHexagonModel Model { get; }
 		
 		IHexagonView View { get; }
-		
 
+		GridPos Pred { get; set; }
 	}
 
 }

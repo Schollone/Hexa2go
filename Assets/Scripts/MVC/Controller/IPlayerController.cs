@@ -8,7 +8,6 @@ namespace Hexa2Go {
 		IPlayerModel Model { get; }
 		
 		IPlayerView View { get; }
-
 	}
 
 }

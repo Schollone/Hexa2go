@@ -10,8 +10,8 @@ namespace Hexa2Go {
 		private readonly IDiceModel _model;
 		private Thread _thread;
 		
-		public DiceController(IDiceView view) : base(view) {
-			_model = new DiceModel();
+		public DiceController (IDiceView view) : base(view) {
+			_model = new DiceModel ();
 
 			_model.OnDiceValueChanged += HandleOnDiceValueChanged;
 
@@ -19,11 +19,11 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnDiceValueChanged (object sender, DiceValueChangedEventArgs e) {
-			View.UpdateView(e.DiceObject.CharacterType, e.DiceObject.TeamColor);
+			View.UpdateView (e.DiceObject.CharacterType, e.DiceObject.TeamColor);
 		}
 
 		void HandleOnThrowed (object sender, DiceThrowedEventArgs e) {
-			Model.SetDiceValue(e.DiceObject);
+			Model.SetDiceValue (e.DiceObject);
 		}
 		
 		protected override void HandleOnClicked (object sender, ButtonClickedEventArgs e) {
@@ -43,8 +43,8 @@ namespace Hexa2Go {
 			}
 		}
 
-		public void StartThrow() {
-			View.StartThrow();
+		public void StartThrow () {
+			View.StartThrow ();
 		}
 		#endregion
 	}

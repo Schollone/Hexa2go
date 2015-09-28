@@ -9,7 +9,7 @@ namespace Hexa2Go {
 
 		IDiceView View { get; }
 
-		void StartThrow();
+		void StartThrow ();
 	}
 
 }

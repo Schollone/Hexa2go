@@ -65,7 +65,6 @@ namespace Hexa2Go {
 			}
 
 			if (charactersRemoved == collection.Count) {
-				Debug.Log ("WIN");
 				GameManager.Instance.GameFinished = true;
 			}
 		}

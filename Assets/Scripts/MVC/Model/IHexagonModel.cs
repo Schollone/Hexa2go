@@ -42,57 +42,6 @@ namespace Hexa2Go {
 		void Select ();
 
 		void Deselect ();
-		
-
-		/*GameObject gameObject;
-
-		GridPos gridPos;
-
-		bool isField;
-
-		bool canReceiveHexagon;
-
-		IList<IHexagonModel> neighbors;
-
-		int neighborIndex;
-
-		Color defaultAreaColor;
-
-		Color defaultBorderColor;
-
-		bool isSelected;
-
-		bool isFocusable;
-
-		bool isFocused;
-
-		ICharacterModel character1;
-
-		ICharacterModel character2;
-
-		bool hasMoveableCharacter;
-
-		bool hasCharacterWithTeamColor(TeamColor teamColor);
-
-		ICharacterModel getCharacterWithTeamColor(TeamColor teamColor);
-
-		bool canReceiveCharacter;
-
-		bool isBlocked;
-
-		bool isTarget;
-
-		TeamColor teamColor;
-
-		bool hasEmptyCharacter1Slot();
-
-		bool hasEmptyCharacter2Slot();
-
-		void changeAreaColor(Color color);
-
-		void changeBorderColor(Color color);*/
-
-		string ToString ();
 
 	}
 

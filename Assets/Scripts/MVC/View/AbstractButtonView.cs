@@ -20,12 +20,10 @@ namespace Hexa2Go {
 
 		// Use this for initialization
 		protected virtual void Start () {
-
 		}
 		
 		// Update is called once per frame
 		protected virtual void Update () {
-		
 		}
 
 		protected virtual void OnClick () {
@@ -44,24 +42,29 @@ namespace Hexa2Go {
 		// changed to _gameObject instead of gameobject, because gameObject (DiceView) was acceced two times, so I had to unregister the handler-method in buttonhandler when changing the game state.
 		public virtual void Show () {
 			if (_gameObject != null) {
+				//Debug.Log ("Show " + gameObject);
 				_gameObject.SetActive (true);
+				Enable();
 			}
 		}
 
 		public virtual void Hide () {
 			if (_gameObject != null) {
+				//Debug.Log ("Hide " + gameObject);
 				_gameObject.SetActive (false);
 			}
 		}
 
 		public virtual void Enable () {
 			if (_button != null) {
+				//Debug.Log ("Enable " + _button);
 				_button.interactable = true;
 			}
 		}
 
 		public virtual void Disable () {
 			if (_button != null) {
+				//Debug.Log ("Disable " + _button);
 				_button.interactable = false;
 			}
 		}

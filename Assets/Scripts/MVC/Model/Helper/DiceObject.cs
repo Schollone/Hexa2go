@@ -7,7 +7,7 @@ namespace Hexa2Go {
 		private CharacterType _characterType;
 		private TeamColor _teamColor;
 
-		public DiceObject(CharacterType type, TeamColor color) {
+		public DiceObject (CharacterType type, TeamColor color) {
 			this._characterType = type;
 			this._teamColor = color;
 		}

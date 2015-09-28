@@ -12,11 +12,6 @@ namespace Hexa2Go {
 			start.onClick.AddListener (HandleOnClicked);
 		}
 		
-		// Update is called once per frame
-		void Update () {
-			
-		}
-		
 		private void HandleOnClicked () {
 			Debug.Log ("GoTo Menu");
 

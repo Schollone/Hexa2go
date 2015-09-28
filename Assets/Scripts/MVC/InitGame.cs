@@ -11,11 +11,6 @@ public class InitGame : MonoBehaviour {
 			GameManager.Instance.MatchState = MatchState.NullState;
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	void OnLevelWasLoaded (int level) {
 		Debug.LogWarning ("Loaded Scene: " + level);

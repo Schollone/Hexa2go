@@ -21,8 +21,7 @@ namespace Hexa2Go {
 		SelectHexagon,
 		FocusHexagonTarget,
 		Moving,
-		Win,
-		Lose
+		Win
 	}
 	public enum PlayerState {
 		NullState,
@@ -157,7 +156,6 @@ namespace Hexa2Go {
 			_buttonHandler = new ButtonHandler ();
 			_gridHandler = new GridHandler ();
 			_gameModeHandler.Init ();
-			//_gameModeHandler = new GameModeHandler ();
 		}
 
 		void HandleOnGameStateChange (GameState prevGameState, GameState nextGameState) {

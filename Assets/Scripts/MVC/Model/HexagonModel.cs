@@ -80,10 +80,17 @@ namespace Hexa2Go {
 		public bool IsBlocked {
 			get {
 				bool result = false;
+				int count = 0;
 
-				IList<ICharacterController> characters1 = GameManager.Instance.GridHandler.CharacterHandler_P1.GetCharacters (_gridPos);
-				IList<ICharacterController> characters2 = GameManager.Instance.GridHandler.CharacterHandler_P2.GetCharacters (_gridPos);
-				if ((characters1.Count + characters2.Count) >= 2) {
+				List<ICharacterController> characters1 = (List<ICharacterController>)GameManager.Instance.GridHandler.CharacterHandler_P1.GetCharacters (_gridPos);
+				List<ICharacterController> characters2 = (List<ICharacterController>)GameManager.Instance.GridHandler.CharacterHandler_P2.GetCharacters (_gridPos);
+				characters1.AddRange (characters2);
+				foreach (ICharacterController character in characters1) {
+					if (character.Model.IsInGame) {
+						count++;
+					}
+				}
+				if (count >= 2) {
 					result = true;
 				}
 

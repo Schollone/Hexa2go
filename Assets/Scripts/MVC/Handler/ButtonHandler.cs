@@ -13,9 +13,7 @@ namespace Hexa2Go {
 
 		public ButtonHandler () {
 			Debug.Log ("ButtonHandler");
-			//GameObject prefab = Resources.Load<GameObject>("Btn_Accept");
-			//GameObject instance = UnityEngine.Object.Instantiate(prefab);
-			//IButtonView acceptView = instance.GetComponent<IButtonView>();
+
 			initAcceptController ();
 
 			initNextCharacterController ();
@@ -54,9 +52,6 @@ namespace Hexa2Go {
 			IDiceView diceView_left = dice_left.GetComponent<IDiceView> ();
 			GameObject dice_right = GameObject.Find ("Btn_Dice_Right");
 			IDiceView diceView_right = dice_right.GetComponent<IDiceView> ();
-
-			//IDiceView diceView_left = dice_left.AddComponent<DiceView>() as DiceView;
-			//IDiceView diceView_right = dice_right.AddComponent<DiceView>() as DiceView;
 			
 			IDiceController diceController_left = new DiceController (diceView_left);
 			IDiceController diceController_right = new DiceController (diceView_right);
