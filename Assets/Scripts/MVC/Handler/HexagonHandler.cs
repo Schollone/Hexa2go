@@ -294,7 +294,6 @@ namespace Hexa2Go {
 			root.Model.Visited = true;
 			foreach (GridPos neighborPos in root.Model.Neighbors) {
 				IHexagonController neighbor = Get (neighborPos);
-				//Debug.Log(neighborPos);
 				if (neighbor.Model.IsFocusableForCharacter && !neighbor.Model.Visited) {
 					neighbor.Model.Visited = true;
 					neighbor.Pred = root.Model.GridPos;
@@ -307,7 +306,6 @@ namespace Hexa2Go {
 
 				foreach (GridPos neighborPos in hexagon.Model.Neighbors) {
 					IHexagonController neighbor = Get (neighborPos);
-					//Debug.Log(neighborPos);
 					if (neighbor.Model.IsFocusableForCharacter && !neighbor.Model.Visited) {
 						neighbor.Model.Visited = true;
 						neighbor.Pred = hexagon.Model.GridPos;
@@ -318,9 +316,8 @@ namespace Hexa2Go {
 
 			GridPos result = new GridPos ();
 
-			GridPos tmp = target; // 2,3
+			GridPos tmp = target;
 			while (!tmp.Equals(start)) {
-				//Debug.Log("tmp: " + tmp);
 				IHexagonController hexagon = Get (tmp);
 				tmp = hexagon.Pred;
 				result = hexagon.Model.GridPos;

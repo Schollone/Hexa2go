@@ -62,14 +62,7 @@ namespace Hexa2Go {
 			PlayerState playerState = GameManager.Instance.PlayerState;
 			GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
 
-			//Debug.LogWarning(playerState + "!!! On Match State Change " + nextMatchState + " --- ButtonHandler");
-
 			switch (nextMatchState) {
-				case MatchState.NullState:
-					{
-						//Debug.Log ("NullState ButtonHandler");
-						break;
-					}
 				case MatchState.ThrowDice:
 					{
 						Debug.Log ("ThrowDice ButtonHandler");						
@@ -185,7 +178,7 @@ namespace Hexa2Go {
 							_acceptController.View.Show ();
 						}
 					
-					Debug.Log ("SelectHexagon ButtonHandler ENDE");
+						Debug.Log ("SelectHexagon ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.FocusHexagonTarget:
@@ -205,19 +198,19 @@ namespace Hexa2Go {
 							_acceptController.View.Show ();
 						}
 					
-					Debug.Log ("FocusHexagonTarget ButtonHandler ENDE");
+						Debug.Log ("FocusHexagonTarget ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.Win:
 					{
-						//Debug.Log ("FocusHexagonTarget ButtonHandler");
+						Debug.Log ("FocusHexagonTarget ButtonHandler");
 						_dicesController.Hide ();
 						_prevHexagonController.View.Hide ();
 						_nextHexagonController.View.Hide ();
 						_nextCharcarterController.View.Hide ();
 						_acceptController.View.Show ();
 
-						//Debug.Log ("FocusHexagonTarget ButtonHandler ENDE");
+						Debug.Log ("FocusHexagonTarget ButtonHandler ENDE");
 						break;
 					}
 				

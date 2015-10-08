@@ -19,7 +19,6 @@ namespace Hexa2Go {
 		public void UpdatePlayer (Color color, string name) {
 			text.text = name;
 			text.color = color;
-			//Debug.LogError(color);
 			background.color = color;
 
 			animator.SetTrigger (Animator.StringToHash ("ChangePlayer"));

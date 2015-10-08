@@ -114,8 +114,6 @@ namespace Hexa2Go {
 			}
 		}
 
-
-
 		public MatchState MatchState {
 			get {
 				return _matchState;

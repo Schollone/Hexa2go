@@ -39,27 +39,38 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
-			if (nextMatchState == MatchState.SelectCharacter) {
-				Debug.Log("SelectCharacter GameModeHandler");
-				if (GameManager.Instance.GridHandler.SelectedCharacter != null) {
-					GameManager.Instance.GridHandler.TintCharacter();
+			switch(nextMatchState) {
+				case MatchState.SelectCharacter:
+					{
 
-					if (GameMode == GameMode.Singleplayer && GameManager.Instance.PlayerState == PlayerState.Enemy) {
-						GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
+						Debug.Log("SelectCharacter GameModeHandler");
+						if (GameManager.Instance.GridHandler.SelectedCharacter != null) {
+							GameManager.Instance.GridHandler.TintCharacter();
+							
+							if (GameMode == GameMode.Singleplayer && GameManager.Instance.PlayerState == PlayerState.Enemy) {
+								GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
+							}
+							
+						} else {
+							GameManager.Instance.GridHandler.SwitchToNextPlayer ();
+						}
+						Debug.Log("SelectCharacter GameModeHandler ENDE");
+						break;
+
 					}
+				case MatchState.Moving:
+					{
 
-				} else {
-					GameManager.Instance.GridHandler.SwitchToNextPlayer ();
-				}
-				Debug.Log("SelectCharacter GameModeHandler ENDE");
-			} else if (nextMatchState == MatchState.Moving) {
-				Debug.Log("Moving GameModeHandler");
-				if (GameManager.Instance.GameFinished) {
-					GameManager.Instance.MatchState = MatchState.Win;
-				} else {
-					GameManager.Instance.GridHandler.SwitchToNextPlayer ();
-				}
-				Debug.Log("Moving GameModeHandler ENDE");
+						Debug.Log("Moving GameModeHandler");
+						if (GameManager.Instance.GameFinished) {
+							GameManager.Instance.MatchState = MatchState.Win;
+						} else {
+							GameManager.Instance.GridHandler.SwitchToNextPlayer ();
+						}
+						Debug.Log("Moving GameModeHandler ENDE");
+						break;
+
+					}
 			}
 			
 		}
