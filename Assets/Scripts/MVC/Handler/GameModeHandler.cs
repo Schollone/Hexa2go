@@ -6,6 +6,7 @@ namespace Hexa2Go {
 	public class GameModeHandler {
 
 		private PlayerHandler _playerHandler;
+		private AIHandler _aiHandler;
 
 		private GameMode _gameMode = GameMode.Singleplayer;
 
@@ -26,84 +27,50 @@ namespace Hexa2Go {
 
 		public void Init () {
 			_playerHandler = new PlayerHandler ();
-			GameManager.Instance.OnGameStateChange += HandleOnGameStateChange;
+
+			if (_gameMode == GameMode.Singleplayer) {
+				_aiHandler = new AIHandler();
+			}
+
 			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
-			GameManager.Instance.OnPlayerStateChange += HandleOnPlayerStateChange;
+
 			GameManager.Instance.PlayerState = PlayerState.Player;
 			GameManager.Instance.MatchState = MatchState.ThrowDice;
 		}
 
-		void HandleOnGameStateChange (GameState prevGameState, GameState nextGameState) {
-			
-		}
-
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
-			if (GameManager.Instance.GameModeHandler.GameMode != GameMode.Singleplayer) {
-				return;
-			}
+			if (nextMatchState == MatchState.SelectCharacter) {
+				Debug.Log("SelectCharacter GameModeHandler");
+				if (GameManager.Instance.GridHandler.SelectedCharacter != null) {
+					GameManager.Instance.GridHandler.TintCharacter();
 
-			if (GameManager.Instance.PlayerState == PlayerState.Player) {
-				return;
+					if (GameMode == GameMode.Singleplayer && GameManager.Instance.PlayerState == PlayerState.Enemy) {
+						GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
+					}
+
+				} else {
+					GameManager.Instance.GridHandler.SwitchToNextPlayer ();
+				}
+				Debug.Log("SelectCharacter GameModeHandler ENDE");
+			} else if (nextMatchState == MatchState.Moving) {
+				Debug.Log("Moving GameModeHandler");
+				if (GameManager.Instance.GameFinished) {
+					GameManager.Instance.MatchState = MatchState.Win;
+				} else {
+					GameManager.Instance.GridHandler.SwitchToNextPlayer ();
+				}
+				Debug.Log("Moving GameModeHandler ENDE");
 			}
 			
-			switch (nextMatchState) {
-				case MatchState.SelectCharacter:
-					{
-						Debug.Log ("SelectCharacter GameModeHandler");
-						//Debug.LogWarning (selectedCharacter);
-						//GameManager.Instance.GridHandler.SelectNextCharacter ();
-						//selectedCharacter = GameManager.Instance.GridHandler.SelectedCharacter;
-						//Debug.LogWarning (selectedCharacter);
-						GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
-						break;
-					}
-				case MatchState.FocusCharacterTarget:
-					{
-						Debug.Log ("FocusHexagonTarget GameModeHandler");
-						IHexagonController selectedHexagon = GameManager.Instance.GridHandler.SelectedHexagon;
-						ICharacterController selectedCharacter = GameManager.Instance.GridHandler.SelectedCharacter;
-						GridPos targetPos = GameManager.Instance.GridHandler.HexagonHandler.GetTarget (selectedCharacter.Model.TeamColor).Model.GridPos;
-						GridPos nextPos = GameManager.Instance.GridHandler.HexagonHandler.GetNextHexagonToFocus (
-						selectedHexagon.Model.GridPos, targetPos);
-						IHexagonController focusedHexagon = GameManager.Instance.GridHandler.HexagonHandler.FocusedHexagon;
-						while (!GameManager.Instance.GridHandler.HexagonHandler.FocusedHexagon.Model.GridPos.Equals(nextPos)) {
-							GameManager.Instance.GridHandler.FocusNextHexagon ();
-						}
-
-						GameManager.Instance.MatchState = MatchState.Moving;
-						break;
-					}
-				case MatchState.SelectHexagon:
-					{
-						Debug.Log ("SelectHexagon GameModeHandler");
-						break;
-					}
-				case MatchState.FocusHexagonTarget:
-					{
-						Debug.Log ("FocusHexagonTarget GameModeHandler");
-						break;
-					}
-			}
 		}
-
-		void HandleOnPlayerStateChange (PlayerState prevPlayerState, PlayerState nextPlayerState) {
-			if (GameManager.Instance.GameModeHandler.GameMode != GameMode.Singleplayer) {
-				return;
-			}
-
-			if (nextPlayerState == PlayerState.Enemy) {
-				Debug.Log (GameManager.Instance.MatchState);
-				GameManager.Instance.MatchState = MatchState.Throwing;
-			}
-		}
-
+		
 		public void Unregister () {
 			if (_playerHandler != null) {
 				_playerHandler.Unregister ();
 			}
-			GameManager.Instance.OnGameStateChange -= HandleOnGameStateChange;
-			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
-			GameManager.Instance.OnPlayerStateChange -= HandleOnPlayerStateChange;
+			if (_aiHandler != null) {
+				_aiHandler.Unregister();
+			}
 		}
 	}
 	

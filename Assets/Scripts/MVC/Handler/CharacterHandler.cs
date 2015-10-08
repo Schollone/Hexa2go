@@ -21,8 +21,8 @@ namespace Hexa2Go {
 
 			if (teamColor == TeamColor.RED) {
 				_characterController_Circle = new CharacterController (new GridPos (2, 3), "Character_Circle", teamColor);
-				_characterController_Square = new CharacterController (new GridPos (3, 2), "Character_Square", teamColor);
-				_characterController_Triangle = new CharacterController (new GridPos (3, 3), "Character_Triangle", teamColor);
+				_characterController_Square = new CharacterController (new GridPos (6, 3), "Character_Square", teamColor);
+				_characterController_Triangle = new CharacterController (new GridPos (6, 4), "Character_Triangle", teamColor);
 				_characterController_Triangle.View.Rotate ();
 			} else {
 				_characterController_Circle = new CharacterController (new GridPos (7, 3), "Character_Circle", teamColor);

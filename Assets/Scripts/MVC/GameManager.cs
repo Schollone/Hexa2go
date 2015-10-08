@@ -106,13 +106,15 @@ namespace Hexa2Go {
 
 				GameState prevState = _gameState;
 				_gameState = value;
-				
+
 				if (OnGameStateChange != null) {
 					OnGameStateChange (prevState, value);
 				}
 
 			}
 		}
+
+
 
 		public MatchState MatchState {
 			get {
@@ -126,7 +128,7 @@ namespace Hexa2Go {
 
 				MatchState prevState = _matchState;
 				_matchState = value;
-				
+
 				if (OnMatchStateChange != null) {
 					OnMatchStateChange (prevState, value);
 				}
@@ -140,6 +142,9 @@ namespace Hexa2Go {
 			}
 			set {
 				Debug.LogWarning (_playerState + " ==> " + value);
+				if (_playerState == value) {
+					return;
+				}
 
 				PlayerState prevState = _playerState;
 				_playerState = value;

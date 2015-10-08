@@ -36,6 +36,7 @@ namespace Hexa2Go {
 			if (!_diceThrowed) {
 				_diceThrowed = true;
 			} else {
+				Debug.LogWarning(_diceController_left.Model.CharacterType + " - " + _diceController_right.Model.CharacterType);
 				if (Pasch) {
 					GameManager.Instance.MatchState = MatchState.SelectHexagon;
 				} else {

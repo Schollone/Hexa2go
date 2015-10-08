@@ -43,6 +43,8 @@ namespace Hexa2Go {
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
 			PlayerState playerState = GameManager.Instance.PlayerState;
 
+			//Debug.LogWarning(playerState + "!!! On Match State Change " + nextMatchState + " --- PlayerHandler");
+
 			switch (nextMatchState) {
 				case MatchState.ThrowDice:
 					{

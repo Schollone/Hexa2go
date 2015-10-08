@@ -17,7 +17,20 @@ namespace Hexa2Go {
 		private void HandleOnClicked () {
 			Debug.Log ("Start Game: " + gameMode);
 			GameManager.Instance.GameModeHandler.GameMode = gameMode;
-			Application.LoadLevel (1);
+
+			StartCoroutine(LoadingScreen());
+			StartCoroutine(LoadGame());
+
+		}
+
+		IEnumerator LoadingScreen() {
+			AsyncOperation async = Application.LoadLevelAdditiveAsync(2);
+			yield return async;
+		}
+
+		IEnumerator LoadGame() {
+			AsyncOperation async = Application.LoadLevelAsync(1);
+			yield return async;
 		}
 	}
 

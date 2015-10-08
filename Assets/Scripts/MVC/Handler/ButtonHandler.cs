@@ -62,10 +62,12 @@ namespace Hexa2Go {
 			PlayerState playerState = GameManager.Instance.PlayerState;
 			GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
 
+			//Debug.LogWarning(playerState + "!!! On Match State Change " + nextMatchState + " --- ButtonHandler");
+
 			switch (nextMatchState) {
 				case MatchState.NullState:
 					{
-						Debug.Log ("NullState ButtonHandler");
+						//Debug.Log ("NullState ButtonHandler");
 						break;
 					}
 				case MatchState.ThrowDice:
@@ -96,6 +98,7 @@ namespace Hexa2Go {
 								}
 						}
 
+						Debug.Log ("ThrowDice ButtonHandler ENDE");	
 						break;
 					}
 				case MatchState.Throwing:
@@ -109,6 +112,7 @@ namespace Hexa2Go {
 						_nextCharcarterController.View.Hide ();
 						_acceptController.View.Hide ();
 
+						Debug.Log ("Throwing ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.SelectCharacter:
@@ -141,6 +145,7 @@ namespace Hexa2Go {
 								}
 						}
 				
+						Debug.Log ("SelectCharacter ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.FocusCharacterTarget:
@@ -148,36 +153,19 @@ namespace Hexa2Go {
 						Debug.Log ("FocusCharacterTarget ButtonHandler");
 						_dicesController.Show ();
 						_dicesController.Disable ();
-						_prevHexagonController.View.Show ();
-						_nextHexagonController.View.Show ();
 						_nextCharcarterController.View.Hide ();
-						_acceptController.View.Show ();
 
-						switch (gameMode) {
-							case GameMode.Singleplayer:
-							case GameMode.OnlineMultiplayer:
-								{
-									if (playerState == PlayerState.Player) {
-										_prevHexagonController.View.Enable ();
-										_nextHexagonController.View.Enable ();
-										_acceptController.View.Enable ();
-									} else if (playerState == PlayerState.Enemy) {
-										_prevHexagonController.View.Disable ();
-										_nextHexagonController.View.Disable ();
-										_acceptController.View.Disable ();
-									}
-					
-									break;
-								}
-							case GameMode.Multiplayer:
-								{
-									_prevHexagonController.View.Enable ();
-									_nextHexagonController.View.Enable ();
-									_acceptController.View.Enable ();
-									break;
-								}
+						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Enemy) {
+							_prevHexagonController.View.Hide ();
+							_nextHexagonController.View.Hide ();
+							_acceptController.View.Hide ();
+						} else {
+							_prevHexagonController.View.Show ();
+							_nextHexagonController.View.Show ();
+							_acceptController.View.Show ();
 						}
 				
+						Debug.Log ("FocusCharacterTarget ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.SelectHexagon:
@@ -185,36 +173,19 @@ namespace Hexa2Go {
 						Debug.Log ("SelectHexagon ButtonHandler");
 						_dicesController.Show ();
 						_dicesController.Disable ();
-						_prevHexagonController.View.Show ();
-						_nextHexagonController.View.Show ();
 						_nextCharcarterController.View.Hide ();
-						_acceptController.View.Show ();
 
-						switch (gameMode) {
-							case GameMode.Singleplayer:
-							case GameMode.OnlineMultiplayer:
-								{
-									if (playerState == PlayerState.Player) {
-										_prevHexagonController.View.Enable ();
-										_nextHexagonController.View.Enable ();
-										_acceptController.View.Enable ();
-									} else if (playerState == PlayerState.Enemy) {
-										_prevHexagonController.View.Disable ();
-										_nextHexagonController.View.Disable ();
-										_acceptController.View.Disable ();
-									}
-							
-									break;
-								}
-							case GameMode.Multiplayer:
-								{
-									_prevHexagonController.View.Enable ();
-									_nextHexagonController.View.Enable ();
-									_acceptController.View.Enable ();
-									break;
-								}
+						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Enemy) {
+							_prevHexagonController.View.Hide ();
+							_nextHexagonController.View.Hide ();
+							_acceptController.View.Hide ();
+						} else {
+							_prevHexagonController.View.Show ();
+							_nextHexagonController.View.Show ();
+							_acceptController.View.Show ();
 						}
-
+					
+					Debug.Log ("SelectHexagon ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.FocusHexagonTarget:
@@ -222,47 +193,31 @@ namespace Hexa2Go {
 						Debug.Log ("FocusHexagonTarget ButtonHandler");
 						_dicesController.Show ();
 						_dicesController.Disable ();
-						_prevHexagonController.View.Show ();
-						_nextHexagonController.View.Show ();
 						_nextCharcarterController.View.Hide ();
-						_acceptController.View.Show ();
 
-						switch (gameMode) {
-							case GameMode.Singleplayer:
-							case GameMode.OnlineMultiplayer:
-								{
-									if (playerState == PlayerState.Player) {
-										_prevHexagonController.View.Enable ();
-										_nextHexagonController.View.Enable ();
-										_acceptController.View.Enable ();
-									} else if (playerState == PlayerState.Enemy) {
-										_prevHexagonController.View.Disable ();
-										_nextHexagonController.View.Disable ();
-										_acceptController.View.Disable ();
-									}
-					
-									break;
-								}
-							case GameMode.Multiplayer:
-								{
-									_prevHexagonController.View.Enable ();
-									_nextHexagonController.View.Enable ();
-									_acceptController.View.Enable ();
-									break;
-								}
+						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Enemy) {
+							_prevHexagonController.View.Hide ();
+							_nextHexagonController.View.Hide ();
+							_acceptController.View.Hide ();
+						} else {
+							_prevHexagonController.View.Show ();
+							_nextHexagonController.View.Show ();
+							_acceptController.View.Show ();
 						}
-
+					
+					Debug.Log ("FocusHexagonTarget ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.Win:
 					{
-						Debug.Log ("FocusHexagonTarget ButtonHandler");
+						//Debug.Log ("FocusHexagonTarget ButtonHandler");
 						_dicesController.Hide ();
 						_prevHexagonController.View.Hide ();
 						_nextHexagonController.View.Hide ();
 						_nextCharcarterController.View.Hide ();
 						_acceptController.View.Show ();
 
+						//Debug.Log ("FocusHexagonTarget ButtonHandler ENDE");
 						break;
 					}
 				

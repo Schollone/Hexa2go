@@ -55,17 +55,22 @@ namespace Hexa2Go {
 			}
 		}
 
+		public void TintCharacter() {
+			_selectedHexagon = _hexagonHandler.Get (_selectedCharacter.Model.GridPos);
+			_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true);
+			_hexagonHandler.TintFocusableNeighbors ();
+		}
+		
 		public void SelectNextCharacter () {
 			_hexagonHandler.InitNeighbors (_selectedCharacter.Model.GridPos, true);
 			_hexagonHandler.ResetFocusableNeighbors ();
+			Debug.LogWarning(GameManager.Instance.PlayerState + "!!!");
 			if (GameManager.Instance.PlayerState == PlayerState.Player) {
 				_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
 			} else if (GameManager.Instance.PlayerState == PlayerState.Enemy) {
 				_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();
 			}
-			_selectedHexagon = _hexagonHandler.Get (_selectedCharacter.Model.GridPos);
-			_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true);
-			_hexagonHandler.TintFocusableNeighbors ();
+			TintCharacter();
 		}
 
 		public void SelectNextHexagon () {
@@ -96,8 +101,9 @@ namespace Hexa2Go {
 			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
 		}
 
-		private void SwitchToNextPlayer () {
+		public void SwitchToNextPlayer () {
 			PlayerState playerState = (GameManager.Instance.PlayerState == PlayerState.Player) ? PlayerState.Enemy : PlayerState.Player;
+			Debug.LogWarning(GameManager.Instance.PlayerState + "!!! Switch To Next Player: " + playerState);
 			GameManager.Instance.PlayerState = playerState;
 			GameManager.Instance.MatchState = MatchState.ThrowDice;
 		}
@@ -105,6 +111,7 @@ namespace Hexa2Go {
 		private void ResetSelectedCharacterAndNeighbors () {
 			if (_selectedCharacter != null) {
 				_selectedCharacter.Model.Deselect ();
+				Debug.Log("ResetSelectedCharacterAndNeighbors");
 				_hexagonHandler.InitNeighbors (_selectedCharacter.Model.GridPos);
 				_hexagonHandler.ResetFocusableNeighbors ();
 			}
@@ -139,6 +146,8 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
+			PlayerState playerState = GameManager.Instance.PlayerState;
+			//Debug.LogWarning(playerState + "!!! On Match State Change " + nextMatchState + " --- GridHandler");
 
 			switch (nextMatchState) {
 				case MatchState.SelectCharacter:
@@ -150,26 +159,31 @@ namespace Hexa2Go {
 					
 						CharacterType characterType_1 = GameManager.Instance.ButtonHandler.DicesController.DiceController_left.Model.CharacterType;
 						CharacterType characterType_2 = GameManager.Instance.ButtonHandler.DicesController.DiceController_right.Model.CharacterType;
-					
+
+						//Debug.LogWarning(GameManager.Instance.PlayerState + "!!!");
 						if (GameManager.Instance.PlayerState == PlayerState.Player) {
-						
+
+							//Debug.LogWarning(GameManager.Instance.PlayerState + " ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 							_characterHandler_P1.InitSelectedCharacters (characterType_1, characterType_2);
 							_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
 						
 						} else if (GameManager.Instance.PlayerState == PlayerState.Enemy) {
-						
+
+							//Debug.LogWarning(GameManager.Instance.PlayerState + " --------------------------------------------------------------");
 							_characterHandler_P2.InitSelectedCharacters (characterType_1, characterType_2);
 							_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();
 						
 						}
 
-						if (_selectedCharacter != null) {
+						/*if (_selectedCharacter != null) {
 							_selectedHexagon = _hexagonHandler.Get (_selectedCharacter.Model.GridPos);
 							_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true);
 							_hexagonHandler.TintFocusableNeighbors ();
 						} else {
 							SwitchToNextPlayer ();
-						}
+						}*/
+
+						Debug.Log ("SelectCharacter GridHandler ENDE");
 						break;
 					}
 
@@ -177,9 +191,10 @@ namespace Hexa2Go {
 					{
 						Debug.Log ("FocusCharacterTarget GridHandler");
 						if (_selectedHexagon != null) {
-							Debug.LogWarning (_selectedCharacter.Model.GridPos + " - " + _selectedHexagon.Model.GridPos);
+							//Debug.LogWarning (_selectedCharacter.Model.GridPos + " - " + _selectedHexagon.Model.GridPos);
 							_hexagonHandler.FocusNextHexagon (_selectedHexagon.Model.GridPos);
 						}
+						Debug.Log ("FocusCharacterTarget GridHandler ENDE");
 						break;
 					}
 
@@ -193,6 +208,7 @@ namespace Hexa2Go {
 						_selectedHexagon = _hexagonHandler.SelectNextHexagon ();
 						_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true, true);
 						_hexagonHandler.TintFocusableNeighbors ();
+						Debug.Log ("SelectHexagon GridHandler ENDE");
 						break; 
 					}
 
@@ -202,6 +218,7 @@ namespace Hexa2Go {
 						if (_selectedHexagon != null) {
 							_hexagonHandler.FocusNextHexagon (_selectedHexagon.Model.GridPos, true);
 						}
+						Debug.Log ("FocusHexagonTarget GridHandler ENDE");
 						break;
 					}
 
@@ -224,11 +241,12 @@ namespace Hexa2Go {
 						_selectedCharacter = null;
 						_selectedHexagon = null;
 
-						if (GameManager.Instance.GameFinished) {
+						/*if (GameManager.Instance.GameFinished) {
 							GameManager.Instance.MatchState = MatchState.Win;
 						} else {
 							SwitchToNextPlayer ();
-						}
+						}*/
+						Debug.Log ("Moving GridHandler ENDE");
 						break;
 					}
 			}
