@@ -7,6 +7,9 @@ namespace Hexa2Go {
 
 	public static class GridHelper {
 
+		public const float ACTIVATED_Y_POS = -0.3f;
+		public const float DEACTIVATED_Y_POS = 0f;
+
 		//HexagonTree<GridPos> _tree;
 
 		public enum OffsetPosition {
@@ -57,6 +60,10 @@ namespace Hexa2Go {
 			}
 
 			return new Vector3 (xOffset, 0f, zOffset);
+		}
+
+		public static Vector3 Bezier (Vector3 start, Vector3 bezier, Vector3 end, float t) {
+			return (((1 - t) * (1 - t)) * start) + (2 * t * (1 - t) * bezier) + ((t * t) * end);
 		}
 	}
 

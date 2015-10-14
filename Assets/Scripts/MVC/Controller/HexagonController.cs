@@ -39,9 +39,18 @@ namespace Hexa2Go {
 		void HandleOnActivationChanged (object sender, HexagonValueChangedEventArgs e) {
 			if (Model.IsActivated) {
 				Color color = HexagonColors.GetColor (Model.TeamColor);
-				View.Activate (color);
+				if (GameManager.Instance.MatchState == MatchState.NullState) {
+					View.Activate (color);
+				} else {
+					View.Activate (color, true);
+				}
+
 			} else {
-				View.Deactivate ();
+				if (GameManager.Instance.MatchState == MatchState.NullState) {
+					View.Deactivate ();
+				} else {
+					View.Deactivate (true);
+				}
 			}
 		}
 

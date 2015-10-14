@@ -21,9 +21,11 @@ namespace Hexa2Go {
 
 		void ResetTint ();
 
-		void Activate (Color? color = null);
+		void Activate (Color? color = null, bool animate = false);
 
-		void Deactivate ();
+		void Deactivate (bool animate = false);
+
+		void PlayExplosion ();
 
 		Vector3 SlotPosition1 { get; }
 

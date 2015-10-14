@@ -29,11 +29,14 @@ namespace Hexa2Go {
 
 		void HandleOnTargetReached (object sender, CharacterValueChangedEventArgs e) {
 			View.Remove ();
-
 		}
 
 		void HandleOnGridPosChanged (object sender, CharacterValueChangedEventArgs e) {
-			View.Move (Model.GridPos, Model.OffsetPosition);
+			if (GameManager.Instance.ButtonHandler.DicesController.Pasch) {
+				View.Move (Model.GridPos, Model.OffsetPosition, true);
+			} else {
+				View.Move (Model.GridPos, Model.OffsetPosition, true);
+			}
 		}
 
 		void HandleOnSelectionChanged (object sender, CharacterValueChangedEventArgs e) {

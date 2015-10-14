@@ -13,7 +13,7 @@ namespace Hexa2Go {
 
 		void Deselect ();
 
-		void Move (GridPos gridPos, GridHelper.OffsetPosition offsetPosition);
+		void Move (GridPos gridPos, GridHelper.OffsetPosition offsetPosition, bool jump = false);
 
 		void Remove ();
 

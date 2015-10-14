@@ -129,6 +129,7 @@ namespace Hexa2Go {
 			_selectedCharacter.Model.GridPos = _hexagonHandler.FocusedHexagon.Model.GridPos;
 			if (_selectedCharacter.Model.TeamColor == _hexagonHandler.FocusedHexagon.Model.TeamColor) {
 				_selectedCharacter.Model.Remove ();
+				_hexagonHandler.FocusedHexagon.View.PlayExplosion ();
 			}
 		}
 
