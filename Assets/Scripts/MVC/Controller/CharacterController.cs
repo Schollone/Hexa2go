@@ -32,11 +32,12 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnGridPosChanged (object sender, CharacterValueChangedEventArgs e) {
-			if (GameManager.Instance.ButtonHandler.DicesController.Pasch) {
+			/*if (GameManager.Instance.ButtonHandler.DicesController.Pasch) {
 				View.Move (Model.GridPos, Model.OffsetPosition, true);
 			} else {
 				View.Move (Model.GridPos, Model.OffsetPosition, true);
-			}
+			}*/
+			View.Move (Model.GridPos, Model.OffsetPosition, true);
 		}
 
 		void HandleOnSelectionChanged (object sender, CharacterValueChangedEventArgs e) {

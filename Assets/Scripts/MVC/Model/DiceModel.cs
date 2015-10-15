@@ -9,7 +9,8 @@ namespace Hexa2Go {
 		private TeamColor _teamColor;
 		private CharacterType _characterType;
 		
-		public DiceModel() {}
+		public DiceModel () {
+		}
 		
 		public TeamColor TeamColor {
 			get {
@@ -23,12 +24,12 @@ namespace Hexa2Go {
 			}
 		}
 		
-		public void SetDiceValue(DiceObject diceObject) {
+		public void SetDiceValue (DiceObject diceObject) {
 
 			_characterType = diceObject.CharacterType;
 			_teamColor = diceObject.TeamColor;
-			DiceValueChangedEventArgs eventArgs = new DiceValueChangedEventArgs(diceObject);
-			OnDiceValueChanged(this, eventArgs);
+			DiceValueChangedEventArgs eventArgs = new DiceValueChangedEventArgs (diceObject);
+			OnDiceValueChanged (this, eventArgs);
 		}
 		
 		public event EventHandler<DiceValueChangedEventArgs> OnDiceValueChanged = (sender, e) => {};

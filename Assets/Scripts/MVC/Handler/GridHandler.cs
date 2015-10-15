@@ -13,6 +13,7 @@ namespace Hexa2Go {
 		private readonly HexagonHandler _hexagonHandler;
 		private readonly CharacterHandler _characterHandler_P1;
 		private readonly CharacterHandler _characterHandler_P2;
+		private CameraController _cameraController;
 
 		private IHexagonController _selectedHexagon = null;
 		private ICharacterController _selectedCharacter = null;
@@ -30,6 +31,9 @@ namespace Hexa2Go {
 		}
 
 		public GridHandler () {
+			GameObject camera = GameObject.Find ("Camera");
+			CameraView cameraView = camera.GetComponent<CameraView> ();
+			_cameraController = new CameraController (cameraView);
 			_hexagonHandler = new HexagonHandler (WIDTH, HEIGHT);
 			_characterHandler_P1 = new CharacterHandler (TeamColor.RED);
 			_characterHandler_P2 = new CharacterHandler (TeamColor.BLUE);
@@ -99,6 +103,7 @@ namespace Hexa2Go {
 
 		public void Unregister () {
 			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
+			_cameraController.Unregister ();
 		}
 
 		public void SwitchToNextPlayer () {
@@ -153,7 +158,7 @@ namespace Hexa2Go {
 				case MatchState.SelectCharacter:
 					{
 						Debug.Log ("SelectCharacter GridHandler");
-					
+						_hexagonHandler.ResetFocusedHexagon ();
 						_selectedCharacter = null;
 						_selectedHexagon = null;
 					
@@ -189,6 +194,7 @@ namespace Hexa2Go {
 				case MatchState.SelectHexagon:
 					{
 						Debug.Log ("SelectHexagon GridHandler");
+						_hexagonHandler.ResetFocusedHexagon ();
 						_selectedCharacter = null;
 						_selectedHexagon = null;
 					
@@ -225,11 +231,18 @@ namespace Hexa2Go {
 							}
 						}
 					
-						_hexagonHandler.ResetFocusedHexagon ();
+						//_hexagonHandler.ResetFocusedHexagon ();
 						_selectedCharacter = null;
 						_selectedHexagon = null;
 
 						Debug.Log ("Moving GridHandler ENDE");
+						break;
+					}
+				case MatchState.Win:
+					{
+						if (_hexagonHandler.FocusedHexagon != null) {
+							_hexagonHandler.FocusedHexagon.View.PlayExplosion (true);
+						}
 						break;
 					}
 			}

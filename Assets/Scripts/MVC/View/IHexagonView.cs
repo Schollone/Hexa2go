@@ -25,7 +25,7 @@ namespace Hexa2Go {
 
 		void Deactivate (bool animate = false);
 
-		void PlayExplosion ();
+		void PlayExplosion (bool playLoop = false);
 
 		Vector3 SlotPosition1 { get; }
 

@@ -161,17 +161,20 @@ namespace Hexa2Go {
 			}
 		}
 
-		public void PlayExplosion () {
-			StartCoroutine (WaitForExplosion ());
+		public void PlayExplosion (bool playLoop = false) {
+			StartCoroutine (WaitForExplosion (playLoop));
 		}
 
-		private IEnumerator WaitForExplosion () {
+		private IEnumerator WaitForExplosion (bool playLoop) {
 			yield return new WaitForSeconds (0.6f);
 			Color color = transform.GetChild (0).GetChild (0).GetComponent<MeshRenderer> ().material.color;
 			Transform particles = transform.GetChild (2);
 			for (int i=0; i < particles.childCount; i++) {
 				ParticleSystem particle = particles.GetChild (i).GetComponent<ParticleSystem> ();
 				particle.startColor = color;
+				if (playLoop) {
+					particle.loop = true;
+				}
 				particle.Play ();
 			}
 

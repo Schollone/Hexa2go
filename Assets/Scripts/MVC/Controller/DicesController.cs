@@ -75,8 +75,12 @@ namespace Hexa2Go {
 		public bool Pasch {
 			get {
 				_pasch = false;
+				if (_diceController_left.Model.TeamColor == TeamColor.NONE)
+					return _pasch;
 				if (_diceController_left.Model.CharacterType == _diceController_right.Model.CharacterType &&
 					_diceController_left.Model.TeamColor == _diceController_right.Model.TeamColor) {
+					Debug.LogWarning (_diceController_left.Model.CharacterType + " == " + _diceController_right.Model.CharacterType);
+					Debug.LogWarning (_diceController_left.Model.TeamColor + " == " + _diceController_right.Model.TeamColor);
 					_pasch = true;
 				}
 				return _pasch;
