@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace Hexa2Go {
@@ -14,7 +14,7 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
-			if (GameManager.Instance.ButtonHandler.DicesController.Pasch) {
+			if (GameManager.Instance.UIHandler.DicesController.Pasch) {
 				View.Zoom (2);
 			}
 		}

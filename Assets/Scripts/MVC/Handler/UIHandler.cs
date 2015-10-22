@@ -3,41 +3,44 @@ using System.Collections;
 
 namespace Hexa2Go {
 
-	public class ButtonHandler {
+	public class UIHandler {
 
 		private DicesController _dicesController;
 		private PrevHexagonController _prevHexagonController;
 		private NextHexagonController _nextHexagonController;
 		private NextCharacterController _nextCharcarterController;
 		private AcceptController _acceptController;
+		private HintController _hintController;
 
-		public ButtonHandler () {
+		public UIHandler () {
 			Debug.Log ("ButtonHandler");
 
-			initAcceptController ();
+			InitAcceptController ();
 
-			initNextCharacterController ();
+			InitNextCharacterController ();
 
-			initHexagonController ();
+			InitHexagonController ();
 
-			initDicesController ();
+			InitDicesController ();
+
+			InitHintController ();
 
 			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 
-		private void initAcceptController () {
+		private void InitAcceptController () {
 			GameObject accept = GameObject.Find ("Btn_Accept");
 			AcceptView acceptView = accept.GetComponent<AcceptView> ();
 			_acceptController = new AcceptController (acceptView);
 		}
 
-		private void initNextCharacterController () {
+		private void InitNextCharacterController () {
 			GameObject nextCharacter = GameObject.Find ("Btn_NextCharacter");
 			NextCharacterView nextCharacterView = nextCharacter.GetComponent<NextCharacterView> ();
 			_nextCharcarterController = new NextCharacterController (nextCharacterView);
 		}
 
-		private void initHexagonController () {
+		private void InitHexagonController () {
 			GameObject prevHexagon = GameObject.Find ("Btn_PrevHexagon");
 			PrevHexagonView prevHexagonView = prevHexagon.GetComponent<PrevHexagonView> ();
 			_prevHexagonController = new PrevHexagonController (prevHexagonView);
@@ -47,7 +50,7 @@ namespace Hexa2Go {
 			_nextHexagonController = new NextHexagonController (nextHexagonView);
 		}
 
-		private void initDicesController () {
+		private void InitDicesController () {
 			GameObject dice_left = GameObject.Find ("Btn_Dice_Left");
 			IDiceView diceView_left = dice_left.GetComponent<IDiceView> ();
 			GameObject dice_right = GameObject.Find ("Btn_Dice_Right");
@@ -58,9 +61,16 @@ namespace Hexa2Go {
 			_dicesController = new DicesController (diceController_left, diceController_right);
 		}
 
+		private void InitHintController () {
+			GameObject hint = GameObject.Find ("Hint");
+			HintView hintView = hint.GetComponent<HintView> ();
+			_hintController = new HintController (hintView);
+		}
+
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
 			PlayerState playerState = GameManager.Instance.PlayerState;
 			GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
+			_hintController.View.UpdateHint ("");
 
 			switch (nextMatchState) {
 				case MatchState.ThrowDice:
@@ -78,6 +88,7 @@ namespace Hexa2Go {
 								{
 									if (playerState == PlayerState.Player) {
 										_dicesController.Enable ();
+										_hintController.View.UpdateHint ("Bitte Würfeln!");
 									} else if (playerState == PlayerState.Enemy) {
 										_dicesController.Disable ();
 									}
@@ -86,6 +97,7 @@ namespace Hexa2Go {
 								}
 							case GameMode.Multiplayer:
 								{
+									_hintController.View.UpdateHint ("Bitte Würfeln!");
 									_dicesController.Enable ();
 									break;
 								}
@@ -123,6 +135,7 @@ namespace Hexa2Go {
 									if (playerState == PlayerState.Player) {
 										_nextCharcarterController.View.Show ();
 										_acceptController.View.Show ();
+										_hintController.View.UpdateHint ("Selektiere eine deiner erwürfelten Figuren!");
 									} else if (playerState == PlayerState.Enemy) {
 										_nextCharcarterController.View.Hide ();
 										_acceptController.View.Hide ();
@@ -132,6 +145,7 @@ namespace Hexa2Go {
 								}
 							case GameMode.Multiplayer:
 								{
+									_hintController.View.UpdateHint ("Selektiere eine deiner erwürfelten Figuren!");
 									_nextCharcarterController.View.Show ();
 									_acceptController.View.Show ();
 									break;
@@ -153,6 +167,7 @@ namespace Hexa2Go {
 							_nextHexagonController.View.Hide ();
 							_acceptController.View.Hide ();
 						} else {
+							_hintController.View.UpdateHint ("Fokusiere das Zielfeld!");
 							_prevHexagonController.View.Show ();
 							_nextHexagonController.View.Show ();
 							_acceptController.View.Show ();
@@ -173,6 +188,7 @@ namespace Hexa2Go {
 							_nextHexagonController.View.Hide ();
 							_acceptController.View.Hide ();
 						} else {
+							_hintController.View.UpdateHint ("Pasch - Selektiere ein verschiebbares Hexagon!");
 							_prevHexagonController.View.Show ();
 							_nextHexagonController.View.Show ();
 							_acceptController.View.Show ();
@@ -193,6 +209,7 @@ namespace Hexa2Go {
 							_nextHexagonController.View.Hide ();
 							_acceptController.View.Hide ();
 						} else {
+							_hintController.View.UpdateHint ("Fokusiere die neue Position des Hexagons!");
 							_prevHexagonController.View.Show ();
 							_nextHexagonController.View.Show ();
 							_acceptController.View.Show ();

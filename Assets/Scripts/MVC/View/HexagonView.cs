@@ -181,18 +181,6 @@ namespace Hexa2Go {
 
 		}
 
-		public Vector3 SlotPosition1 {
-			get {
-				throw new System.NotImplementedException ();
-			}
-		}
-
-		public Vector3 SlotPosition2 {
-			get {
-				throw new System.NotImplementedException ();
-			}
-		}
-
 		public TeamColor TeamColor {
 			get {
 				return this._teamColor;

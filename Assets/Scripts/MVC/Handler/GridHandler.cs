@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -162,8 +162,8 @@ namespace Hexa2Go {
 						_selectedCharacter = null;
 						_selectedHexagon = null;
 					
-						CharacterType characterType_1 = GameManager.Instance.ButtonHandler.DicesController.DiceController_left.Model.CharacterType;
-						CharacterType characterType_2 = GameManager.Instance.ButtonHandler.DicesController.DiceController_right.Model.CharacterType;
+						CharacterType characterType_1 = GameManager.Instance.UIHandler.DicesController.DiceController_left.Model.CharacterType;
+						CharacterType characterType_2 = GameManager.Instance.UIHandler.DicesController.DiceController_right.Model.CharacterType;
 
 						if (GameManager.Instance.PlayerState == PlayerState.Player) {
 

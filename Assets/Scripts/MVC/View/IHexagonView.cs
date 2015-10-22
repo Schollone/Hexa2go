@@ -27,10 +27,6 @@ namespace Hexa2Go {
 
 		void PlayExplosion (bool playLoop = false);
 
-		Vector3 SlotPosition1 { get; }
-
-		Vector3 SlotPosition2 { get; }
-
 		TeamColor TeamColor { get; set; }
 
 	}

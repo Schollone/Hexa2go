@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace Hexa2Go {
@@ -48,7 +48,7 @@ namespace Hexa2Go {
 
 		private GridHandler _gridHandler;
 		private GameModeHandler _gameModeHandler;
-		private ButtonHandler _buttonHandler;
+		private UIHandler _uiHandler;
 
 		private GameState _gameState;
 		private MatchState _matchState;
@@ -82,9 +82,9 @@ namespace Hexa2Go {
 			}
 		}
 		
-		public ButtonHandler ButtonHandler {
+		public UIHandler UIHandler {
 			get {
-				return _buttonHandler;
+				return _uiHandler;
 			}
 		}
 		
@@ -156,7 +156,7 @@ namespace Hexa2Go {
 
 		public void InitGame () {
 			Debug.LogWarning ("InitGame");
-			_buttonHandler = new ButtonHandler ();
+			_uiHandler = new UIHandler ();
 			_gridHandler = new GridHandler ();
 			_gameModeHandler.Init ();
 		}
@@ -166,8 +166,8 @@ namespace Hexa2Go {
 				InitGame ();
 			} else {
 				Debug.LogWarning ("ResetGame");
-				if (_buttonHandler != null) {
-					_buttonHandler.Unregister ();
+				if (_uiHandler != null) {
+					_uiHandler.Unregister ();
 				}
 				if (_gridHandler != null) {
 					_gridHandler.Unregister ();
@@ -176,7 +176,7 @@ namespace Hexa2Go {
 					_gameModeHandler.Unregister ();
 				}
 				_gridHandler = null;
-				_buttonHandler = null;
+				_uiHandler = null;
 			}
 		}
 		
