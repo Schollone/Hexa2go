@@ -25,7 +25,7 @@ public class InitGame : MonoBehaviour {
 		}
 		
 		if (level == 1) {
-			GameManager.Instance.GameState = GameState.Game;
+			GameManager.Instance.GameState = GameState.Match;
 		}
 	}
 

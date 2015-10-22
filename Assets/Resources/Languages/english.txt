@@ -5,9 +5,11 @@ Multiplayer
 ONLINE_MULTIPLAYER
 Online Multiplayer
 QUIT
-quit
+Quit
 MENU
-Menu  .
+Menu
+CONTINUE
+Continue
 HINT_THROW_DICE
 Please throw dice!
 HINT_SELECT_CHARACTER

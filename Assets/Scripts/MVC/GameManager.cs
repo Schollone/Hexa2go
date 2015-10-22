@@ -6,7 +6,7 @@ namespace Hexa2Go {
 	public enum GameState {
 		NullState,
 		MainMenu,
-		Game,
+		Match,
 		Pause,
 		Credits,
 		Options,
@@ -164,7 +164,7 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnGameStateChange (GameState prevGameState, GameState nextGameState) {
-			if (prevGameState == GameState.MainMenu && nextGameState == GameState.Game) {
+			if (prevGameState == GameState.MainMenu && nextGameState == GameState.Match) {
 				InitGame ();
 			} else {
 				Debug.LogWarning ("ResetGame");

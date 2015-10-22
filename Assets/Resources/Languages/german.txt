@@ -7,7 +7,9 @@ Online Mehrspieler
 QUIT
 Beenden
 MENU
-Menü  .
+Menü
+CONTINUE
+Fortfahren
 HINT_THROW_DICE
 Bitte würfeln!
 HINT_SELECT_CHARACTER

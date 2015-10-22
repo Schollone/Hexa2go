@@ -15,7 +15,6 @@ namespace Hexa2Go {
 		}
 
 		void Exit () {
-			Debug.Log ("Exit");
 			Application.Quit ();
 		}
 	}

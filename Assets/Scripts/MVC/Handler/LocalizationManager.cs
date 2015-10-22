@@ -12,6 +12,7 @@ namespace Hexa2Go {
 		ONLINE_MULTIPLAYER,
 		QUIT,
 		MENU,
+		CONTINUE,
 		HINT_THROW_DICE,
 		HINT_SELECT_CHARACTER,
 		HINT_FOCUS_CHARACTER_TARGET,
@@ -30,27 +31,6 @@ namespace Hexa2Go {
 
 		private static LocalizationManager _instance = null;
 		private static Hashtable textTable;
-
-		/*public const string SINGLEPLAYER = "SINGLEPLAYER";
-		public const string MULTIPLAYER = "MULTIPLAYER";
-		public const string ONLINE_MULTIPLAYER = "ONLINE_MULTIPLAYER";
-		public const string QUIT = "QUIT";
-		public const string MENU = "MENU";
-		public const string HINT_THROW_DICE = "HINT_THROW_DICE";
-		public const string HINT_SELECT_CHARACTER = "HINT_SELECT_CHARACTER";
-		public const string HINT_FOCUS_CHARACTER_TARGET = "HINT_FOCUS_CHARACTER_TARGET";
-		public const string HINT_SELECT_HEXAGON = "HINT_SELECT_HEXAGON";
-		public const string HINT_FOCUS_HEXAGON_TARGET = "HINT_FOCUS_HEXAGON_TARGET";
-		public const string PLAYER = "PLAYER";
-		public const string ENEMY = "ENEMY";
-		public const string COMPUTER = "COMPUTER";
-		public const string PLAYER_1 = "PLAYER_1";
-		public const string PLAYER_2 = "PLAYER_2";
-		public const string WON = "WON";
-		public const string LOSE = "LOSE";*/
-
-		public LocalizationManager () {
-		}
 
 		public static LocalizationManager Instance {
 			get {
