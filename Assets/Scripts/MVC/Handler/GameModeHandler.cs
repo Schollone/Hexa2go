@@ -29,7 +29,9 @@ namespace Hexa2Go {
 			_playerHandler = new PlayerHandler ();
 
 			if (_gameMode == GameMode.Singleplayer) {
-				_aiHandler = new AIHandler();
+				_aiHandler = new AIHandler ();
+			} else {
+				_aiHandler = null;
 			}
 
 			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
@@ -39,13 +41,13 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
-			switch(nextMatchState) {
+			switch (nextMatchState) {
 				case MatchState.SelectCharacter:
 					{
 
-						Debug.Log("SelectCharacter GameModeHandler");
+						Debug.Log ("SelectCharacter GameModeHandler");
 						if (GameManager.Instance.GridHandler.SelectedCharacter != null) {
-							GameManager.Instance.GridHandler.TintCharacter();
+							GameManager.Instance.GridHandler.TintCharacter ();
 							
 							if (GameMode == GameMode.Singleplayer && GameManager.Instance.PlayerState == PlayerState.Enemy) {
 								GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
@@ -54,20 +56,20 @@ namespace Hexa2Go {
 						} else {
 							GameManager.Instance.GridHandler.SwitchToNextPlayer ();
 						}
-						Debug.Log("SelectCharacter GameModeHandler ENDE");
+						Debug.Log ("SelectCharacter GameModeHandler ENDE");
 						break;
 
 					}
 				case MatchState.Moving:
 					{
 
-						Debug.Log("Moving GameModeHandler");
+						Debug.Log ("Moving GameModeHandler");
 						if (GameManager.Instance.GameFinished) {
 							GameManager.Instance.MatchState = MatchState.Win;
 						} else {
 							GameManager.Instance.GridHandler.SwitchToNextPlayer ();
 						}
-						Debug.Log("Moving GameModeHandler ENDE");
+						Debug.Log ("Moving GameModeHandler ENDE");
 						break;
 
 					}
@@ -76,11 +78,12 @@ namespace Hexa2Go {
 		}
 		
 		public void Unregister () {
+			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
 			if (_playerHandler != null) {
 				_playerHandler.Unregister ();
 			}
 			if (_aiHandler != null) {
-				_aiHandler.Unregister();
+				_aiHandler.Unregister ();
 			}
 		}
 	}

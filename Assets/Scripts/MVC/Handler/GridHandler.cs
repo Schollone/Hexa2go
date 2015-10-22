@@ -243,6 +243,7 @@ namespace Hexa2Go {
 						if (_hexagonHandler.FocusedHexagon != null) {
 							_hexagonHandler.FocusedHexagon.View.PlayExplosion (true);
 						}
+						_hexagonHandler.ResetFocusedHexagon ();
 						break;
 					}
 			}
