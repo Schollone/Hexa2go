@@ -39,7 +39,6 @@ namespace Hexa2Go {
 					move = false;
 					_animationTime = 0f;
 					_place = true;
-					Debug.LogWarning (Time.time);
 				}
 			}
 
@@ -49,7 +48,6 @@ namespace Hexa2Go {
 				if (_placingTime >= 1f) {
 					_placingTime = 1f;
 					_place = false;
-					Debug.LogWarning (Time.time);
 				}
 				float yPos = Mathf.Lerp (-GridHelper.ACTIVATED_Y_POS, GridHelper.DEACTIVATED_Y_POS, _placingTime);
 				transform.position = new Vector3 (transform.position.x, yPos, transform.position.z);
@@ -87,7 +85,6 @@ namespace Hexa2Go {
 				target = tmp;
 				start = transform.position;
 				move = true;
-				Debug.LogWarning (Time.time);
 			} else {
 				transform.position = tmp;
 			}
