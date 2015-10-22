@@ -1,0 +1,34 @@
+SINGLEPLAYER
+Singleplayer
+MULTIPLAYER
+Multiplayer
+ONLINE_MULTIPLAYER
+Online Multiplayer
+QUIT
+quit
+MENU
+Menu  .
+HINT_THROW_DICE
+Please throw dice!
+HINT_SELECT_CHARACTER
+Select one of your moveable characters!
+HINT_FOCUS_CHARACTER_TARGET
+Decide on the new position of the figure!
+HINT_SELECT_HEXAGON
+Double - Select a moveable Hexagon!
+HINT_FOCUS_HEXAGON_TARGET
+Decide on the new position of the hexagon!
+PLAYER
+Player
+OPPONENT
+opponent
+COMPUTER
+Computer
+PLAYER_1
+Player 1
+PLAYER_2
+Player 2
+WON
+You won!
+LOSE
+You lose!

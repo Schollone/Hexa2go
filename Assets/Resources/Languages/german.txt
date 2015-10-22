@@ -1,0 +1,34 @@
+SINGLEPLAYER
+Einzelspieler
+MULTIPLAYER
+Mehrspieler
+ONLINE_MULTIPLAYER
+Online Mehrspieler
+QUIT
+Beenden
+MENU
+Menü  .
+HINT_THROW_DICE
+Bitte würfeln!
+HINT_SELECT_CHARACTER
+Selektiere eine deiner beweglichen Figuren!
+HINT_FOCUS_CHARACTER_TARGET
+Bestimme die neue Position der Figur!
+HINT_SELECT_HEXAGON
+Pasch - Selektiere ein verschiebbares Hexagon!
+HINT_FOCUS_HEXAGON_TARGET
+Bestimme die neue Position des Hexagons!
+PLAYER
+Spieler
+OPPONENT
+Gegner
+COMPUTER
+Computer
+PLAYER_1
+Spieler 1
+PLAYER_2
+Spieler 2
+WON
+Gewonnen!
+LOSE
+Verloren!

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace Hexa2Go {
@@ -49,7 +49,7 @@ namespace Hexa2Go {
 						if (GameManager.Instance.GridHandler.SelectedCharacter != null) {
 							GameManager.Instance.GridHandler.TintCharacter ();
 							
-							if (GameMode == GameMode.Singleplayer && GameManager.Instance.PlayerState == PlayerState.Enemy) {
+							if (GameMode == GameMode.Singleplayer && GameManager.Instance.PlayerState == PlayerState.Opponent) {
 								GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
 							}
 							

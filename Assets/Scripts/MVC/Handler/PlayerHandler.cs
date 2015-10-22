@@ -16,20 +16,20 @@ namespace Hexa2Go {
 			switch (gameMode) {
 				case GameMode.Singleplayer:
 					{
-						namePlayerOne = "Spieler";
-						namePlayerTwo = "Computer";
+						namePlayerOne = LocalizationManager.GetText (TextIdentifier.PLAYER.ToString ());
+						namePlayerTwo = LocalizationManager.GetText (TextIdentifier.COMPUTER.ToString ());
 						break;
 					}
 				case GameMode.Multiplayer:
 					{
-						namePlayerOne = "Spieler 1";
-						namePlayerTwo = "Spieler 2";
+						namePlayerOne = LocalizationManager.GetText (TextIdentifier.PLAYER_1.ToString ());
+						namePlayerTwo = LocalizationManager.GetText (TextIdentifier.PLAYER_2.ToString ());
 						break;
 					}
 				case GameMode.OnlineMultiplayer:
 					{
-						namePlayerOne = "Spieler";
-						namePlayerTwo = "Gegner";
+						namePlayerOne = LocalizationManager.GetText (TextIdentifier.PLAYER.ToString ());
+						namePlayerTwo = LocalizationManager.GetText (TextIdentifier.OPPONENT.ToString ());
 						break;
 					}
 			}
@@ -49,7 +49,7 @@ namespace Hexa2Go {
 						if (playerState == PlayerState.Player) {
 							Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
 							_playerController_One.View.UpdatePlayer (color, _playerController_One.Model.Name);
-						} else if (playerState == PlayerState.Enemy) {
+						} else if (playerState == PlayerState.Opponent) {
 							Color color = HexagonColors.GetColor (_playerController_Two.Model.TeamColor);
 							_playerController_Two.View.UpdatePlayer (color, _playerController_Two.Model.Name);
 						}
@@ -63,10 +63,10 @@ namespace Hexa2Go {
 								{
 									if (playerState == PlayerState.Player) {
 										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
-										_playerController_One.View.UpdatePlayer (color, "Gewonnen");
-									} else if (playerState == PlayerState.Enemy) {
+										_playerController_One.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.WON.ToString ()));
+									} else if (playerState == PlayerState.Opponent) {
 										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
-										_playerController_One.View.UpdatePlayer (color, "Verloren");
+										_playerController_One.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.LOSE.ToString ()));
 									}
 									break;
 								}
@@ -74,10 +74,10 @@ namespace Hexa2Go {
 								{
 									if (playerState == PlayerState.Player) {
 										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
-										_playerController_One.View.UpdatePlayer (color, "Gewonnen");
-									} else if (playerState == PlayerState.Enemy) {
+										_playerController_One.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.WON.ToString ()));
+									} else if (playerState == PlayerState.Opponent) {
 										Color color = HexagonColors.GetColor (_playerController_Two.Model.TeamColor);
-										_playerController_Two.View.UpdatePlayer (color, "Gewonnen");
+										_playerController_Two.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.WON.ToString ()));
 									}
 									break;
 								}

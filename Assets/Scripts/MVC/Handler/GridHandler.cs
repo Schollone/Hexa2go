@@ -71,7 +71,7 @@ namespace Hexa2Go {
 			Debug.LogWarning (GameManager.Instance.PlayerState + "!!!");
 			if (GameManager.Instance.PlayerState == PlayerState.Player) {
 				_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
-			} else if (GameManager.Instance.PlayerState == PlayerState.Enemy) {
+			} else if (GameManager.Instance.PlayerState == PlayerState.Opponent) {
 				_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();
 			}
 			TintCharacter ();
@@ -107,7 +107,7 @@ namespace Hexa2Go {
 		}
 
 		public void SwitchToNextPlayer () {
-			PlayerState playerState = (GameManager.Instance.PlayerState == PlayerState.Player) ? PlayerState.Enemy : PlayerState.Player;
+			PlayerState playerState = (GameManager.Instance.PlayerState == PlayerState.Player) ? PlayerState.Opponent : PlayerState.Player;
 			Debug.LogWarning (GameManager.Instance.PlayerState + "!!! Switch To Next Player: " + playerState);
 			GameManager.Instance.PlayerState = playerState;
 			GameManager.Instance.MatchState = MatchState.ThrowDice;
@@ -170,7 +170,7 @@ namespace Hexa2Go {
 							_characterHandler_P1.InitSelectedCharacters (characterType_1, characterType_2);
 							_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
 						
-						} else if (GameManager.Instance.PlayerState == PlayerState.Enemy) {
+						} else if (GameManager.Instance.PlayerState == PlayerState.Opponent) {
 
 							_characterHandler_P2.InitSelectedCharacters (characterType_1, characterType_2);
 							_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();

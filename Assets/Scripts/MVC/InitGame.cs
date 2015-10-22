@@ -4,6 +4,10 @@ using Hexa2Go;
 
 public class InitGame : MonoBehaviour {
 
+	void Awake () {
+		GameManager g = GameManager.Instance;
+	}
+
 	// Use this for initialization
 	void Start () {
 		if (GameManager.Instance.GameState == GameState.NullState) {

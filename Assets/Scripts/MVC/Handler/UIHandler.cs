@@ -88,8 +88,8 @@ namespace Hexa2Go {
 								{
 									if (playerState == PlayerState.Player) {
 										_dicesController.Enable ();
-										_hintController.View.UpdateHint ("Bitte Würfeln!");
-									} else if (playerState == PlayerState.Enemy) {
+										_hintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_THROW_DICE.ToString ()));
+									} else if (playerState == PlayerState.Opponent) {
 										_dicesController.Disable ();
 									}
 							
@@ -97,7 +97,7 @@ namespace Hexa2Go {
 								}
 							case GameMode.Multiplayer:
 								{
-									_hintController.View.UpdateHint ("Bitte Würfeln!");
+									_hintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_THROW_DICE.ToString ()));
 									_dicesController.Enable ();
 									break;
 								}
@@ -135,8 +135,8 @@ namespace Hexa2Go {
 									if (playerState == PlayerState.Player) {
 										_nextCharcarterController.View.Show ();
 										_acceptController.View.Show ();
-										_hintController.View.UpdateHint ("Selektiere eine deiner erwürfelten Figuren!");
-									} else if (playerState == PlayerState.Enemy) {
+										_hintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_SELECT_CHARACTER.ToString ()));
+									} else if (playerState == PlayerState.Opponent) {
 										_nextCharcarterController.View.Hide ();
 										_acceptController.View.Hide ();
 									}
@@ -145,7 +145,7 @@ namespace Hexa2Go {
 								}
 							case GameMode.Multiplayer:
 								{
-									_hintController.View.UpdateHint ("Selektiere eine deiner erwürfelten Figuren!");
+									_hintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_SELECT_CHARACTER.ToString ()));
 									_nextCharcarterController.View.Show ();
 									_acceptController.View.Show ();
 									break;
@@ -162,12 +162,12 @@ namespace Hexa2Go {
 						_dicesController.Disable ();
 						_nextCharcarterController.View.Hide ();
 
-						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Enemy) {
+						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Opponent) {
 							_prevHexagonController.View.Hide ();
 							_nextHexagonController.View.Hide ();
 							_acceptController.View.Hide ();
 						} else {
-							_hintController.View.UpdateHint ("Fokusiere das Zielfeld!");
+							_hintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_FOCUS_CHARACTER_TARGET.ToString ()));
 							_prevHexagonController.View.Show ();
 							_nextHexagonController.View.Show ();
 							_acceptController.View.Show ();
@@ -183,12 +183,12 @@ namespace Hexa2Go {
 						_dicesController.Disable ();
 						_nextCharcarterController.View.Hide ();
 
-						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Enemy) {
+						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Opponent) {
 							_prevHexagonController.View.Hide ();
 							_nextHexagonController.View.Hide ();
 							_acceptController.View.Hide ();
 						} else {
-							_hintController.View.UpdateHint ("Pasch - Selektiere ein verschiebbares Hexagon!");
+							_hintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_SELECT_HEXAGON.ToString ()));
 							_prevHexagonController.View.Show ();
 							_nextHexagonController.View.Show ();
 							_acceptController.View.Show ();
@@ -204,12 +204,12 @@ namespace Hexa2Go {
 						_dicesController.Disable ();
 						_nextCharcarterController.View.Hide ();
 
-						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Enemy) {
+						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Opponent) {
 							_prevHexagonController.View.Hide ();
 							_nextHexagonController.View.Hide ();
 							_acceptController.View.Hide ();
 						} else {
-							_hintController.View.UpdateHint ("Fokusiere die neue Position des Hexagons!");
+							_hintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_FOCUS_HEXAGON_TARGET.ToString ()));
 							_prevHexagonController.View.Show ();
 							_nextHexagonController.View.Show ();
 							_acceptController.View.Show ();

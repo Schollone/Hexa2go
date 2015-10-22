@@ -26,7 +26,7 @@ namespace Hexa2Go {
 	public enum PlayerState {
 		NullState,
 		Player,
-		Enemy
+		Opponent
 	}
 	public enum GameMode {
 		Singleplayer,
@@ -63,6 +63,8 @@ namespace Hexa2Go {
 			_playerState = PlayerState.NullState;
 
 			_gameModeHandler = new GameModeHandler ();
+
+			LocalizationManager.LoadLanguage ("english");
 
 			OnGameStateChange += HandleOnGameStateChange;
 		}
