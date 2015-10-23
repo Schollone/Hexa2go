@@ -10,6 +10,8 @@ MENU
 Menü
 CONTINUE
 Fortfahren
+MAINMENU
+Hauptmenü
 HINT_THROW_DICE
 Bitte würfeln!
 HINT_SELECT_CHARACTER

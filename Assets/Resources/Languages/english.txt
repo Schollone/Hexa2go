@@ -10,6 +10,8 @@ MENU
 Menu
 CONTINUE
 Continue
+MAINMENU
+Mainmenu
 HINT_THROW_DICE
 Please throw dice!
 HINT_SELECT_CHARACTER

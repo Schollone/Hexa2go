@@ -16,12 +16,6 @@ namespace Hexa2Go {
 		private float _placingTime = 0f;
 		const float PLACING_SPEED = 2f;
 
-		private Animator animator;
-
-		void Awake () {
-			animator = transform.GetChild (0).GetComponent<Animator> ();
-		}
-
 		void FixedUpdate () {
 			if (move) {
 				Vector3 bezier = (target + start) / 2;

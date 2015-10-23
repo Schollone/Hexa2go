@@ -6,27 +6,6 @@ using System.IO;
 
 namespace Hexa2Go {
 
-	public enum TextIdentifier {
-		SINGLEPLAYER,
-		MULTIPLAYER,
-		ONLINE_MULTIPLAYER,
-		QUIT,
-		MENU,
-		CONTINUE,
-		HINT_THROW_DICE,
-		HINT_SELECT_CHARACTER,
-		HINT_FOCUS_CHARACTER_TARGET,
-		HINT_SELECT_HEXAGON,
-		HINT_FOCUS_HEXAGON_TARGET,
-		PLAYER,
-		OPPONENT,
-		COMPUTER,
-		PLAYER_1,
-		PLAYER_2,
-		WON,
-		LOSE
-	}
-
 	public class LocalizationManager {
 
 		private static LocalizationManager _instance = null;

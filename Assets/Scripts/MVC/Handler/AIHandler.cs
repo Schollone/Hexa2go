@@ -8,12 +8,11 @@ namespace Hexa2Go {
 			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 
-		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {			
-			if (GameManager.Instance.PlayerState == PlayerState.Player) {
+		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {	
+			PlayerState playerState = GameManager.Instance.PlayerState;
+			if (playerState == PlayerState.Player) {
 				return;
 			}
-
-			PlayerState playerState = GameManager.Instance.PlayerState;
 
 			switch (nextMatchState) {
 				case MatchState.ThrowDice: 
@@ -40,7 +39,6 @@ namespace Hexa2Go {
 						if (selectedHexagon != null && selectedCharacter != null) {
 							GridPos targetPos = GameManager.Instance.GridHandler.HexagonHandler.GetTarget (selectedCharacter.Model.TeamColor).Model.GridPos;
 							GridPos nextPos = GameManager.Instance.GridHandler.HexagonHandler.GetNextHexagonToFocus (selectedHexagon.Model.GridPos, targetPos);
-							IHexagonController focusedHexagon = GameManager.Instance.GridHandler.HexagonHandler.FocusedHexagon;
 							while (!GameManager.Instance.GridHandler.HexagonHandler.FocusedHexagon.Model.GridPos.Equals(nextPos)) {
 								//Debug.Log("FocusNextHexagon " + nextPos);
 								GameManager.Instance.GridHandler.FocusNextHexagon ();
