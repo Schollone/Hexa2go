@@ -12,6 +12,9 @@ namespace Hexa2Go {
 		private AcceptController _acceptController;
 		private HintController _hintController;
 
+		private IPlayerController _playerController_One;
+		private IPlayerController _playerController_Two;
+
 		public UIHandler () {
 			Debug.Log ("ButtonHandler");
 
@@ -24,6 +27,8 @@ namespace Hexa2Go {
 			InitDicesController ();
 
 			InitHintController ();
+
+			InitPlayerStatus ();
 
 			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
@@ -67,6 +72,37 @@ namespace Hexa2Go {
 			_hintController = new HintController (hintView);
 		}
 
+		private void InitPlayerStatus () {
+			string namePlayerOne = "";
+			string namePlayerTwo = "";
+			
+			GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
+			
+			switch (gameMode) {
+				case GameMode.Singleplayer:
+					{
+						namePlayerOne = LocalizationManager.GetText (TextIdentifier.PLAYER.ToString ());
+						namePlayerTwo = LocalizationManager.GetText (TextIdentifier.COMPUTER.ToString ());
+						break;
+					}
+				case GameMode.Multiplayer:
+					{
+						namePlayerOne = LocalizationManager.GetText (TextIdentifier.PLAYER_1.ToString ());
+						namePlayerTwo = LocalizationManager.GetText (TextIdentifier.PLAYER_2.ToString ());
+						break;
+					}
+				case GameMode.OnlineMultiplayer:
+					{
+						namePlayerOne = LocalizationManager.GetText (TextIdentifier.PLAYER.ToString ());
+						namePlayerTwo = LocalizationManager.GetText (TextIdentifier.OPPONENT.ToString ());
+						break;
+					}
+			}
+			
+			_playerController_One = new PlayerController (TeamColor.RED, namePlayerOne);
+			_playerController_Two = new PlayerController (TeamColor.BLUE, namePlayerTwo);
+		}
+
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
 			PlayerState playerState = GameManager.Instance.PlayerState;
 			GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
@@ -101,6 +137,15 @@ namespace Hexa2Go {
 									_dicesController.Enable ();
 									break;
 								}
+						}
+
+						// Update display of player status
+						if (playerState == PlayerState.Player) {
+							Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
+							_playerController_One.View.UpdatePlayer (color, _playerController_One.Model.Name);
+						} else if (playerState == PlayerState.Opponent) {
+							Color color = HexagonColors.GetColor (_playerController_Two.Model.TeamColor);
+							_playerController_Two.View.UpdatePlayer (color, _playerController_Two.Model.Name);
 						}
 
 						Debug.Log ("ThrowDice ButtonHandler ENDE");	
@@ -227,6 +272,32 @@ namespace Hexa2Go {
 						_nextCharcarterController.View.Hide ();
 						_acceptController.View.Show ();
 
+						switch (gameMode) {
+							case GameMode.Singleplayer:
+							case GameMode.OnlineMultiplayer:
+								{
+									if (playerState == PlayerState.Player) {
+										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
+										_playerController_One.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.WON.ToString ()));
+									} else if (playerState == PlayerState.Opponent) {
+										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
+										_playerController_One.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.LOSE.ToString ()));
+									}
+									break;
+								}
+							case GameMode.Multiplayer:
+								{
+									if (playerState == PlayerState.Player) {
+										Color color = HexagonColors.GetColor (_playerController_One.Model.TeamColor);
+										_playerController_One.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.WON.ToString ()));
+									} else if (playerState == PlayerState.Opponent) {
+										Color color = HexagonColors.GetColor (_playerController_Two.Model.TeamColor);
+										_playerController_Two.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.WON.ToString ()));
+									}
+									break;
+								}
+						}
+
 						Debug.Log ("FocusHexagonTarget ButtonHandler ENDE");
 						break;
 					}
@@ -241,6 +312,18 @@ namespace Hexa2Go {
 		public DicesController DicesController {
 			get {
 				return _dicesController;
+			}
+		}
+
+		public IPlayerController PlayerController_One {
+			get {
+				return _playerController_One;
+			}
+		}
+		
+		public IPlayerController PlayerController_Two {
+			get {
+				return _playerController_Two;
 			}
 		}
 	}

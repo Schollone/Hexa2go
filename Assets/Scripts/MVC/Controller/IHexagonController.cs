@@ -10,6 +10,8 @@ namespace Hexa2Go {
 		IHexagonView View { get; }
 
 		GridPos Pred { get; set; }
+
+		int Distance { get; set; }
 	}
 
 }

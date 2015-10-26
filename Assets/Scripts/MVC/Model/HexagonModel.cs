@@ -71,12 +71,6 @@ namespace Hexa2Go {
 			}
 		}
 
-		public bool IsFocusableForHexagon {
-			get {
-				return false;
-			}
-		}
-
 		public bool IsBlocked {
 			get {
 				bool result = false;

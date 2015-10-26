@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace Hexa2Go {
 
@@ -60,7 +61,7 @@ namespace Hexa2Go {
 			hexagon.Model.Activate ();
 			hexagon = Get (new GridPos (5, 4));
 			hexagon.Model.Activate ();
-			hexagon = Get (new GridPos (6, 3));
+			hexagon = Get (new GridPos (7, 2));
 			hexagon.Model.Activate ();
 			hexagon = Get (new GridPos (6, 4));
 			hexagon.Model.Activate ();
@@ -281,45 +282,45 @@ namespace Hexa2Go {
 			foreach (IHexagonController hexagon in _hexagons.Values) {
 				hexagon.Model.Visited = false;
 				hexagon.Pred = new GridPos ();
+				hexagon.Distance = int.MaxValue;
 			}
 		}
 
-		public GridPos GetNextHexagonToFocus (GridPos start, GridPos target) {
+		public Nullable<GridPos> GetNextHexagonToFocus (GridPos start, GridPos target) {
 			//Debug.Log ("start: " + start + " - target: " + target);
+			// BFS
 
 			queue = new Queue ();
 			resetHexagonVisit ();
 
 			IHexagonController root = Get (start);
 			root.Model.Visited = true;
-			foreach (GridPos neighborPos in root.Model.Neighbors) {
-				IHexagonController neighbor = Get (neighborPos);
-				if (neighbor.Model.IsFocusableForCharacter && !neighbor.Model.Visited) {
-					neighbor.Model.Visited = true;
-					neighbor.Pred = root.Model.GridPos;
-					queue.Enqueue (neighbor);
-				}
-			}
+			queue.Enqueue (root);
+
+			//int dist = 0;
 
 			while (queue.Count > 0) {
 				IHexagonController hexagon = (IHexagonController)queue.Dequeue ();
+
+				//dist++;
 
 				foreach (GridPos neighborPos in hexagon.Model.Neighbors) {
 					IHexagonController neighbor = Get (neighborPos);
 					if (neighbor.Model.IsFocusableForCharacter && !neighbor.Model.Visited) {
 						neighbor.Model.Visited = true;
 						neighbor.Pred = hexagon.Model.GridPos;
+						//neighbor.Distance = dist;
 						queue.Enqueue (neighbor);
 					}
 				}
 			}
 
-			GridPos result = new GridPos ();
+			Nullable<GridPos> result = null;
 
-			GridPos tmp = target;
-			while (!tmp.Equals(start)) {
-				IHexagonController hexagon = Get (tmp);
-				tmp = hexagon.Pred;
+			GridPos predHexagon = target;
+			while (!predHexagon.Equals(start)) {
+				IHexagonController hexagon = Get (predHexagon);
+				predHexagon = hexagon.Pred;
 				result = hexagon.Model.GridPos;
 			}
 
@@ -330,6 +331,67 @@ namespace Hexa2Go {
 			return result;
 		}
 
+		public Nullable<GridPos> Strategy_1 (ICharacterController startCharacter) {
+
+			IHexagonController start = Get (startCharacter.Model.GridPos);
+			IHexagonController target = GetTarget (startCharacter.Model.TeamColor);
+			Debug.LogWarning ("Start Pos: " + start.Model.GridPos);
+			Debug.LogWarning ("Ziel Pos: " + target.Model.GridPos);
+
+			foreach (GridPos neighborPos in start.Model.Neighbors) {
+				IHexagonController neighbor = Get (neighborPos);
+				if (IsFocusableForHexagon (start, neighbor)) {
+					Debug.Log ("FocusableNeighbor: " + neighbor);
+					int distanceFromOldPosition = GetDistance (start, target);
+					int distanceFromNewPosition = GetDistance (neighbor, target);
+					if (distanceFromNewPosition < distanceFromOldPosition) {
+						Debug.LogWarning (distanceFromNewPosition + " < " + distanceFromOldPosition + " --> " + neighborPos);
+						return neighborPos;
+					}
+				}
+			}
+
+			return null;
+		}
+
+		private int GetDistance (IHexagonController root, IHexagonController target) {
+			queue = new Queue ();
+			resetHexagonVisit ();
+
+			root.Model.Visited = true;
+			root.Distance = 0;
+			queue.Enqueue (root);
+			
+			//int dist = 1;
+			
+			while (queue.Count > 0) {
+				IHexagonController hexagon = (IHexagonController)queue.Dequeue ();
+				
+				foreach (GridPos neighborPos in hexagon.Model.Neighbors) {
+					IHexagonController neighbor = Get (neighborPos);
+					//Debug.Log ("Current: " + hexagon.Model.GridPos + " ; Nachbar: " + neighbor.Model.GridPos);
+					if (neighbor.Model.IsActivated && !neighbor.Model.Visited) {
+						neighbor.Model.Visited = true;
+						//neighbor.Pred = hexagon.Model.GridPos;
+						neighbor.Distance = hexagon.Distance + 1;
+						Debug.Log ("Current: " + hexagon.Model.GridPos + " ; Nachbar: " + neighbor.Model.GridPos + " ; Distance: " + neighbor.Distance);
+						queue.Enqueue (neighbor);
+					}
+				}
+			}
+
+			int result = target.Distance;
+			
+			resetHexagonVisit ();
+
+			Debug.Log (result);
+			
+			return result;
+		}
+
+		public void SetHexagonToPosition (GridPos newPosition) {
+			_focusedHexagon = Get (newPosition);
+		}
 	}
 
 }

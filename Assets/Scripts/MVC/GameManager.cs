@@ -52,7 +52,12 @@ namespace Hexa2Go {
 
 		private GameState _gameState;
 		private MatchState _matchState;
+		private MatchState _prevMatchState;
 		private PlayerState _playerState;
+		private PlayerState _prevPlayerState;
+
+		public bool MatchStateChanged = false;
+		public bool PlayerStateChanged = false;
 
 		public bool GameFinished = false;
 
@@ -60,7 +65,9 @@ namespace Hexa2Go {
 			Debug.LogWarning ("GameManager");
 			_gameState = GameState.NullState;
 			_matchState = MatchState.NullState;
+			_prevMatchState = MatchState.NullState;
 			_playerState = PlayerState.NullState;
+			_prevPlayerState = PlayerState.NullState;
 
 			_gameModeHandler = new GameModeHandler ();
 
@@ -121,18 +128,20 @@ namespace Hexa2Go {
 				return _matchState;
 			}
 			set {
-				Debug.LogWarning (_matchState + " ==> " + value);
 				if (_matchState == value) {
 					return;
 				}
 
-				MatchState prevState = _matchState;
+				_prevMatchState = _matchState;
 				_matchState = value;
+				MatchStateChanged = true;
+			}
+		}
 
-				if (OnMatchStateChange != null) {
-					OnMatchStateChange (prevState, value);
-				}
-
+		public void InitNextMatchState () {
+			Debug.LogWarning (_prevMatchState + " ==> " + _matchState);
+			if (OnMatchStateChange != null) {
+				OnMatchStateChange (_prevMatchState, _matchState);
 			}
 		}
 
@@ -141,18 +150,20 @@ namespace Hexa2Go {
 				return _playerState;
 			}
 			set {
-				Debug.LogWarning (_playerState + " ==> " + value);
 				if (_playerState == value) {
 					return;
 				}
 
-				PlayerState prevState = _playerState;
+				_prevPlayerState = _playerState;
 				_playerState = value;
+				PlayerStateChanged = true;
+			}
+		}
 
-				if (OnPlayerStateChange != null) {
-					OnPlayerStateChange (prevState, value);
-				}
-
+		public void InitNextPlayerState () {
+			Debug.LogWarning (_prevPlayerState + " ==> " + _playerState);
+			if (OnPlayerStateChange != null) {
+				OnPlayerStateChange (_prevPlayerState, _playerState);
 			}
 		}
 

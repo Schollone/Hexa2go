@@ -22,8 +22,8 @@ namespace Hexa2Go {
 
 		// Use this for initialization
 		void Start () {
-			playername1.text = GameManager.Instance.GameModeHandler.PlayerHandler.PlayerController_One.Model.Name;
-			playername2.text = GameManager.Instance.GameModeHandler.PlayerHandler.PlayerController_Two.Model.Name;
+			playername1.text = GameManager.Instance.UIHandler.PlayerController_One.Model.Name;
+			playername2.text = GameManager.Instance.UIHandler.PlayerController_Two.Model.Name;
 
 			progress1.text = "0 / 3";
 			progress2.text = "0 / 3";

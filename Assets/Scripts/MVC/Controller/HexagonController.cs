@@ -8,12 +8,14 @@ namespace Hexa2Go {
 		private readonly IHexagonModel _hexagonModel;
 		private readonly IHexagonView _hexagonView;
 		private GridPos _pred;
+		private int _dist;
 
 		public HexagonController (GridPos gridPos) {
 			GameObject prefab = Resources.Load ("Hexagon", typeof(GameObject)) as GameObject;
 			GameObject instance = GameObject.Instantiate (prefab);
 
 			_pred = new GridPos ();
+			_dist = int.MaxValue;
 
 			GameObject grid = GameObject.Find ("Grid");
 			instance.transform.SetParent (grid.transform);
@@ -74,6 +76,15 @@ namespace Hexa2Go {
 			}
 			set {
 				_pred = value;
+			}
+		}
+
+		public int Distance {
+			get {
+				return _dist;
+			}
+			set {
+				_dist = value;
 			}
 		}
 

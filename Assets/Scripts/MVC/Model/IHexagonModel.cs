@@ -33,8 +33,6 @@ namespace Hexa2Go {
 		
 		bool IsFocusableForCharacter { get; }
 
-		bool IsFocusableForHexagon { get; }
-
 		void Activate (bool ignoreView = false, TeamColor teamColor = TeamColor.NONE);
 
 		void Deactivate (bool ignoreView = false);
