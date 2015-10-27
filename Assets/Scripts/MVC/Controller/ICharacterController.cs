@@ -8,6 +8,8 @@ namespace Hexa2Go {
 		ICharacterModel Model { get; }
 		
 		ICharacterView View { get; }
+
+		int Distance { get; set; }
 	}
 
 }

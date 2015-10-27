@@ -2,11 +2,28 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hexa2Go {
+	public enum AIType {
+		Constructive,
+		Destructive,
+		Mixed
+	}
+
+	public delegate bool StrategyDelegate ();
+
 	public class AIHandler {
 
+		private AIType _aiType;
+		private static System.Random r = new System.Random ();
+
 		public AIHandler () {
+
+			_aiType = AIType.Constructive;
+			int random = r.Next (0, 3);
+			_aiType = (AIType)random;
+
 			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 
@@ -19,32 +36,38 @@ namespace Hexa2Go {
 			switch (nextMatchState) {
 				case MatchState.ThrowDice: 
 					{
-						Debug.Log ("ThrowDice AIHandler");
 						GameManager.Instance.MatchState = MatchState.Throwing;
-						Debug.Log ("ThrowDice AIHandler ENDE");
 						break;
 					}
 				case MatchState.FocusCharacterTarget:
 					{
-						Debug.Log ("FocusHexagonTarget AIHandler");
 						GameManager.Instance.GridHandler.FocusNextHexagon ();
+
+						HexagonHandler hexagonHandler = GameManager.Instance.GridHandler.HexagonHandler;
 
 						IHexagonController selectedHexagon = GameManager.Instance.GridHandler.SelectedHexagon;
 						ICharacterController selectedCharacter = GameManager.Instance.GridHandler.SelectedCharacter;
+
 						//Debug.LogWarning(selectedHexagon + " - " + selectedCharacter);
 
 						if (selectedHexagon != null && selectedCharacter != null) {
-							GridPos targetPos = GameManager.Instance.GridHandler.HexagonHandler.GetTarget (selectedCharacter.Model.TeamColor).Model.GridPos;
-							Nullable<GridPos> nextPos = GameManager.Instance.GridHandler.HexagonHandler.GetNextHexagonToFocus (selectedHexagon.Model.GridPos, targetPos);
-							while (!GameManager.Instance.GridHandler.HexagonHandler.FocusedHexagon.Model.GridPos.Equals(nextPos)) {
-								//Debug.Log("FocusNextHexagon " + nextPos);
-								GameManager.Instance.GridHandler.FocusNextHexagon ();
-							}
+							GridPos targetPos = hexagonHandler.GetTarget (selectedCharacter.Model.TeamColor).Model.GridPos;
+							Nullable<GridPos> nextPos = hexagonHandler.GetNextHexagonToFocus (selectedHexagon.Model.GridPos, targetPos);
+							Debug.LogWarning (nextPos);
 
+							IHexagonController hexagon = hexagonHandler.Get ((GridPos)nextPos);
+
+							if (!hexagon.Model.IsFocusableForCharacter) {
+								GameManager.Instance.GridHandler.FocusNextHexagon ();
+							} else {
+
+								while (!hexagonHandler.FocusedHexagon.Model.GridPos.Equals(nextPos)) {
+									GameManager.Instance.GridHandler.FocusNextHexagon ();
+								}
+							}
 							GameManager.Instance.MatchState = MatchState.Moving;
 						}
 
-						Debug.Log ("FocusHexagonTarget AIHandler ENDE");
 						break;
 					}
 				case MatchState.SelectHexagon:
@@ -54,37 +77,47 @@ namespace Hexa2Go {
 					}
 				case MatchState.FocusHexagonTarget:
 					{
-						Debug.Log ("FocusHexagonTarget AIHandler");
+						//GameManager.Instance.GridHandler.FocusNextHexagon (true);
 
-						GameManager.Instance.GridHandler.FocusNextHexagon (true);
+						HexagonHandler hexagonHandler = GameManager.Instance.GridHandler.HexagonHandler;
 					
-						ICollection<ICharacterController> collection = GameManager.Instance.GridHandler.CharacterHandler_P2.Characters.Values;
-						ICharacterController[] characters = new ICharacterController[collection.Count];
-						collection.CopyTo (characters, 0);
-					
-						Nullable<GridPos> nextPos = null;
-						foreach (ICharacterController character in characters) {
-							nextPos = GameManager.Instance.GridHandler.HexagonHandler.Strategy_1 (character);
-							if (nextPos != null) {
-								GameManager.Instance.GridHandler.SelectedHexagon = GameManager.Instance.GridHandler.HexagonHandler.Get (character.Model.GridPos);
+						ICollection<ICharacterController> opponentCollection = GameManager.Instance.GridHandler.CharacterHandler_P2.Characters.Values;
+						ICharacterController[] opponentCharacters = new ICharacterController[opponentCollection.Count];
+						opponentCollection.CopyTo (opponentCharacters, 0);
+
+						ICollection<ICharacterController> playerCollection = GameManager.Instance.GridHandler.CharacterHandler_P1.Characters.Values;
+						ICharacterController[] playerCharacters = new ICharacterController[playerCollection.Count];
+						playerCollection.CopyTo (playerCharacters, 0);
+
+						opponentCharacters = hexagonHandler.SortCharacterByDistance (opponentCharacters);
+						playerCharacters = hexagonHandler.SortCharacterByDistance (playerCharacters);
+
+						List<StrategyDelegate> l = new List<StrategyDelegate> ();
+						l.Add (() => Strategy (opponentCharacters, true, true));
+						l.Add (() => Strategy (opponentCharacters, false, true));
+						l.Add (() => Strategy (playerCharacters, true));
+						l.Add (() => Strategy (playerCharacters, false));
+						l.Add (() => Strategy (null));
+
+						if (_aiType == AIType.Destructive) {
+							l = new List<StrategyDelegate> ();
+							l.Add (() => Strategy (playerCharacters, true));
+							l.Add (() => Strategy (playerCharacters, false));
+							l.Add (() => Strategy (opponentCharacters, true, true));
+							l.Add (() => Strategy (opponentCharacters, false, true));
+							l.Add (() => Strategy (null));
+						} else if (_aiType == AIType.Mixed) {
+							GridHelper.Shuffle (l);
+						}
+
+						foreach (StrategyDelegate action in l) {
+							bool hasResult = action ();
+							if (hasResult) {
 								break;
 							}
 						}
-					
-						if (nextPos != null) {
-							GameManager.Instance.GridHandler.HexagonHandler.SetHexagonToPosition ((GridPos)nextPos);
-						} // else { // Strategy 2
-						/* foreach (ICharacterController character in characters) {
-								nextPos = GameManager.Instance.GridHandler.HexagonHandler.Strategy_2 (character);
-								if (nextPos != null) {
-									GameManager.Instance.GridHandler.SelectedHexagon = GameManager.Instance.GridHandler.HexagonHandler.Get (character.Model.GridPos);
-									break;
-								}
-							}*/
-						//}
 
 						GameManager.Instance.MatchState = MatchState.Moving;
-						Debug.Log ("FocusHexagonTarget AIHandler ENDE");
 						break;
 					}
 			}
@@ -92,6 +125,54 @@ namespace Hexa2Go {
 
 		public void Unregister () {
 			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
+		}
+
+		private bool Strategy (ICharacterController[] characters, bool fromCharacterToTarget = true, bool checkForShortDistance = false) {
+			Nullable<GridPos> nextPos = null;
+			HexagonHandler hexagonHandler = GameManager.Instance.GridHandler.HexagonHandler;
+
+			if (characters != null) {
+
+				for (int i = 0; i < characters.Length; i++) {
+					ICharacterController character = characters [i];
+
+					nextPos = fromCharacterToTarget ? hexagonHandler.StrategyFromCharacterToTarget (character, checkForShortDistance) : hexagonHandler.StrategyFromTargetToCharacter (character, checkForShortDistance);
+
+					if (nextPos != null) {
+						GameManager.Instance.GridHandler.HexagonHandler.SetHexagonToPosition ((GridPos)nextPos);
+						return true;
+					}
+				}
+			} else {
+				GridHandler gridHandler = GameManager.Instance.GridHandler;
+				IHexagonController selectedHexagon = null;
+				hexagonHandler.InitSelectableHexagons ();
+				ArrayList selectableHexagons = hexagonHandler.GetSelectableHexagons ();
+
+				foreach (IHexagonController hexagon in selectableHexagons) {
+					if (hexagon.Model.IsTarget) {
+						continue;
+					}
+					GridPos gridPos = hexagon.Model.GridPos;
+					List<ICharacterController> list = (List<ICharacterController>)gridHandler.CharacterHandler_P1.GetCharacters (gridPos);
+					List<ICharacterController> list2 = (List<ICharacterController>)gridHandler.CharacterHandler_P2.GetCharacters (gridPos);
+					list.AddRange (list2);
+					if (list.Count <= 0) {
+						selectedHexagon = hexagon;
+						break;
+					}
+				}
+				foreach (GridPos neighborPos in selectedHexagon.Model.Neighbors) {
+					IHexagonController neighbor = hexagonHandler.Get (neighborPos);
+					if (hexagonHandler.IsFocusableForHexagon (selectedHexagon, neighbor)) {
+						hexagonHandler.SetHexagonToPosition (neighborPos);
+						break;
+					}
+				}
+				GameManager.Instance.GridHandler.SelectedHexagon = selectedHexagon;
+			}
+
+			return false;
 		}
 	}
 }

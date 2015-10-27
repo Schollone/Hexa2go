@@ -27,7 +27,7 @@ namespace Hexa2Go {
 			} else {
 				_characterController_Circle = new CharacterController (new GridPos (7, 3), "Character_Circle", teamColor);
 				_characterController_Square = new CharacterController (new GridPos (6, 4), "Character_Square", teamColor);
-				_characterController_Triangle = new CharacterController (new GridPos (7, 2), "Character_Triangle", teamColor);
+				_characterController_Triangle = new CharacterController (new GridPos (6, 3), "Character_Triangle", teamColor);
 			}
 
 			_characterController_Circle.View.Tint (color);
@@ -85,6 +85,7 @@ namespace Hexa2Go {
 
 		public ICharacterController SelectNextCharacter () {
 			ICharacterController character = null;
+
 			if (_selectedCharacters.Count > 0) {
 				character = (ICharacterController)_selectedCharacters [_selectedCharacterIndex];
 				character.Model.Deselect ();

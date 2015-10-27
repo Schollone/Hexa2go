@@ -14,7 +14,7 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
-			if (GameManager.Instance.UIHandler.DicesController.Pasch) {
+			if (GameManager.Instance.UIHandler.DicesController.Double) {
 				View.Zoom (2);
 			}
 		}

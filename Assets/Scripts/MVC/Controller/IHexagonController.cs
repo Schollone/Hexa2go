@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 namespace Hexa2Go {
@@ -9,7 +10,7 @@ namespace Hexa2Go {
 		
 		IHexagonView View { get; }
 
-		GridPos Pred { get; set; }
+		Nullable<GridPos> Pred { get; set; }
 
 		int Distance { get; set; }
 	}

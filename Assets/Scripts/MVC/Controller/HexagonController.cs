@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 namespace Hexa2Go {
@@ -7,14 +8,14 @@ namespace Hexa2Go {
 
 		private readonly IHexagonModel _hexagonModel;
 		private readonly IHexagonView _hexagonView;
-		private GridPos _pred;
+		private Nullable<GridPos> _pred;
 		private int _dist;
 
 		public HexagonController (GridPos gridPos) {
 			GameObject prefab = Resources.Load ("Hexagon", typeof(GameObject)) as GameObject;
 			GameObject instance = GameObject.Instantiate (prefab);
 
-			_pred = new GridPos ();
+			_pred = null;
 			_dist = int.MaxValue;
 
 			GameObject grid = GameObject.Find ("Grid");
@@ -70,7 +71,7 @@ namespace Hexa2Go {
 			}
 		}
 
-		public GridPos Pred {
+		public Nullable<GridPos> Pred {
 			get {
 				return _pred;
 			}

@@ -9,7 +9,7 @@ namespace Hexa2Go {
 		private readonly IDiceController _diceController_right;
 
 		private bool _diceThrowed;
-		private bool _pasch = false;
+		private bool _double = false;
 		
 		public DicesController (IDiceController diceController_left, IDiceController diceController_right) {
 			_diceController_left = diceController_left;
@@ -37,7 +37,7 @@ namespace Hexa2Go {
 				_diceThrowed = true;
 			} else {
 				Debug.LogWarning (_diceController_left.Model.CharacterType + " - " + _diceController_right.Model.CharacterType);
-				if (Pasch) {
+				if (Double) {
 					GameManager.Instance.MatchState = MatchState.SelectHexagon;
 				} else {
 					GameManager.Instance.MatchState = MatchState.SelectCharacter;
@@ -72,18 +72,18 @@ namespace Hexa2Go {
 			_diceController_right.StartThrow ();
 		}
 
-		public bool Pasch {
+		public bool Double {
 			get {
-				_pasch = false;
+				_double = false;
 				if (_diceController_left.Model.TeamColor == TeamColor.NONE)
-					return _pasch;
+					return _double;
 				if (_diceController_left.Model.CharacterType == _diceController_right.Model.CharacterType &&
 					_diceController_left.Model.TeamColor == _diceController_right.Model.TeamColor) {
 					Debug.LogWarning (_diceController_left.Model.CharacterType + " == " + _diceController_right.Model.CharacterType);
 					Debug.LogWarning (_diceController_left.Model.TeamColor + " == " + _diceController_right.Model.TeamColor);
-					_pasch = true;
+					_double = true;
 				}
-				return _pasch;
+				return _double;
 				//return true;
 			}
 		}

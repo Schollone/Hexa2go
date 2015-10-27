@@ -107,8 +107,9 @@ namespace Hexa2Go {
 		public void Activate (bool ignoreView = false, TeamColor teamColor = TeamColor.NONE) {
 			_isActivated = true;
 			_isTarget = (teamColor == TeamColor.NONE) ? false : true;
-			_teamColor = teamColor;
+
 			if (!ignoreView) {
+				_teamColor = teamColor;
 				HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
 				OnActivationChanged (this, eventArgs);
 			}
@@ -117,8 +118,9 @@ namespace Hexa2Go {
 		public void Deactivate (bool ignoreView = false) {
 			_isActivated = false;
 			_isTarget = false;
-			_teamColor = TeamColor.NONE;
+
 			if (!ignoreView) {
+				_teamColor = TeamColor.NONE;
 				HexagonValueChangedEventArgs eventArgs = new HexagonValueChangedEventArgs ();
 				OnActivationChanged (this, eventArgs);
 			}

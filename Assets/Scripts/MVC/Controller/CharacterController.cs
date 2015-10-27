@@ -7,8 +7,11 @@ namespace Hexa2Go {
 
 		private ICharacterView _view;
 		private ICharacterModel _model;
+		private int _dist;
 
 		public CharacterController (GridPos gridPos, string prefabName, TeamColor teamColor) {
+
+			_dist = int.MaxValue;
 
 			GameObject prefab = Resources.Load (prefabName, typeof(GameObject)) as GameObject;
 			GameObject instance = GameObject.Instantiate (prefab);
@@ -57,6 +60,15 @@ namespace Hexa2Go {
 		public ICharacterView View {
 			get {
 				return this._view;
+			}
+		}
+
+		public int Distance {
+			get {
+				return _dist;
+			}
+			set {
+				_dist = value;
 			}
 		}
 		#endregion

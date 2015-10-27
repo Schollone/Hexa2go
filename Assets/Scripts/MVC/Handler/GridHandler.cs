@@ -140,7 +140,6 @@ namespace Hexa2Go {
 		}
 
 		private void MoveHexagon () {
-			Debug.Log ("Move Hexagon " + _selectedHexagon.Model.TeamColor);
 			_hexagonHandler.FocusedHexagon.Model.Activate (false, _selectedHexagon.Model.TeamColor);
 			_selectedHexagon.Model.Deactivate ();
 
