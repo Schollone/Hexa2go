@@ -17,7 +17,6 @@ namespace Hexa2Go {
 		}
 
 		private void HandleOnClicked () {
-			Debug.Log ("Start Game: " + gameMode);
 			GameManager.Instance.GameModeHandler.GameMode = gameMode;
 
 			StartCoroutine (LoadingScreen ());

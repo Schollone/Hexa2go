@@ -16,7 +16,6 @@ namespace Hexa2Go {
 		private IPlayerController _playerController_Two;
 
 		public UIHandler () {
-			Debug.Log ("ButtonHandler");
 
 			InitAcceptController ();
 
@@ -111,7 +110,6 @@ namespace Hexa2Go {
 			switch (nextMatchState) {
 				case MatchState.ThrowDice:
 					{
-						Debug.Log ("ThrowDice ButtonHandler");						
 						_dicesController.Show ();
 						_prevHexagonController.View.Hide ();
 						_nextHexagonController.View.Hide ();
@@ -148,12 +146,10 @@ namespace Hexa2Go {
 							_playerController_Two.View.UpdatePlayer (color, _playerController_Two.Model.Name);
 						}
 
-						Debug.Log ("ThrowDice ButtonHandler ENDE");	
 						break;
 					}
 				case MatchState.Throwing:
 					{
-						Debug.Log ("Throwing ButtonHandler");
 						_dicesController.Show ();
 						_dicesController.Disable ();
 						_dicesController.StartThrow ();
@@ -161,13 +157,10 @@ namespace Hexa2Go {
 						_nextHexagonController.View.Hide ();
 						_nextCharcarterController.View.Hide ();
 						_acceptController.View.Hide ();
-
-						Debug.Log ("Throwing ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.SelectCharacter:
 					{
-						Debug.Log ("SelectCharacter ButtonHandler");
 						_dicesController.Show ();
 						_dicesController.Disable ();
 						_prevHexagonController.View.Hide ();
@@ -197,12 +190,10 @@ namespace Hexa2Go {
 								}
 						}
 				
-						Debug.Log ("SelectCharacter ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.FocusCharacterTarget:
 					{
-						Debug.Log ("FocusCharacterTarget ButtonHandler");
 						_dicesController.Show ();
 						_dicesController.Disable ();
 						_nextCharcarterController.View.Hide ();
@@ -218,12 +209,10 @@ namespace Hexa2Go {
 							_acceptController.View.Show ();
 						}
 				
-						Debug.Log ("FocusCharacterTarget ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.SelectHexagon:
 					{
-						Debug.Log ("SelectHexagon ButtonHandler");
 						_dicesController.Show ();
 						_dicesController.Disable ();
 						_nextCharcarterController.View.Hide ();
@@ -239,12 +228,10 @@ namespace Hexa2Go {
 							_acceptController.View.Show ();
 						}
 					
-						Debug.Log ("SelectHexagon ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.FocusHexagonTarget:
 					{
-						Debug.Log ("FocusHexagonTarget ButtonHandler");
 						_dicesController.Show ();
 						_dicesController.Disable ();
 						_nextCharcarterController.View.Hide ();
@@ -260,12 +247,10 @@ namespace Hexa2Go {
 							_acceptController.View.Show ();
 						}
 					
-						Debug.Log ("FocusHexagonTarget ButtonHandler ENDE");
 						break;
 					}
 				case MatchState.Win:
 					{
-						Debug.Log ("FocusHexagonTarget ButtonHandler");
 						_dicesController.Hide ();
 						_prevHexagonController.View.Hide ();
 						_nextHexagonController.View.Hide ();
@@ -298,7 +283,6 @@ namespace Hexa2Go {
 								}
 						}
 
-						Debug.Log ("FocusHexagonTarget ButtonHandler ENDE");
 						break;
 					}
 				

@@ -312,17 +312,14 @@ namespace Hexa2Go {
 		}
 
 		public Nullable<GridPos> StrategyFromCharacterToTarget (ICharacterController startCharacter, bool checkForShortDistance) {
-			Debug.LogWarning ("StrategyFromCharacterToTarget " + startCharacter.Model.GridPos);
 			IHexagonController start = Get (startCharacter.Model.GridPos);
 			IHexagonController target = GetTarget (startCharacter.Model.TeamColor);
-			Debug.Log ("Target: " + target);
 			if (target == null) {
 				return null;
 			}
-			Debug.LogWarning ("Start Pos: " + start.Model.GridPos);
-			Debug.LogWarning ("Ziel Pos: " + target.Model.GridPos);
+			//Debug.LogWarning ("Start Pos: " + start.Model.GridPos);
+			//Debug.LogWarning ("Ziel Pos: " + target.Model.GridPos);
 			int distanceFromOldPosition = GetDistance (start, target.Model.GridPos);
-			Debug.Log ("Distance: " + distanceFromOldPosition);
 
 			Nullable<GridPos> result = CheckDistanceFromNeighbors (target, start, distanceFromOldPosition, checkForShortDistance);
 			if (result != null) {
@@ -332,16 +329,14 @@ namespace Hexa2Go {
 		}
 
 		public Nullable<GridPos> StrategyFromTargetToCharacter (ICharacterController targetCharacter, bool checkForShortDistance) {
-			Debug.LogWarning ("StrategyFromTargetToCharacter " + targetCharacter.Model.GridPos);
-
 			IHexagonController target = Get (targetCharacter.Model.GridPos);
 			IHexagonController start = GetTarget (targetCharacter.Model.TeamColor);
 
 			if (start == null) {
 				return null;
 			}
-			Debug.LogWarning ("Start Pos: " + start.Model.GridPos);
-			Debug.LogWarning ("Ziel Pos: " + target.Model.GridPos);
+			//Debug.LogWarning ("Start Pos: " + start.Model.GridPos);
+			//Debug.LogWarning ("Ziel Pos: " + target.Model.GridPos);
 
 			int distanceFromOldPosition = GetDistance (start, target.Model.GridPos);
 			if (distanceFromOldPosition == 1) {
@@ -359,10 +354,9 @@ namespace Hexa2Go {
 			foreach (GridPos neighborPos in start.Model.Neighbors) {
 				IHexagonController neighbor = Get (neighborPos);
 				if (IsFocusableForHexagon (start, neighbor)) {
-					Debug.Log ("FocusableNeighbor: " + neighborPos);
 					int distanceFromNewPosition = GetDistance (neighbor, target.Model.GridPos);
 					bool condition = checkForShortDistance ? (distanceFromNewPosition < distanceFromOldPosition) : (distanceFromNewPosition > distanceFromOldPosition);
-					Debug.LogWarning (distanceFromNewPosition + " < " + distanceFromOldPosition + " --> " + neighborPos);
+					//Debug.LogWarning (distanceFromNewPosition + " < " + distanceFromOldPosition + " --> " + neighborPos);
 					if (condition) {
 						return neighborPos;
 					}

@@ -62,7 +62,7 @@ namespace Hexa2Go {
 		public bool GameFinished = false;
 
 		protected GameManager () {
-			Debug.LogWarning ("GameManager");
+			//Debug.LogWarning ("GameManager");
 			_gameState = GameState.NullState;
 			_matchState = MatchState.NullState;
 			_prevMatchState = MatchState.NullState;

@@ -32,7 +32,7 @@ namespace Hexa2Go {
 		}
 
 		void OnLevelWasLoaded (int level) {
-			Debug.LogWarning ("Loaded Scene: " + level);
+			//Debug.LogWarning ("Loaded Scene: " + level);
 
 			if (level == 0) {
 				GameManager.Instance.MatchState = MatchState.NullState;

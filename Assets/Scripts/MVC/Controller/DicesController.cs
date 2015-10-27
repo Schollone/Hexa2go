@@ -36,7 +36,7 @@ namespace Hexa2Go {
 			if (!_diceThrowed) {
 				_diceThrowed = true;
 			} else {
-				Debug.LogWarning (_diceController_left.Model.CharacterType + " - " + _diceController_right.Model.CharacterType);
+				//Debug.LogWarning (_diceController_left.Model.CharacterType + " - " + _diceController_right.Model.CharacterType);
 				if (Double) {
 					GameManager.Instance.MatchState = MatchState.SelectHexagon;
 				} else {
@@ -79,8 +79,8 @@ namespace Hexa2Go {
 					return _double;
 				if (_diceController_left.Model.CharacterType == _diceController_right.Model.CharacterType &&
 					_diceController_left.Model.TeamColor == _diceController_right.Model.TeamColor) {
-					Debug.LogWarning (_diceController_left.Model.CharacterType + " == " + _diceController_right.Model.CharacterType);
-					Debug.LogWarning (_diceController_left.Model.TeamColor + " == " + _diceController_right.Model.TeamColor);
+					//Debug.LogWarning (_diceController_left.Model.CharacterType + " == " + _diceController_right.Model.CharacterType);
+					//Debug.LogWarning (_diceController_left.Model.TeamColor + " == " + _diceController_right.Model.TeamColor);
 					_double = true;
 				}
 				return _double;

@@ -72,14 +72,28 @@ namespace Hexa2Go {
 		}
 		
 		public void SelectNextCharacter () {
-			_hexagonHandler.InitNeighbors (_selectedCharacter.Model.GridPos, true);
-			_hexagonHandler.ResetFocusableNeighbors ();
-			if (GameManager.Instance.PlayerState == PlayerState.Player) {
-				_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
-			} else if (GameManager.Instance.PlayerState == PlayerState.Opponent) {
-				_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();
+
+			for (int i = 0; i < 2; i++) {
+				_hexagonHandler.InitNeighbors (_selectedCharacter.Model.GridPos, true);
+				_hexagonHandler.ResetFocusableNeighbors ();
+				if (GameManager.Instance.PlayerState == PlayerState.Player) {
+					_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
+				} else if (GameManager.Instance.PlayerState == PlayerState.Opponent) {
+					_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();
+				}
+				
+				TintCharacter ();
+
+				if (_hexagonHandler.HasFocusableNeighbors ()) {
+					break;
+				}
 			}
-			TintCharacter ();
+
+			if (!_hexagonHandler.HasFocusableNeighbors ()) {
+				_hexagonHandler.ResetFocusableNeighbors ();
+				ResetSelectedHexagonAndNeighbors ();
+				GameManager.Instance.GameModeHandler.SwitchToNextPlayer ();
+			}
 		}
 
 		public void SelectNextHexagon () {
@@ -157,7 +171,6 @@ namespace Hexa2Go {
 			switch (nextMatchState) {
 				case MatchState.SelectCharacter:
 					{
-						Debug.Log ("SelectCharacter GridHandler");
 						_hexagonHandler.ResetFocusedHexagon ();
 						_selectedCharacter = null;
 						_selectedHexagon = null;
@@ -166,41 +179,30 @@ namespace Hexa2Go {
 						CharacterType characterType_2 = GameManager.Instance.UIHandler.DicesController.DiceController_right.Model.CharacterType;
 
 						if (GameManager.Instance.PlayerState == PlayerState.Player) {
-
 							_characterHandler_P1.InitSelectedCharacters (characterType_1, characterType_2);
 							_selectedCharacter = _characterHandler_P1.SelectNextCharacter ();
-						
 						} else if (GameManager.Instance.PlayerState == PlayerState.Opponent) {
-
 							_characterHandler_P2.InitSelectedCharacters (characterType_1, characterType_2);
 							_selectedCharacter = _characterHandler_P2.SelectNextCharacter ();
-						
 						}
-
-						Debug.Log ("SelectCharacter GridHandler ENDE");
+						SelectNextCharacter ();
 						break;
 					}
 
 				case MatchState.SelectHexagon:
 					{
-						Debug.Log ("SelectHexagon GridHandler");
 						_hexagonHandler.ResetFocusedHexagon ();
 						_selectedCharacter = null;
 						_selectedHexagon = null;
-
-						Debug.Log ("SelectHexagon GridHandler ENDE");
 						break; 
 					}
 		
 				case MatchState.Moving:
 					{
-						Debug.Log ("Moving GridHandler");
-					
 						ResetSelectedCharacterAndNeighbors ();
 						ResetSelectedHexagonAndNeighbors ();
 					
 						if (_hexagonHandler.FocusedHexagon != null) {
-							Debug.Log ("SelectedCharacter: " + _selectedCharacter);
 							if (_selectedCharacter != null) {
 								MoveCharacter ();
 							} else {
@@ -211,8 +213,6 @@ namespace Hexa2Go {
 						//_hexagonHandler.ResetFocusedHexagon ();
 						_selectedCharacter = null;
 						_selectedHexagon = null;
-
-						Debug.Log ("Moving GridHandler ENDE");
 						break;
 					}
 				case MatchState.Win:

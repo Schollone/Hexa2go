@@ -44,8 +44,6 @@ namespace Hexa2Go {
 			switch (nextMatchState) {
 				case MatchState.SelectCharacter:
 					{
-
-						Debug.Log ("SelectCharacter GameModeHandler");
 						if (GameManager.Instance.GridHandler.SelectedCharacter != null) {
 							GameManager.Instance.GridHandler.TintCharacter ();
 							
@@ -56,21 +54,17 @@ namespace Hexa2Go {
 						} else {
 							SwitchToNextPlayer ();
 						}
-						Debug.Log ("SelectCharacter GameModeHandler ENDE");
 						break;
 
 					}
 				case MatchState.Moving:
 					{
-
-						Debug.Log ("Moving GameModeHandler");
 						if (GameManager.Instance.GameFinished) {
 							GameManager.Instance.GameFinished = false;
 							GameManager.Instance.MatchState = MatchState.Win;
 						} else {
 							SwitchToNextPlayer ();
 						}
-						Debug.Log ("Moving GameModeHandler ENDE");
 						break;
 
 					}
@@ -88,9 +82,8 @@ namespace Hexa2Go {
 			}
 		}
 
-		private void SwitchToNextPlayer () {
+		public void SwitchToNextPlayer () {
 			PlayerState playerState = (GameManager.Instance.PlayerState == PlayerState.Player) ? PlayerState.Opponent : PlayerState.Player;
-			Debug.LogWarning (GameManager.Instance.PlayerState + "!!! Switch To Next Player: " + playerState);
 			GameManager.Instance.PlayerState = playerState;
 			GameManager.Instance.MatchState = MatchState.ThrowDice;
 		}
