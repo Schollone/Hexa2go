@@ -72,6 +72,9 @@ namespace Hexa2Go {
 		}
 		
 		public void SelectNextCharacter () {
+			if (_selectedCharacter == null) {
+				return;
+			}
 
 			for (int i = 0; i < 2; i++) {
 				_hexagonHandler.InitNeighbors (_selectedCharacter.Model.GridPos, true);

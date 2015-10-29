@@ -53,7 +53,7 @@ namespace Hexa2Go {
 						if (selectedHexagon != null && selectedCharacter != null) {
 							GridPos targetPos = hexagonHandler.GetTarget (selectedCharacter.Model.TeamColor).Model.GridPos;
 							Nullable<GridPos> nextPos = hexagonHandler.GetNextHexagonToFocus (selectedHexagon.Model.GridPos, targetPos);
-							Debug.LogWarning (nextPos);
+							//Debug.LogWarning (nextPos);
 
 							IHexagonController hexagon = hexagonHandler.Get ((GridPos)nextPos);
 

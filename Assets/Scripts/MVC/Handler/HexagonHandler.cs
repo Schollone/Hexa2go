@@ -307,7 +307,7 @@ namespace Hexa2Go {
 				result = hexagon.Model.GridPos;
 			}
 			resetHexagonVisit ();
-			Debug.Log (result);
+			//Debug.Log (result);
 			return result;
 		}
 

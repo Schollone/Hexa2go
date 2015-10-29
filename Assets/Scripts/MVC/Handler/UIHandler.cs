@@ -36,22 +36,26 @@ namespace Hexa2Go {
 			GameObject accept = GameObject.Find ("Btn_Accept");
 			AcceptView acceptView = accept.GetComponent<AcceptView> ();
 			_acceptController = new AcceptController (acceptView);
+			_acceptController.View.Hide ();
 		}
 
 		private void InitNextCharacterController () {
 			GameObject nextCharacter = GameObject.Find ("Btn_NextCharacter");
 			NextCharacterView nextCharacterView = nextCharacter.GetComponent<NextCharacterView> ();
 			_nextCharcarterController = new NextCharacterController (nextCharacterView);
+			_nextCharcarterController.View.Hide ();
 		}
 
 		private void InitHexagonController () {
 			GameObject prevHexagon = GameObject.Find ("Btn_PrevHexagon");
 			PrevHexagonView prevHexagonView = prevHexagon.GetComponent<PrevHexagonView> ();
 			_prevHexagonController = new PrevHexagonController (prevHexagonView);
+			_prevHexagonController.View.Hide ();
 
 			GameObject nextHexagon = GameObject.Find ("Btn_NextHexagon");
 			NextHexagonView nextHexagonView = nextHexagon.GetComponent<NextHexagonView> ();
 			_nextHexagonController = new NextHexagonController (nextHexagonView);
+			_nextHexagonController.View.Hide ();
 		}
 
 		private void InitDicesController () {
