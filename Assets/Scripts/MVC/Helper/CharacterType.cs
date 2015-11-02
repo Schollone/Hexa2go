@@ -8,9 +8,5 @@ namespace Hexa2Go {
 		TRIANGLE,
 		SQUARE
 	}
-	public enum CharacterPosition {
-		Position_1,
-		Position_2
-	}
 
 }

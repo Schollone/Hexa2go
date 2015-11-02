@@ -71,7 +71,7 @@ namespace Hexa2Go {
 
 			_gameModeHandler = new GameModeHandler ();
 
-			LocalizationManager.LoadLanguage ("english");
+			LocalizationManager.Instance.LoadLanguage ("english");
 
 			OnGameStateChange += HandleOnGameStateChange;
 		}

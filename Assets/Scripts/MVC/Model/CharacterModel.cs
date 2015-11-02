@@ -12,7 +12,6 @@ namespace Hexa2Go {
 		private TeamColor _teamColor;
 		private bool _isSelected = false;
 		private bool _isInGame = true;
-		private CharacterPosition _characterPosition;
 		private GridHelper.OffsetPosition _offsetPosition;
 
 		private static List<int> _numbers;
@@ -73,15 +72,6 @@ namespace Hexa2Go {
 		public TeamColor TeamColor {
 			get {
 				return _teamColor;
-			}
-		}
-
-		public CharacterPosition CharacterPosition {
-			get {
-				return _characterPosition;
-			}
-			set {
-				_characterPosition = value;
 			}
 		}
 

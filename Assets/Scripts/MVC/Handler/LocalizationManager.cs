@@ -6,7 +6,16 @@ using System.IO;
 
 namespace Hexa2Go {
 
+	public enum Languages {
+		German,
+		English
+	}
+
+	public delegate void LanguageChangeHandler ();
+
 	public class LocalizationManager {
+
+		public event LanguageChangeHandler OnLanguageChanged;
 
 		private static LocalizationManager _instance = null;
 		private static Hashtable textTable;
@@ -21,7 +30,7 @@ namespace Hexa2Go {
 		}
 
 
-		public static void LoadLanguage (string filename) {
+		public void LoadLanguage (string filename) {
 			Debug.Log ("Load Language");
 
 			LocalizationManager l = Instance;
@@ -53,6 +62,10 @@ namespace Hexa2Go {
 			}
 			
 			reader.Close ();
+
+			if (OnLanguageChanged != null) {
+				OnLanguageChanged ();
+			}
 		}
 
 		public static string GetText (string key) {

@@ -11,11 +11,17 @@ namespace Hexa2Go {
 		// Use this for initialization
 		void Start () {
 			GetComponent<Text> ().text = LocalizationManager.GetText (textIdentifier.ToString ());
+
+			LocalizationManager.Instance.OnLanguageChanged += HandleOnLanguageChanged;
 		}
-	
-		// Update is called once per frame
-		void Update () {
-	
+
+		void HandleOnLanguageChanged () {
+			GetComponent<Text> ().text = LocalizationManager.GetText (textIdentifier.ToString ());
+		}
+
+		void OnDestroy () {
+			Debug.Log ("Delete: " + GetComponent<Text> ().text);
+			LocalizationManager.Instance.OnLanguageChanged -= HandleOnLanguageChanged;
 		}
 	}
 

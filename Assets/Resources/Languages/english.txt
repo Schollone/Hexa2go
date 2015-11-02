@@ -36,3 +36,5 @@ WON
 You won!
 LOSE
 You lose!
+LOADING
+Loading

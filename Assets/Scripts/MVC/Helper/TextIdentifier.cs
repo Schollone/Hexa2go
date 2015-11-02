@@ -19,7 +19,8 @@ namespace Hexa2Go {
 		PLAYER_1,
 		PLAYER_2,
 		WON,
-		LOSE
+		LOSE,
+		LOADING
 	}
 
 }

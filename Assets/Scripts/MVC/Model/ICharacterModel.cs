@@ -23,8 +23,6 @@ namespace Hexa2Go {
 
 		TeamColor TeamColor { get; }
 
-		CharacterPosition CharacterPosition { get; set; }
-
 		GridHelper.OffsetPosition OffsetPosition { get; set; }
 
 		GridPos GridPos { get; set; }

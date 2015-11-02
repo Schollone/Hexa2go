@@ -67,6 +67,8 @@ namespace Hexa2Go {
 			IDiceController diceController_left = new DiceController (diceView_left);
 			IDiceController diceController_right = new DiceController (diceView_right);
 			_dicesController = new DicesController (diceController_left, diceController_right);
+			_dicesController.DiceController_left.View.Disable ();
+			_dicesController.DiceController_right.View.Disable ();
 		}
 
 		private void InitHintController () {

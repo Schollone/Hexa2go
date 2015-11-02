@@ -36,3 +36,5 @@ WON
 Gewonnen!
 LOSE
 Verloren!
+LOADING
+Lädt

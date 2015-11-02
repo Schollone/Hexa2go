@@ -97,7 +97,6 @@ namespace Hexa2Go {
 						l.Add (() => Strategy (opponentCharacters, false, true));
 						l.Add (() => Strategy (playerCharacters, true));
 						l.Add (() => Strategy (playerCharacters, false));
-						l.Add (() => Strategy (null));
 
 						if (_aiType == AIType.Destructive) {
 							l = new List<StrategyDelegate> ();
@@ -105,10 +104,10 @@ namespace Hexa2Go {
 							l.Add (() => Strategy (playerCharacters, false));
 							l.Add (() => Strategy (opponentCharacters, true, true));
 							l.Add (() => Strategy (opponentCharacters, false, true));
-							l.Add (() => Strategy (null));
 						} else if (_aiType == AIType.Mixed) {
 							GridHelper.Shuffle (l);
 						}
+						l.Add (() => Strategy (null));
 
 						foreach (StrategyDelegate action in l) {
 							bool hasResult = action ();
