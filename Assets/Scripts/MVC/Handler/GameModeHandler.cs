@@ -39,6 +39,7 @@ namespace Hexa2Go {
 			System.Random r = new System.Random ();
 			int randomPlayer = r.Next (1, 3);
 			GameManager.Instance.PlayerState = (PlayerState)randomPlayer;
+			//GameManager.Instance.PlayerState = PlayerState.Opponent;
 			//GameManager.Instance.MatchState = MatchState.ThrowDice;
 		}
 

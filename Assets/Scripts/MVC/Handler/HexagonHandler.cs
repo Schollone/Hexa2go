@@ -296,10 +296,10 @@ namespace Hexa2Go {
 			}
 		}
 
-		public Nullable<GridPos> GetNextHexagonToFocus (GridPos start, GridPos targetPos) {
+		public Nullable<GridPos> GetNextHexagonToFocus (GridPos start, GridPos targetPos, bool counterclockwiseNeighborSearch = false) {
 			Nullable<GridPos> result = null;
 			IHexagonController root = Get (start);
-			BFS (root, targetPos);
+			BFS (root, targetPos, counterclockwiseNeighborSearch);
 			GridPos predHexagon = targetPos;
 			while (!predHexagon.Equals(start)) {
 				IHexagonController hexagon = Get (predHexagon);
@@ -389,7 +389,7 @@ namespace Hexa2Go {
 			return result;
 		}
 
-		private IHexagonController BFS (IHexagonController root, GridPos targetPos) {
+		private IHexagonController BFS (IHexagonController root, GridPos targetPos, bool counterclockwise = false) {
 			IHexagonController target = null;
 
 			queue = new Queue ();
@@ -402,8 +402,14 @@ namespace Hexa2Go {
 			
 			while (queue.Count > 0) {
 				IHexagonController hexagon = (IHexagonController)queue.Dequeue ();
+
+				IList<GridPos> neighbors = hexagon.Model.Neighbors;
+
+				if (counterclockwise) {
+					neighbors = neighbors.Reverse ().ToList ();
+				}
 				
-				foreach (GridPos neighborPos in hexagon.Model.Neighbors) {
+				foreach (GridPos neighborPos in neighbors) {
 					IHexagonController neighbor = Get (neighborPos);
 					if (neighbor.Model.IsActivated && !neighbor.Model.Visited) {
 						neighbor.Model.Visited = true;

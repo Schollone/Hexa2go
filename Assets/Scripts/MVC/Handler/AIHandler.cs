@@ -57,8 +57,17 @@ namespace Hexa2Go {
 
 							IHexagonController hexagon = hexagonHandler.Get ((GridPos)nextPos);
 
-							if (!hexagon.Model.IsFocusableForCharacter) {
+							if (!hexagon.Model.IsFocusableForCharacter) { // if neighborHexagon is blocked
+								Debug.Log ("Counterclockwise");
+								nextPos = hexagonHandler.GetNextHexagonToFocus (selectedHexagon.Model.GridPos, targetPos, true);
+								hexagon = hexagonHandler.Get ((GridPos)nextPos);
+							
+							}
+						
+							if (!hexagon.Model.IsFocusableForCharacter) { // if neighborHexagon is blocked
+								Debug.Log ("Letzter Ausweg");
 								GameManager.Instance.GridHandler.FocusNextHexagon ();
+
 							} else {
 
 								while (!hexagonHandler.FocusedHexagon.Model.GridPos.Equals(nextPos)) {
