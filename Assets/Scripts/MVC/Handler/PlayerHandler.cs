@@ -6,11 +6,11 @@ namespace Hexa2Go {
 	public class PlayerHandler {
 
 		public PlayerHandler () {
-			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
+			//GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
-			PlayerState playerState = GameManager.Instance.PlayerState;
+			/*PlayerState playerState = GameManager.Instance.PlayerState;
 			GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
 			if (gameMode == GameMode.Singleplayer && playerState == PlayerState.Opponent) {
 				return;
@@ -38,11 +38,11 @@ namespace Hexa2Go {
 						GameManager.Instance.GridHandler.FocusNextHexagon (true);
 						break;
 					}
-			}
+			}*/
 		}
 
 		public void Unregister () {
-			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
+			//GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
 		}
 	}
 

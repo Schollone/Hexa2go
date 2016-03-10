@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
+using System;
 using System.Collections;
 
 namespace Hexa2Go {
 
-	public class HexagonView : MonoBehaviour, IHexagonView {
+	public class HexagonView : MonoBehaviour, IHexagonView, IPointerClickHandler {
+
+		public event EventHandler<EventArgs> OnClicked = (sender, e) => {};
 
 		private Color _defaultAreaColor;
 		private Color _defaultBorderColor;
@@ -12,6 +16,11 @@ namespace Hexa2Go {
 		private Color _nextBorderColor;
 
 		private TeamColor _teamColor;
+
+
+
+
+		private IHexagonState _state;
 		private bool _activate = false;
 		private bool _deactivate = false;
 
@@ -50,12 +59,117 @@ namespace Hexa2Go {
 			transform.GetChild (0).GetChild (0).GetComponent<MeshRenderer> ().material.color = color;
 		}
 
+		private IEnumerator WaitForActivate () {
+			yield return new WaitForSeconds (0.5f);
+			_activate = true;
+		}
+
+		/*void OnHexagonClicked () {
+			Debug.Log ("Hexagon Clicked !!!!!!!!!!!!!!!!!! ");
+			OnClicked (this, new EventArgs ());
+		}*/
+
 		#region IHexagonView implementation
 
-		public void Init (GridPos gridPos) {
+		public bool IsActivated { 
+			get {
+				return _state.IsActivated;
+			}
+		}
+
+		public void Init (GridPos gridPos, IHexagonState state) {
 			Vector3 tmp = GridHelper.HexagonPosition (gridPos);
 			transform.position = tmp;
+			UpdateState (state);
 		}
+
+		public void UpdateState (IHexagonState state) {
+			_state = state;
+		}
+
+		public void Tint (IHexagonState state) {
+			TintArea (state.AreaColor);
+			TintBorder (state.BorderColor);
+		}
+
+		public void Activate (IHexagonState state, bool animated) {
+			_nextAreaColor = state.AreaColor;
+			_nextBorderColor = state.AreaColor;
+
+			if (animated) {
+				_animationTime = 0f;
+				StartCoroutine (WaitForActivate ());
+			} else {
+				transform.position = new Vector3 (transform.position.x, GridHelper.ACTIVATED_Y_POS, transform.position.z);
+				Tint (_state);
+			}
+		}
+
+		public void Deactivate (bool animated) {
+			if (animated) {
+				_animationTime = 0f;
+				_deactivate = true;
+			} else {
+				transform.position = new Vector3 (transform.position.x, GridHelper.DEACTIVATED_Y_POS, transform.position.z);
+				Tint (_state);
+			}
+		}
+
+		void FixedUpdate () {
+			if (_activate) {
+				
+				_animationTime += Time.deltaTime * SPEED;
+				
+				if (_animationTime > 1) {
+					_animationTime = 1f;
+					
+					_activate = false;
+					_defaultAreaColor = _state.AreaColor;
+					_defaultBorderColor = _state.BorderColor;
+				}
+				
+				Color colorArea = Color.Lerp (_defaultAreaColor, _nextAreaColor, _animationTime);
+				Color colorBorder = Color.Lerp (_defaultBorderColor, _nextBorderColor, _animationTime);
+				TintArea (colorArea);
+				TintBorder (colorBorder);
+				
+				float yPos = Mathf.Lerp (GridHelper.DEACTIVATED_Y_POS, GridHelper.ACTIVATED_Y_POS, _animationTime);
+				transform.position = new Vector3 (transform.position.x, yPos, transform.position.z);
+			}
+			
+			if (_deactivate) {
+				
+				_animationTime += Time.deltaTime * SPEED;
+				
+				if (_animationTime > 1) {
+					_animationTime = 1f;
+					
+					_deactivate = false;
+					_defaultAreaColor = _state.AreaColor;
+					_defaultBorderColor = _state.BorderColor;
+				}
+				
+				Color colorArea = Color.Lerp (_defaultAreaColor, _nextAreaColor, _animationTime);
+				Color colorBorder = Color.Lerp (_defaultBorderColor, _nextBorderColor, _animationTime);
+				TintArea (colorArea);
+				TintBorder (colorBorder);
+				
+				float yPos = Mathf.Lerp (GridHelper.ACTIVATED_Y_POS, GridHelper.DEACTIVATED_Y_POS, _animationTime);
+				transform.position = new Vector3 (transform.position.x, yPos, transform.position.z);
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
 
 		public void Select () {
 			TintArea (HexagonColors.ORANGE);
@@ -80,49 +194,6 @@ namespace Hexa2Go {
 			TintBorder (_defaultBorderColor);
 		}
 
-		void FixedUpdate () {
-			if (_activate) {
-
-				_animationTime += Time.deltaTime * SPEED;
-
-				if (_animationTime > 1) {
-					_animationTime = 1f;
-
-					_activate = false;
-					_defaultAreaColor = _nextAreaColor;
-					_defaultBorderColor = _nextBorderColor;
-				}
-
-				Color colorArea = Color.Lerp (_defaultAreaColor, _nextAreaColor, _animationTime);
-				Color colorBorder = Color.Lerp (_defaultBorderColor, _nextBorderColor, _animationTime);
-				TintArea (colorArea);
-				TintBorder (colorBorder);
-
-				float yPos = Mathf.Lerp (GridHelper.DEACTIVATED_Y_POS, GridHelper.ACTIVATED_Y_POS, _animationTime);
-				transform.position = new Vector3 (transform.position.x, yPos, transform.position.z);
-			}
-
-			if (_deactivate) {
-
-				_animationTime += Time.deltaTime * SPEED;
-				
-				if (_animationTime > 1) {
-					_animationTime = 1f;
-
-					_deactivate = false;
-					_defaultAreaColor = HexagonColors.WHITE;
-					_defaultBorderColor = HexagonColors.WHITE;
-				}
-
-				Color colorArea = Color.Lerp (_defaultAreaColor, HexagonColors.WHITE, _animationTime);
-				Color colorBorder = Color.Lerp (_defaultBorderColor, HexagonColors.WHITE, _animationTime);
-				TintArea (colorArea);
-				TintBorder (colorBorder);
-
-				float yPos = Mathf.Lerp (GridHelper.ACTIVATED_Y_POS, GridHelper.DEACTIVATED_Y_POS, _animationTime);
-				transform.position = new Vector3 (transform.position.x, yPos, transform.position.z);
-			}
-		}
 
 		public void Activate (Color? color = null, bool animate = false) {
 			_nextAreaColor = (color != null) ? (Color)color : HexagonColors.LIGHT_GRAY;
@@ -142,12 +213,9 @@ namespace Hexa2Go {
 
 		}
 
-		private IEnumerator WaitForActivate () {
-			yield return new WaitForSeconds (0.5f);
-			_activate = true;
-		}
 
-		public void Deactivate (bool animate = false) {
+
+		/*public void Deactivate (bool animate = false) {
 			_animationTime = 0f;
 
 			if (animate) {
@@ -159,7 +227,7 @@ namespace Hexa2Go {
 				TintArea (_defaultAreaColor);
 				TintBorder (_defaultBorderColor);
 			}
-		}
+		}*/
 
 		public void PlayExplosion (bool playLoop = false) {
 			StartCoroutine (WaitForExplosion (playLoop));
@@ -188,6 +256,14 @@ namespace Hexa2Go {
 			set {
 				_teamColor = value;
 			}
+		}
+
+		#endregion
+
+		#region IPointerClickHandler implementation
+
+		public void OnPointerClick (PointerEventData eventData) {
+			OnClicked (this, new EventArgs ());
 		}
 
 		#endregion

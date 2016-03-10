@@ -12,6 +12,7 @@ namespace Hexa2Go {
 		public static Color BLUE = new Color (0f, 0f, 0.6f);//Color.blue;
 		public static Color GREEN = Color.green;
 		public static Color ORANGE = new Color (1f, 0.68f, 0f);
+		public static Color BLACK = Color.black;
 
 		public static Color GetColor (TeamColor teamColor, Color? defaultColor = null) {
 			if (teamColor == TeamColor.NONE && defaultColor == null) {

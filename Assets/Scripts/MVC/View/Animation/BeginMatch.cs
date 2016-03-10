@@ -17,7 +17,9 @@ namespace Hexa2Go {
 
 		// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-			GameManager.Instance.MatchState = MatchState.ThrowDice;
+			//GameManager.Instance.MatchState = MatchState.ThrowDice;
+			//GameManager.Instance.SetCurrentMatchState (new ThrowDice ());
+			GameManager.Instance.GameModeHandler.GetGameMode ().SwitchToNextState ();
 		}
 
 		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

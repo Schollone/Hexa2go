@@ -21,7 +21,7 @@ namespace Hexa2Go {
 			GameObject grid = GameObject.Find ("Grid");
 			instance.transform.SetParent (grid.transform);
 			IHexagonView view = instance.GetComponent<IHexagonView> ();
-			view.Init (gridPos);
+
 
 			_hexagonView = view;
 
@@ -29,7 +29,48 @@ namespace Hexa2Go {
 			
 			_hexagonModel.OnActivationChanged += HandleOnActivationChanged;
 			_hexagonModel.OnSelectionChanged += HandleOnSelectionChanged;
+
+			_hexagonModel.OnUpdatedData += HandleUpdatedData;
+
+			_hexagonView.Init (gridPos, Model.State);
+			_hexagonView.OnClicked += HandleOnClicked;;
 		}
+
+		void HandleOnClicked (object sender, EventArgs e) {
+			Debug.Log("Clicked on: " + Model.GridPos);
+			GameManager.Instance.GameModeHandler.GetGameMode().GetMatchState().HandleClick(Model);
+		}
+
+		void HandleUpdatedData (object sender, EventArgs e) {
+			//IHexagonModel model = (IHexagonModel)sender;
+			bool hexagonWasActivated = View.IsActivated;
+			View.UpdateState (Model.State);
+
+			if (Model.State.IsActivated) {
+				if (hexagonWasActivated) {
+					View.Activate (Model.State, false);
+				} else {
+					View.Activate (Model.State, true);
+				}
+			} else {
+				if (hexagonWasActivated) {
+					View.Deactivate (true);
+				} else {
+					View.Deactivate (false);
+				}
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
 
 		void HandleOnSelectionChanged (object sender, HexagonValueChangedEventArgs e) {
 			if (Model.IsSelected) {
@@ -40,8 +81,12 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnActivationChanged (object sender, HexagonValueChangedEventArgs e) {
-			if (Model.IsActivated) {
+			//GameManager.Instance.GetCurrentMatchState ().OnHexagonActivationChange (this);
+
+			GameManager.Instance.GameModeHandler.GetGameMode ().GetMatchState ().OnHexagonActivationChange (this);
+			/*if (Model.IsActivated) {
 				Color color = HexagonColors.GetColor (Model.TeamColor);
+
 				if (GameManager.Instance.MatchState == MatchState.NullState) {
 					View.Activate (color);
 				} else {
@@ -54,7 +99,7 @@ namespace Hexa2Go {
 				} else {
 					View.Deactivate (true);
 				}
-			}
+			}*/
 		}
 
 		#region IHexagonController implementation

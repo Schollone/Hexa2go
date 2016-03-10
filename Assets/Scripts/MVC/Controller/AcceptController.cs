@@ -9,23 +9,30 @@ namespace Hexa2Go {
 		}
 
 		protected override void HandleOnClicked (object sender, ButtonClickedEventArgs e) {
-			MatchState matchState = GameManager.Instance.MatchState;
-
-			switch (matchState) {
+			//MatchState matchState = GameManager.Instance.MatchState;
+			//GameManager.Instance.GetCurrentMatchState ().OnClickAccept ();
+			IMatchState state = GameManager.Instance.GameModeHandler.GetGameMode ().GetMatchState ();
+			if (state is SelectCharacter) {
+				ClickHandler.Instance.OnClick (ClickTypes.AcceptCharacter);
+			}
+			/*switch (matchState) {
 				case MatchState.SelectCharacter:
 					{
-						GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
+						GameManager.Instance.SetCurrentMatchState (new FocusCharacterTarget ());
+						//GameManager.Instance.MatchState = MatchState.FocusCharacterTarget;
 						break;
 					}
 				case MatchState.FocusCharacterTarget:
 				case MatchState.FocusHexagonTarget:
 					{
-						GameManager.Instance.MatchState = MatchState.Moving;
+						GameManager.Instance.SetCurrentMatchState (new Moving ());
+						//GameManager.Instance.MatchState = MatchState.Moving;
 						break;
 					}
 				case MatchState.SelectHexagon:
 					{
-						GameManager.Instance.MatchState = MatchState.FocusHexagonTarget;
+						GameManager.Instance.SetCurrentMatchState (new FocusHexagonTarget ());
+						//GameManager.Instance.MatchState = MatchState.FocusHexagonTarget;
 						break;
 					}
 				case MatchState.Win:
@@ -33,7 +40,7 @@ namespace Hexa2Go {
 						Application.LoadLevel (0);
 						break;
 					}
-			}
+			}*/
 
 		}
 	}

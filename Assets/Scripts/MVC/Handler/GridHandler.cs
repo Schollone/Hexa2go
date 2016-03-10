@@ -18,6 +18,10 @@ namespace Hexa2Go {
 		private IHexagonController _selectedHexagon = null;
 		private ICharacterController _selectedCharacter = null;
 
+		public delegate void CharacterChangeHandler (ICharacterController nextCharacter);
+
+		private event CharacterChangeHandler OnCharacterChanged;
+
 		public IHexagonController SelectedHexagon {
 			get {
 				return _selectedHexagon;
@@ -70,6 +74,17 @@ namespace Hexa2Go {
 			_hexagonHandler.InitNeighbors (_selectedHexagon.Model.GridPos, true);
 			_hexagonHandler.TintFocusableNeighbors ();
 		}
+
+		public void SelectNextCharacter (CharacterType type) {
+			if (GameManager.Instance.PlayerState == PlayerState.Player) {
+				ICharacterController controller = CharacterHandler_P1.GetCharacter (type);
+				if (OnCharacterChanged != null) {
+					OnCharacterChanged (controller);
+				}
+			}
+
+
+		}
 		
 		public void SelectNextCharacter () {
 			if (_selectedCharacter == null) {
@@ -95,7 +110,7 @@ namespace Hexa2Go {
 			if (!_hexagonHandler.HasFocusableNeighbors ()) {
 				_hexagonHandler.ResetFocusableNeighbors ();
 				ResetSelectedHexagonAndNeighbors ();
-				GameManager.Instance.GameModeHandler.SwitchToNextPlayer ();
+				//GameManager.Instance.GameModeHandler.GetGameMode ().SwitchToNextPlayer ();
 			}
 		}
 

@@ -59,12 +59,16 @@ namespace Hexa2Go {
 		public bool MatchStateChanged = false;
 		public bool PlayerStateChanged = false;
 
+		//private IMatchState matchState = new NullState ();
+		//private IMatchState prevMatchState = new NullState ();
+
 		public bool GameFinished = false;
 
 		protected GameManager () {
-			//Debug.LogWarning ("GameManager");
+			Debug.LogWarning ("GameManager");
 			_gameState = GameState.NullState;
 			_matchState = MatchState.NullState;
+			//SetCurrentMatchState (new NullState ());
 			_prevMatchState = MatchState.NullState;
 			_playerState = PlayerState.NullState;
 			_prevPlayerState = PlayerState.NullState;
@@ -123,7 +127,16 @@ namespace Hexa2Go {
 			}
 		}
 
-		public MatchState MatchState {
+		/*public void SetCurrentMatchState (IMatchState matchState) {
+			//prevMatchState = this.matchState;
+			//this.matchState = matchState;
+			MatchStateChanged = true;
+		}
+		public IMatchState GetCurrentMatchState () {
+			return this.matchState;
+		}*/
+
+		/*public MatchState MatchState {
 			get {
 				return _matchState;
 			}
@@ -136,13 +149,15 @@ namespace Hexa2Go {
 				_matchState = value;
 				MatchStateChanged = true;
 			}
-		}
+		}*/
 
 		public void InitNextMatchState () {
-			Debug.LogWarning (_prevMatchState + " ==> " + _matchState);
-			if (OnMatchStateChange != null) {
+			//Debug.LogWarning (prevMatchState + " ==> " + matchState);
+			//matchState.Operate ();
+			_gameModeHandler.GetGameMode ().Operate ();
+			/*if (OnMatchStateChange != null) {
 				OnMatchStateChange (_prevMatchState, _matchState);
-			}
+			}*/
 		}
 
 		public PlayerState PlayerState {
@@ -167,14 +182,17 @@ namespace Hexa2Go {
 			}
 		}
 
-		public void InitGame () {
+		private void InitGame () {
 			Debug.LogWarning ("InitGame");
 			_uiHandler = new UIHandler ();
 			_gridHandler = new GridHandler ();
-			_gameModeHandler.Init ();
+			//_gameModeHandler.Init ();
+			_gameModeHandler.GetGameMode ().Init ();
+			//_gameModeHandler = new GameModeHandler ();
 		}
 
 		void HandleOnGameStateChange (GameState prevGameState, GameState nextGameState) {
+			Debug.Log ("!!! OnGameStateChange: " + nextGameState);
 			if (prevGameState == GameState.MainMenu && nextGameState == GameState.Match) {
 				InitGame ();
 			} else {
@@ -185,9 +203,9 @@ namespace Hexa2Go {
 				if (_gridHandler != null) {
 					_gridHandler.Unregister ();
 				}
-				if (_gameModeHandler != null) {
-					_gameModeHandler.Unregister ();
-				}
+				/*if (_gameModeHandler != null) {
+					_gameModeHandler.GetGameMode ().Unregister ();
+				}*/
 				_gridHandler = null;
 				_uiHandler = null;
 			}

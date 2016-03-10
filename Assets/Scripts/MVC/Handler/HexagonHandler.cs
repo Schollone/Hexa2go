@@ -44,7 +44,8 @@ namespace Hexa2Go {
 			IHexagonController hexagon = null;
 
 			hexagon = Get (new GridPos (2, 3));
-			hexagon.Model.Activate (false, TeamColor.BLUE);
+			//hexagon.Model.Activate (false, TeamColor.BLUE);
+			hexagon.Model.State = new ActivatedHomeHexagon(hexagon.Model, TeamColor.BLUE);
 
 			hexagon = Get (new GridPos (3, 2));
 			hexagon.Model.Activate ();
@@ -53,6 +54,7 @@ namespace Hexa2Go {
 			hexagon = Get (new GridPos (4, 2));
 			hexagon.Model.Activate ();
 			hexagon = Get (new GridPos (4, 3));
+			hexagon.Model.State = new ActivatedNormalHexagon(hexagon.Model);
 			hexagon.Model.Activate ();
 			hexagon = Get (new GridPos (4, 4));
 			hexagon.Model.Activate ();

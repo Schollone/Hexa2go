@@ -16,7 +16,8 @@ namespace Hexa2Go {
 		void Start () {
 			if (GameManager.Instance.GameState == GameState.NullState) {
 				GameManager.Instance.GameState = GameState.MainMenu;
-				GameManager.Instance.MatchState = MatchState.NullState;
+				//GameManager.Instance.MatchState = MatchState.NullState;
+
 			}
 		}
 
@@ -32,16 +33,17 @@ namespace Hexa2Go {
 		}
 
 		void OnLevelWasLoaded (int level) {
-			//Debug.LogWarning ("Loaded Scene: " + level);
+			Debug.LogWarning ("Loaded Scene: " + level);
 
 			if (level == 0) {
-				GameManager.Instance.MatchState = MatchState.NullState;
+				//GameManager.Instance.MatchState = MatchState.NullState;
 				GameManager.Instance.GameState = GameState.MainMenu;
 
 			}
 		
 			if (level == 1) {
 				GameManager.Instance.GameState = GameState.Match;
+				//GameManager.Instance.GameModeHandler.GetGameMode ().Init ();
 			}
 		}
 

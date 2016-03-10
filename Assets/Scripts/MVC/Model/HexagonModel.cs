@@ -1,39 +1,128 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace Hexa2Go {
 
 	public class HexagonModel : IHexagonModel {
 
-		private GridPos _gridPos;
+
 		private bool _isActivated = false;
 		private bool _isSelected = false;
 		private bool _isTarget = false;
 		private bool _visited = false;
 		private TeamColor _teamColor = TeamColor.NONE;
+
+
+
+
+
+
+		private GridPos _gridPos;
+		private IHexagonState _state;
 		private IList<GridPos> _neighbors;
+
+
 		
 		public HexagonModel (GridPos gridPos) {
 
-			this._gridPos = gridPos;
+
 			this._isActivated = false;
 			this._isSelected = false;
+
+			_gridPos = gridPos;
+			_state = new DeactivatedNormalHexagon (this);
 
 			InitNeighbors ();
 		}
 
-		#region IHexagonModel implementation
-		public event System.EventHandler<HexagonValueChangedEventArgs> OnSelectionChanged;
-		public event System.EventHandler<HexagonValueChangedEventArgs> OnFocusChanged;
-		public event System.EventHandler<HexagonValueChangedEventArgs> OnActivationChanged;
-		#endregion
-		
 		public GridPos GridPos {
 			get {
 				return _gridPos;
 			}
 		}
+
+		public IHexagonState State {
+			get {
+				return _state;
+			}
+			set {
+				_state = value;
+				PropagateUpdate ();
+			}
+		}
+
+
+
+		public IList<GridPos> Neighbors {
+			get {
+				return _neighbors;
+			}
+		}
+
+		private void InitNeighbors () {
+			this._neighbors = new List<GridPos> ();
+			
+			int x = _gridPos.x;
+			int y = _gridPos.y;
+			
+			List<GridPos> neighbors = (List<GridPos>)_neighbors;
+			
+			if ((x & 1) == 0) {
+				neighbors.Add (new GridPos (x, y - 1));
+				neighbors.Add (new GridPos (x + 1, y - 1));
+				neighbors.Add (new GridPos (x + 1, y));
+				neighbors.Add (new GridPos (x, y + 1));
+				neighbors.Add (new GridPos (x - 1, y));
+				neighbors.Add (new GridPos (x - 1, y - 1));
+			} else {
+				neighbors.Add (new GridPos (x, y - 1));
+				neighbors.Add (new GridPos (x + 1, y));
+				neighbors.Add (new GridPos (x + 1, y + 1));
+				neighbors.Add (new GridPos (x, y + 1));
+				neighbors.Add (new GridPos (x - 1, y + 1));
+				neighbors.Add (new GridPos (x - 1, y));
+			}
+			
+			neighbors.RemoveAll (item => item.x < 0);
+			neighbors.RemoveAll (item => item.y < 0);
+			neighbors.RemoveAll (item => item.x >= GridHandler.WIDTH);
+			neighbors.RemoveAll (item => item.y >= GridHandler.HEIGHT);
+			
+			_neighbors = neighbors;
+		}
+
+		public void PropagateUpdate () {
+			EventArgs eventArgs = new EventArgs ();
+			if (OnUpdatedData != null) {
+				OnUpdatedData (this, eventArgs);
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		#region IHexagonModel implementation
+		public event EventHandler<EventArgs> OnUpdatedData;
+
+		public event EventHandler<HexagonValueChangedEventArgs> OnSelectionChanged;
+		public event EventHandler<HexagonValueChangedEventArgs> OnFocusChanged;
+		public event EventHandler<HexagonValueChangedEventArgs> OnActivationChanged;
+		#endregion
+		
+
 
 		public bool IsActivated {
 			get {
@@ -98,11 +187,7 @@ namespace Hexa2Go {
 			}
 		}
 
-		public IList<GridPos> Neighbors {
-			get {
-				return _neighbors;
-			}
-		}
+
 
 		public void Activate (bool ignoreView = false, TeamColor teamColor = TeamColor.NONE) {
 			_isActivated = true;
@@ -138,37 +223,7 @@ namespace Hexa2Go {
 			OnSelectionChanged (this, eventArgs);
 		}
 
-		private void InitNeighbors () {
-			this._neighbors = new List<GridPos> ();
 
-			int x = _gridPos.x;
-			int y = _gridPos.y;
-			
-			List<GridPos> neighbors = (List<GridPos>)_neighbors;
-			
-			if ((x & 1) == 0) {
-				neighbors.Add (new GridPos (x, y - 1));
-				neighbors.Add (new GridPos (x + 1, y - 1));
-				neighbors.Add (new GridPos (x + 1, y));
-				neighbors.Add (new GridPos (x, y + 1));
-				neighbors.Add (new GridPos (x - 1, y));
-				neighbors.Add (new GridPos (x - 1, y - 1));
-			} else {
-				neighbors.Add (new GridPos (x, y - 1));
-				neighbors.Add (new GridPos (x + 1, y));
-				neighbors.Add (new GridPos (x + 1, y + 1));
-				neighbors.Add (new GridPos (x, y + 1));
-				neighbors.Add (new GridPos (x - 1, y + 1));
-				neighbors.Add (new GridPos (x - 1, y));
-			}
-
-			neighbors.RemoveAll (item => item.x < 0);
-			neighbors.RemoveAll (item => item.y < 0);
-			neighbors.RemoveAll (item => item.x >= GridHandler.WIDTH);
-			neighbors.RemoveAll (item => item.y >= GridHandler.HEIGHT);
-
-			_neighbors = neighbors;
-		}
 
 	}
 

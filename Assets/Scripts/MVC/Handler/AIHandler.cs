@@ -24,7 +24,7 @@ namespace Hexa2Go {
 			int random = r.Next (0, 3);
 			_aiType = (AIType)random;
 
-			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
+			//GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {	
@@ -36,7 +36,7 @@ namespace Hexa2Go {
 			switch (nextMatchState) {
 				case MatchState.ThrowDice: 
 					{
-						GameManager.Instance.MatchState = MatchState.Throwing;
+						//GameManager.Instance.MatchState = MatchState.Throwing;
 						break;
 					}
 				case MatchState.FocusCharacterTarget:
@@ -74,14 +74,14 @@ namespace Hexa2Go {
 									GameManager.Instance.GridHandler.FocusNextHexagon ();
 								}
 							}
-							GameManager.Instance.MatchState = MatchState.Moving;
+							//GameManager.Instance.MatchState = MatchState.Moving;
 						}
 
 						break;
 					}
 				case MatchState.SelectHexagon:
 					{
-						GameManager.Instance.MatchState = MatchState.FocusHexagonTarget;
+						//GameManager.Instance.MatchState = MatchState.FocusHexagonTarget;
 						break;
 					}
 				case MatchState.FocusHexagonTarget:
@@ -125,14 +125,14 @@ namespace Hexa2Go {
 							}
 						}
 
-						GameManager.Instance.MatchState = MatchState.Moving;
+						//GameManager.Instance.MatchState = MatchState.Moving;
 						break;
 					}
 			}
 		}
 
 		public void Unregister () {
-			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
+			//GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
 		}
 
 		private bool Strategy (ICharacterController[] characters, bool fromCharacterToTarget = true, bool checkForShortDistance = false) {

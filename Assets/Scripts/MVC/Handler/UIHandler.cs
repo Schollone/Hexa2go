@@ -8,7 +8,7 @@ namespace Hexa2Go {
 		private DicesController _dicesController;
 		private PrevHexagonController _prevHexagonController;
 		private NextHexagonController _nextHexagonController;
-		private NextCharacterController _nextCharcarterController;
+		private NextCharacterController _nextCharacterController;
 		private AcceptController _acceptController;
 		private HintController _hintController;
 
@@ -16,7 +16,7 @@ namespace Hexa2Go {
 		private IPlayerController _playerController_Two;
 
 		public UIHandler () {
-
+			Debug.Log ("UIHandler");
 			InitAcceptController ();
 
 			InitNextCharacterController ();
@@ -27,9 +27,9 @@ namespace Hexa2Go {
 
 			InitHintController ();
 
-			InitPlayerStatus ();
+			//InitPlayerStatus ();
 
-			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
+			//GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 
 		private void InitAcceptController () {
@@ -42,8 +42,8 @@ namespace Hexa2Go {
 		private void InitNextCharacterController () {
 			GameObject nextCharacter = GameObject.Find ("Btn_NextCharacter");
 			NextCharacterView nextCharacterView = nextCharacter.GetComponent<NextCharacterView> ();
-			_nextCharcarterController = new NextCharacterController (nextCharacterView);
-			_nextCharcarterController.View.Hide ();
+			_nextCharacterController = new NextCharacterController (nextCharacterView);
+			_nextCharacterController.View.Hide ();
 		}
 
 		private void InitHexagonController () {
@@ -78,11 +78,11 @@ namespace Hexa2Go {
 		}
 
 		private void InitPlayerStatus () {
-			string namePlayerOne = "";
-			string namePlayerTwo = "";
+			//string namePlayerOne = "";
+			//string namePlayerTwo = "";
 			
-			GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
-			
+			/*GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
+
 			switch (gameMode) {
 				case GameMode.Singleplayer:
 					{
@@ -102,24 +102,24 @@ namespace Hexa2Go {
 						namePlayerTwo = LocalizationManager.GetText (TextIdentifier.OPPONENT.ToString ());
 						break;
 					}
-			}
+			}*/
 			
-			_playerController_One = new PlayerController (TeamColor.RED, namePlayerOne);
-			_playerController_Two = new PlayerController (TeamColor.BLUE, namePlayerTwo);
+			//_playerController_One = new PlayerController (TeamColor.RED, namePlayerOne);
+			//_playerController_Two = new PlayerController (TeamColor.BLUE, namePlayerTwo);
 		}
 
 		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
-			PlayerState playerState = GameManager.Instance.PlayerState;
-			GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
-			_hintController.View.UpdateHint ("");
+			//PlayerState playerState = GameManager.Instance.PlayerState;
+			//GameMode gameMode = GameManager.Instance.GameModeHandler.GameMode;
+			//_hintController.View.UpdateHint ("");
 
-			switch (nextMatchState) {
-				case MatchState.ThrowDice:
+			//switch (nextMatchState) {
+			/*case MatchState.ThrowDice:
 					{
 						_dicesController.Show ();
 						_prevHexagonController.View.Hide ();
 						_nextHexagonController.View.Hide ();
-						_nextCharcarterController.View.Hide ();
+						_nextCharacterController.View.Hide ();
 						_acceptController.View.Hide ();
 
 						switch (gameMode) {
@@ -153,22 +153,22 @@ namespace Hexa2Go {
 						}
 
 						break;
-					}
-				case MatchState.Throwing:
+					}*/
+			/*case MatchState.Throwing:
 					{
 						_dicesController.Show ();
 						_dicesController.Disable ();
 						_dicesController.StartThrow ();
 						_prevHexagonController.View.Hide ();
 						_nextHexagonController.View.Hide ();
-						_nextCharcarterController.View.Hide ();
+						_nextCharacterController.View.Hide ();
 						_acceptController.View.Hide ();
 						break;
-					}
-				case MatchState.SelectCharacter:
+					}*/
+			/*case MatchState.SelectCharacter:
 					{
 						_dicesController.Show ();
-						_dicesController.Disable ();
+						//_dicesController.Disable ();
 						_prevHexagonController.View.Hide ();
 						_nextHexagonController.View.Hide ();
 
@@ -177,11 +177,13 @@ namespace Hexa2Go {
 							case GameMode.OnlineMultiplayer:
 								{
 									if (playerState == PlayerState.Player) {
-										_nextCharcarterController.View.Show ();
+										_dicesController.Enable ();	
+										_nextCharacterController.View.Show ();
 										_acceptController.View.Show ();
 										_hintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_SELECT_CHARACTER.ToString ()));
 									} else if (playerState == PlayerState.Opponent) {
-										_nextCharcarterController.View.Hide ();
+										_dicesController.Disable ();
+										_nextCharacterController.View.Hide ();
 										_acceptController.View.Hide ();
 									}
 							
@@ -190,19 +192,19 @@ namespace Hexa2Go {
 							case GameMode.Multiplayer:
 								{
 									_hintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_SELECT_CHARACTER.ToString ()));
-									_nextCharcarterController.View.Show ();
+									_nextCharacterController.View.Show ();
 									_acceptController.View.Show ();
 									break;
 								}
 						}
 				
 						break;
-					}
-				case MatchState.FocusCharacterTarget:
+					}*/
+			/*case MatchState.FocusCharacterTarget:
 					{
 						_dicesController.Show ();
 						_dicesController.Disable ();
-						_nextCharcarterController.View.Hide ();
+						_nextCharacterController.View.Hide ();
 
 						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Opponent) {
 							_prevHexagonController.View.Hide ();
@@ -216,12 +218,12 @@ namespace Hexa2Go {
 						}
 				
 						break;
-					}
-				case MatchState.SelectHexagon:
+					}*/
+			/*case MatchState.SelectHexagon:
 					{
 						_dicesController.Show ();
 						_dicesController.Disable ();
-						_nextCharcarterController.View.Hide ();
+						_nextCharacterController.View.Hide ();
 
 						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Opponent) {
 							_prevHexagonController.View.Hide ();
@@ -235,12 +237,12 @@ namespace Hexa2Go {
 						}
 					
 						break;
-					}
-				case MatchState.FocusHexagonTarget:
+					}*/
+			/*case MatchState.FocusHexagonTarget:
 					{
 						_dicesController.Show ();
 						_dicesController.Disable ();
-						_nextCharcarterController.View.Hide ();
+						_nextCharacterController.View.Hide ();
 
 						if (gameMode != GameMode.Multiplayer && playerState == PlayerState.Opponent) {
 							_prevHexagonController.View.Hide ();
@@ -254,13 +256,13 @@ namespace Hexa2Go {
 						}
 					
 						break;
-					}
-				case MatchState.Win:
+					}*/
+			/*case MatchState.Win:
 					{
 						_dicesController.Hide ();
 						_prevHexagonController.View.Hide ();
 						_nextHexagonController.View.Hide ();
-						_nextCharcarterController.View.Hide ();
+						_nextCharacterController.View.Hide ();
 						_acceptController.View.Show ();
 
 						switch (gameMode) {
@@ -290,13 +292,13 @@ namespace Hexa2Go {
 						}
 
 						break;
-					}
+					}*/
 				
-			}
+			//}
 		}
 
 		public void Unregister () {
-			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
+			//GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
 		}
 
 		public DicesController DicesController {
@@ -305,7 +307,37 @@ namespace Hexa2Go {
 			}
 		}
 
-		public IPlayerController PlayerController_One {
+		public PrevHexagonController PrevHexagonController {
+			get {
+				return _prevHexagonController;
+			}
+		}
+
+		public NextHexagonController NextHexagonController {
+			get {
+				return _nextHexagonController;
+			}
+		}
+
+		public NextCharacterController NextCharacterController {
+			get {
+				return _nextCharacterController;
+			}
+		}
+
+		public AcceptController AcceptController {
+			get {
+				return _acceptController;
+			}
+		}
+
+		public HintController HintController {
+			get {
+				return _hintController;
+			}
+		}
+
+		/*public IPlayerController PlayerController_One {
 			get {
 				return _playerController_One;
 			}
@@ -315,7 +347,7 @@ namespace Hexa2Go {
 			get {
 				return _playerController_Two;
 			}
-		}
+		}*/
 	}
 
 }

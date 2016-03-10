@@ -38,9 +38,13 @@ namespace Hexa2Go {
 			} else {
 				//Debug.LogWarning (_diceController_left.Model.CharacterType + " - " + _diceController_right.Model.CharacterType);
 				if (Double) {
-					GameManager.Instance.MatchState = MatchState.SelectHexagon;
+					//GameManager.Instance.SetCurrentMatchState (new SelectHexagon ());
+					//GameManager.Instance.MatchState = MatchState.SelectHexagon;
+					GameManager.Instance.GameModeHandler.GetGameMode ().SetMatchState (new SelectHexagon ());
 				} else {
-					GameManager.Instance.MatchState = MatchState.SelectCharacter;
+					//GameManager.Instance.SetCurrentMatchState (new SelectCharacter ());
+					//GameManager.Instance.MatchState = MatchState.SelectCharacter;
+					GameManager.Instance.GameModeHandler.GetGameMode ().SetMatchState (new SelectCharacter ());
 				}
 
 				_diceThrowed = false;

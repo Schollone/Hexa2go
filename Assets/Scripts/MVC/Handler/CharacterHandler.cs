@@ -113,6 +113,12 @@ namespace Hexa2Go {
 			return result;
 		}
 
+		public ICharacterController GetCharacter (CharacterType type) {
+			ICharacterController result = null;
+			Characters.TryGetValue (type, out result);
+			return result;
+		}
+
 	}
 
 }

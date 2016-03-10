@@ -5,45 +5,64 @@ namespace Hexa2Go {
 
 	public class GameModeHandler {
 
-		private PlayerHandler _playerHandler;
-		private AIHandler _aiHandler;
+		//private PlayerHandler _playerHandler;
+		//private AIHandler _aiHandler;
 
-		private GameMode _gameMode = GameMode.Singleplayer;
+		//private GameMode _gameMode = GameMode.Singleplayer;
 
-		public PlayerHandler PlayerHandler {
+		private IGameMode gameMode;
+
+		/*public PlayerHandler PlayerHandler {
 			get {
 				return _playerHandler;
 			}
+		}*/
+
+		public void SetGameMode (IGameMode gameMode) {
+			this.gameMode = gameMode;
 		}
 
-		public GameMode GameMode {
+		public IGameMode GetGameMode () {
+			return this.gameMode;
+		}
+
+		/*public GameMode GameMode {
 			get {
 				return _gameMode;
 			}
 			set {
 				_gameMode = value;
 			}
-		}
+		}*/
+
+		/*public void Execute () {
+			this.gameMode.Init ();
+		}*/
 
 		public void Init () {
-			_playerHandler = new PlayerHandler ();
+			//gameMode = new Singleplayer ();
 
-			if (_gameMode == GameMode.Singleplayer) {
+			//this.gameMode.Init ();
+			//_playerHandler = new PlayerHandler ();
+
+			//SetGameMode (new Singleplayer ());
+
+			/*if (_gameMode == GameMode.Singleplayer) {
 				_aiHandler = new AIHandler ();
 			} else {
 				_aiHandler = null;
-			}
+			}*/
 
-			GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
+			/*GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 
 			System.Random r = new System.Random ();
 			int randomPlayer = r.Next (1, 3);
-			GameManager.Instance.PlayerState = (PlayerState)randomPlayer;
+			GameManager.Instance.PlayerState = (PlayerState)randomPlayer;*/
 			//GameManager.Instance.PlayerState = PlayerState.Opponent;
 			//GameManager.Instance.MatchState = MatchState.ThrowDice;
 		}
 
-		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
+		/*void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
 			switch (nextMatchState) {
 				case MatchState.SelectCharacter:
 					{
@@ -73,23 +92,23 @@ namespace Hexa2Go {
 					}
 			}
 			
-		}
+		}*/
 		
-		public void Unregister () {
+		/*public void Unregister () {
 			GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
 			if (_playerHandler != null) {
 				_playerHandler.Unregister ();
 			}
-			if (_aiHandler != null) {
+			/*if (_aiHandler != null) {
 				_aiHandler.Unregister ();
-			}
-		}
+			}*/
+		//}*/
 
-		public void SwitchToNextPlayer () {
+		/*public void SwitchToNextPlayer () {
 			PlayerState playerState = (GameManager.Instance.PlayerState == PlayerState.Player) ? PlayerState.Opponent : PlayerState.Player;
 			GameManager.Instance.PlayerState = playerState;
 			GameManager.Instance.MatchState = MatchState.ThrowDice;
-		}
+		}*/
 	}
 	
 }

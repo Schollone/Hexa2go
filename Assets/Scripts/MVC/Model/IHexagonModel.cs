@@ -13,11 +13,24 @@ namespace Hexa2Go {
 
 	public interface IHexagonModel {
 
+		event EventHandler<EventArgs> OnUpdatedData;
+
 		event EventHandler<HexagonValueChangedEventArgs> OnSelectionChanged;
 		event EventHandler<HexagonValueChangedEventArgs> OnFocusChanged;
 		event EventHandler<HexagonValueChangedEventArgs> OnActivationChanged;
 
 		GridPos GridPos { get; }
+
+		IHexagonState State { get; set; }
+
+		IList<GridPos> Neighbors { get; }
+
+
+
+
+
+
+
 
 		bool IsActivated { get; }
 
@@ -28,8 +41,6 @@ namespace Hexa2Go {
 		bool Visited { get; set; }
 
 		TeamColor TeamColor { get; }
-
-		IList<GridPos> Neighbors { get; }
 		
 		bool IsFocusableForCharacter { get; }
 

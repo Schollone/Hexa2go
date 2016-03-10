@@ -17,7 +17,20 @@ namespace Hexa2Go {
 		}
 
 		private void HandleOnClicked () {
-			GameManager.Instance.GameModeHandler.GameMode = gameMode;
+			//GameManager.Instance.GameModeHandler.GameMode = gameMode;
+			switch (gameMode) {
+				case GameMode.Singleplayer:
+					GameManager.Instance.GameModeHandler.SetGameMode (new Singleplayer ());
+					break;
+				case GameMode.Multiplayer:
+					GameManager.Instance.GameModeHandler.SetGameMode (new Multiplayer ());
+					break;
+				case GameMode.OnlineMultiplayer:
+					//GameManager.Instance.GameModeHandler.SetGameMode (new OnlineMultiplayer ());
+					break;
+				default:
+					throw new System.ArgumentOutOfRangeException ();
+			}
 
 			StartCoroutine (LoadingScreen ());
 			StartCoroutine (LoadGame ());

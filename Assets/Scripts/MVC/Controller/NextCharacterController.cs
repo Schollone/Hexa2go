@@ -9,7 +9,15 @@ namespace Hexa2Go {
 		}
 
 		protected override void HandleOnClicked (object sender, ButtonClickedEventArgs e) {
-			GameManager.Instance.GridHandler.SelectNextCharacter ();
+			/*if (GameManager.Instance.MatchState == MatchState.SelectCharacter) {
+				GameManager.Instance.GridHandler.SelectNextCharacter ();
+			}*/
+			//GameManager.Instance.GetCurrentMatchState ().OnClickNextCharacter ();
+			IMatchState state = GameManager.Instance.GameModeHandler.GetGameMode ().GetMatchState ();
+			if (state is SelectCharacter) {
+				ClickHandler.Instance.OnClick (ClickTypes.SelectCharacter);
+			}
+			//GameManager.Instance.GridHandler.SelectNextCharacter ();
 		}
 	}
 
