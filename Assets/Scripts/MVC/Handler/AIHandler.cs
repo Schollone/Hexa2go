@@ -27,7 +27,7 @@ namespace Hexa2Go {
 			//GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 
-		void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {	
+		/*void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {	
 			PlayerState playerState = GameManager.Instance.PlayerState;
 			if (playerState == PlayerState.Player) {
 				return;
@@ -57,14 +57,14 @@ namespace Hexa2Go {
 
 							IHexagonController hexagon = hexagonHandler.Get ((GridPos)nextPos);
 
-							if (!hexagon.Model.IsFocusableForCharacter) { // if neighborHexagon is blocked
+							/*if (!hexagon.Model.IsFocusableForCharacter) { // if neighborHexagon is blocked
 								Debug.Log ("Counterclockwise");
 								nextPos = hexagonHandler.GetNextHexagonToFocus (selectedHexagon.Model.GridPos, targetPos, true);
 								hexagon = hexagonHandler.Get ((GridPos)nextPos);
 							
-							}
+							}*/
 						
-							if (!hexagon.Model.IsFocusableForCharacter) { // if neighborHexagon is blocked
+							/*if (!hexagon.Model.IsFocusableForCharacter) { // if neighborHexagon is blocked
 								Debug.Log ("Letzter Ausweg");
 								GameManager.Instance.GridHandler.FocusNextHexagon ();
 
@@ -73,9 +73,9 @@ namespace Hexa2Go {
 								while (!hexagonHandler.FocusedHexagon.Model.GridPos.Equals(nextPos)) {
 									GameManager.Instance.GridHandler.FocusNextHexagon ();
 								}
-							}
+							}*/
 							//GameManager.Instance.MatchState = MatchState.Moving;
-						}
+						/*}
 
 						break;
 					}
@@ -131,11 +131,11 @@ namespace Hexa2Go {
 			}
 		}
 
-		public void Unregister () {
+		/*public void Unregister () {
 			//GameManager.Instance.OnMatchStateChange -= HandleOnMatchStateChange;
-		}
+		}*/
 
-		private bool Strategy (ICharacterController[] characters, bool fromCharacterToTarget = true, bool checkForShortDistance = false) {
+		/*private bool Strategy (ICharacterController[] characters, bool fromCharacterToTarget = true, bool checkForShortDistance = false) {
 			Nullable<GridPos> nextPos = null;
 			HexagonHandler hexagonHandler = GameManager.Instance.GridHandler.HexagonHandler;
 
@@ -158,10 +158,10 @@ namespace Hexa2Go {
 				ArrayList selectableHexagons = hexagonHandler.GetSelectableHexagons ();
 
 				foreach (IHexagonController hexagon in selectableHexagons) {
-					if (hexagon.Model.IsTarget) {
+					/*if (hexagon.Model.IsTarget) {
 						continue;
-					}
-					GridPos gridPos = hexagon.Model.GridPos;
+					}*/
+					/*GridPos gridPos = hexagon.Model.GridPos;
 					List<ICharacterController> list = (List<ICharacterController>)gridHandler.CharacterHandler_P1.GetCharacters (gridPos);
 					List<ICharacterController> list2 = (List<ICharacterController>)gridHandler.CharacterHandler_P2.GetCharacters (gridPos);
 					list.AddRange (list2);
@@ -181,7 +181,7 @@ namespace Hexa2Go {
 			}
 
 			return false;
-		}
+		}*/
 	}
 }
 

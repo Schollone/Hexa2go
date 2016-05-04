@@ -22,8 +22,8 @@ namespace Hexa2Go {
 
 		// Use this for initialization
 		void Start () {
-			playername1.text = GameManager.Instance.GameModeHandler.GetGameMode ().GetPlayers () [0].Model.Name; // UIHandler.PlayerController_One.Model.Name;
-			playername2.text = GameManager.Instance.GameModeHandler.GetGameMode ().GetPlayers () [1].Model.Name;
+			playername1.text = GameManager.Instance.GetGameMode ().GetPlayers () [0].Model.Name; // UIHandler.PlayerController_One.Model.Name;
+			playername2.text = GameManager.Instance.GetGameMode ().GetPlayers () [1].Model.Name;
 
 			progress1.text = "0 / 3";
 			progress2.text = "0 / 3";
@@ -31,10 +31,11 @@ namespace Hexa2Go {
 		
 		// Update is called once per frame
 		void Update () {
-			ICollection<ICharacterController> collectionPlayerOne = GameManager.Instance.GridHandler.CharacterHandler_P1.Characters.Values;
-			ICollection<ICharacterController> collectionPlayerTwo = GameManager.Instance.GridHandler.CharacterHandler_P2.Characters.Values;
-			progress1.text = getProgress (collectionPlayerOne) + " / " + collectionPlayerOne.Count;
-			progress2.text = getProgress (collectionPlayerTwo) + " / " + collectionPlayerTwo.Count;
+			int savedCharacters1 = GameManager.Instance.GetGameMode().GetPlayers()[0].Model.SavedCharacters;
+			int savedCharacters2 = GameManager.Instance.GetGameMode().GetPlayers()[1].Model.SavedCharacters;
+			//ICollection<ICharacterController> collectionPlayerTwo = GameManager.Instance.GridHandler.CharacterHandler_P2.Characters.Values;
+			progress1.text = savedCharacters1 + " / " + "3";
+			progress2.text = savedCharacters2 + " / " + "3";
 		}
 
 		int getProgress (ICollection<ICharacterController> collection) {
