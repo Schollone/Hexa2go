@@ -26,6 +26,22 @@ namespace Hexa2Go {
 			}
 		}
 
+		public void ResetDicesBackground () {
+			_diceControllerArray [0].View.UpdateBackground(false);
+			_diceControllerArray [1].View.UpdateBackground(false);
+		}
+
+		public void SelectCharacter (CharacterType type, TeamColor teamColor) {
+			for (int i=0; i < _diceControllerArray.Length; i++) {
+				IDiceController controller = _diceControllerArray[i];
+
+				if (controller.Model.CharacterType == type) {
+					controller.View.UpdateBackground(true);
+					break;
+				}
+			}
+		}
+
 		void HandleOnDiceValueChanged (object sender, DiceValueChangedEventArgs e) {
 
 			if (!_diceThrowed) {
@@ -33,6 +49,7 @@ namespace Hexa2Go {
 			} else {
 				//Debug.LogWarning (_diceController_left.Model.CharacterType + " - " + _diceController_right.Model.CharacterType);
 				if (Double) {
+					_diceControllerArray [0].View.PlayDoubleDice();
 					GameManager.Instance.GetGameMode().SetMatchState(MatchStates.SelectHexagon);
 				} else {
 					GameManager.Instance.GetGameMode().SetMatchState(MatchStates.SelectCharacter);
@@ -65,6 +82,8 @@ namespace Hexa2Go {
 		public void StartThrow () {
 			_diceControllerArray [0].StartThrow ();
 			_diceControllerArray [1].StartThrow ();
+
+			_diceControllerArray [0].View.PlayDiceRoll();
 		}
 
 		public bool Double {

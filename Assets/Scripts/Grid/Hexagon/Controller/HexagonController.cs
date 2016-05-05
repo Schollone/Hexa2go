@@ -33,14 +33,21 @@ namespace Hexa2Go {
 
 			_hexagonView.Init (gridPos, Model.State);
 			_hexagonView.OnClicked += HandleOnClicked;
+			_hexagonView.OnCheckIsBlocked += HandleOnCheckIsBlocked;
 		}
 
-		void HandleOnClicked (object sender, EventArgs e) {
+		private void HandleOnCheckIsBlocked (object sender, EventArgs e) {
+			if (Model.IsBlocked) {
+				Model.State.MarkAsBlocked ();
+			}
+		}
+
+		private void HandleOnClicked (object sender, EventArgs e) {
 			Debug.Log ("Clicked on: " + Model.GridPos);
-			GameManager.Instance.GetGameMode ().GetMatchState ().HandleClick (Model);
+			GameManager.Instance.GetGameMode ().GetMatchState ().HandleClick (this);
 		}
 
-		void HandleUpdatedData (object sender, EventArgs e) {
+		private void HandleUpdatedData (object sender, EventArgs e) {
 			//IHexagonModel model = (IHexagonModel)sender;
 			bool hexagonWasActivated = View.IsActivated;
 			View.UpdateState (Model.State);

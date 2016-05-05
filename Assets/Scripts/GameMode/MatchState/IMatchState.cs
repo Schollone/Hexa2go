@@ -16,7 +16,7 @@ namespace Hexa2Go {
 		void Operate (IPlayer player);
 		void OnExitState (IPlayer currentPlayer);
 		MatchStates GetNextState ();
-		void HandleClick (IHexagonModel hexagon);
+		void HandleClick (IHexagonController hexagon);
 
 		//void OnHexagonActivationChange (IHexagonController hexagonController);
 	}

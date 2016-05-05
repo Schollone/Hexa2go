@@ -41,9 +41,9 @@ namespace Hexa2Go {
 		}
 
 		public GridHandler () {
-			GameObject camera = GameObject.Find ("Camera");
+			/*GameObject camera = GameObject.Find ("Camera");
 			CameraView cameraView = camera.GetComponent<CameraView> ();
-			_cameraController = new CameraController (cameraView);
+			_cameraController = new CameraController (cameraView);*/
 			//_hexagonHandler = new HexagonHandler (WIDTH, HEIGHT);
 			//_characterHandler_P1 = new CharacterHandler (TeamColor.RED);
 			//_characterHandler_P2 = new CharacterHandler (TeamColor.BLUE);

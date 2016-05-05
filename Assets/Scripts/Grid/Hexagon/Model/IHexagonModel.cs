@@ -12,7 +12,7 @@ namespace Hexa2Go {
 		GridPos GridPos { get; }
 		IHexagonState State { get; set; }
 		IList<GridPos> Neighbors { get; }
-		bool AddCharacter (ICharacterModel character);
+		bool AddCharacter (ICharacterModel character, bool ignoreCheckForBlockedHexagons = false);
 		bool RemoveCharacter (ICharacterModel character);
 		bool HasCharacter (ICharacterModel character);
 		bool HasCharacter (TeamColor teamColor);

@@ -11,6 +11,8 @@ namespace Hexa2Go {
 			UIHandler.Instance.DicesController.Show ();
 			UIHandler.Instance.AcceptController.View.Hide ();
 
+			GameManager.Instance.CameraHandler.ActivateMovingCamera();
+
 			player.ThrowDice ();
 		}
 

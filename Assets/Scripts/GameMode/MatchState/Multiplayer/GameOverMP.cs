@@ -12,7 +12,6 @@ namespace Hexa2Go {
 			UIHandler.Instance.AcceptController.View.Show ();
 			
 			player.GameOver ();
-			Debug.Log ("GameOver MP: " + player);
 			IPlayer otherPlayer = GameManager.Instance.GetGameMode().GetPlayers()[0];
 
 			if (player.Equals(otherPlayer)) {

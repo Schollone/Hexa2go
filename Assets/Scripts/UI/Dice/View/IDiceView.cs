@@ -14,6 +14,8 @@ namespace Hexa2Go {
 	public interface IDiceView : IButtonView {
 
 		event EventHandler<DiceThrowedEventArgs> OnThrowed;
+
+		void UpdateBackground (bool select = false);
 		
 		void UpdateView (CharacterType characterType, TeamColor teamColor);
 
@@ -23,6 +25,9 @@ namespace Hexa2Go {
 
 		void StartThrow ();
 
+		void PlayDiceRoll ();
+
+		void PlayDoubleDice ();
 	}
 
 }

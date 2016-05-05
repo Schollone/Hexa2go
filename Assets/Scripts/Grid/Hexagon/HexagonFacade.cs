@@ -46,14 +46,12 @@ namespace Hexa2Go {
 
 		public void SelectCharacter (GridPos gridPos) {
 			IHexagonController controller = _hexagonHandler.Get (gridPos);
-			SelectCharacter (controller.Model);
+			SelectCharacter (controller);
 		}
 		
-		public void SelectCharacter (IHexagonModel hexagon) {
+		public void SelectCharacter (IHexagonController hexagon) {
 			_hexagonHandler.ResetField ();
-			
-			Debug.Log ("HexagonFacade SelectCharacter " + hexagon.State.ToString ());
-			
+
 			// Remark last selected hexagon
 			if (_selectedHexagon != null) {
 				Debug.LogWarning (_selectedHexagon.State.GetType () + " - " + _selectedHexagon.State.IsHome + " _ " + _selectedHexagon.GridPos);
@@ -69,10 +67,11 @@ namespace Hexa2Go {
 			
 			UIHandler.Instance.AcceptController.View.Hide ();
 			
-			_selectedHexagon = hexagon;
-			Debug.Log ("next Hexagon: " + _selectedHexagon.GridPos);
+			_selectedHexagon = hexagon.Model;
 			_selectedHexagon.State.MarkAsSelectable ();
 			InitFocusableNeighborsOfCharacter (_selectedHexagon.GridPos);
+
+			hexagon.View.PlaySelectionClip();
 		}
 
 		public void InitSelectableHexagons () {
@@ -81,11 +80,10 @@ namespace Hexa2Go {
 
 		public void SelectHexagon (GridPos gridPos) {
 			IHexagonController controller = _hexagonHandler.Get (gridPos);
-			SelectHexagon (controller.Model);
+			SelectHexagon (controller);
 		}
 
-		public void SelectHexagon (IHexagonModel hexagon) {
-			Debug.Log ("Facade SelectHexagon " + hexagon.State.ToString ());
+		public void SelectHexagon (IHexagonController hexagon) {
 			_hexagonHandler.ResetDeactivatedField ();
 
 
@@ -94,10 +92,12 @@ namespace Hexa2Go {
 			}
 			ResetSelectionInfos();
 
-			_selectedHexagon = hexagon;
+			_selectedHexagon = hexagon.Model;
 
 			InitFocusableNeighborsOfHexagon (_selectedHexagon);
 			_selectedHexagon.State.MarkAsSelected ();
+
+			hexagon.View.PlaySelectionClip();
 		}
 
 		private void InitFocusableNeighborsOfHexagon (IHexagonModel hexagon) {
@@ -108,16 +108,17 @@ namespace Hexa2Go {
 			_hexagonHandler.InitFocusableNeighbors (gridPos);
 		}
 
-		public void FocusHexagon (IHexagonModel hexagon, IPlayer player) {
-			Debug.LogWarning ("Focus Hexagon");
+		public void FocusHexagon (IHexagonController hexagon, IPlayer player) {
 			if (_focusedHexagon != null) {
 				_focusedHexagon.State.MarkAsFocusable ();
 			}
 
-			_focusedHexagon = hexagon;
-			hexagon.State.MarkAsFocused ();
+			_focusedHexagon = hexagon.Model;
+			hexagon.Model.State.MarkAsFocused ();
 
 			player.HandleAcceptButton ();
+
+			hexagon.View.PlayFocusClip();
 		}
 
 		public void ResetField () {

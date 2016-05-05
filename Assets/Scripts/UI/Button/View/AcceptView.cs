@@ -14,6 +14,19 @@ namespace Hexa2Go {
 		protected override void Update () {
 			base.Update ();
 		}
+
+		public override void Show () {
+			if (_gameObject != null) {
+				gameObject.SetActive (true);
+				Enable();
+			}
+		}
+		
+		public override void Hide () {
+			if (_gameObject != null) {
+				gameObject.SetActive (false);
+			}
+		}
 	}
 
 }

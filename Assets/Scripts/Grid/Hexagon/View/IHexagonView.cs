@@ -7,6 +7,7 @@ namespace Hexa2Go {
 	public interface IHexagonView {
 
 		event EventHandler<EventArgs> OnClicked;
+		event EventHandler<EventArgs> OnCheckIsBlocked;
 
 		bool IsActivated { get; }
 
@@ -18,6 +19,8 @@ namespace Hexa2Go {
 		void Deactivate (IHexagonState state, bool animated = false);
 
 		void PlayExplosion (bool playLoop = false);
+		void PlaySelectionClip ();
+		void PlayFocusClip ();
 
 	}
 

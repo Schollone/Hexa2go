@@ -33,6 +33,8 @@ namespace Hexa2Go {
 				if (GameManager.Instance.GridFacade.HexagonFacade.CheckCharacterMoveable(character)) {
 					_selectedCharacter = character.Model;
 					_selectedCharacter.State.MarkAsSelected ();
+
+					UIHandler.Instance.DicesController.SelectCharacter(character.Model.Type, character.Model.TeamColor);
 					return;
 				}
 			}

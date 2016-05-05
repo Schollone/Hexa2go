@@ -13,9 +13,13 @@ namespace Hexa2Go {
 			//GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 
+		public void ActivateMovingCamera () {
+			_view.GetComponent<Animator>().enabled = false;
+		}
+
 		/*void HandleOnMatchStateChange (MatchState prevMatchState, MatchState nextMatchState) {
 			if (GameManager.Instance.UIHandler.DicesController.Double) {
-				View.Zoom (2);
+			View.Zoom (2);
 			}
 		}*/
 

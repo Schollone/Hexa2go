@@ -8,6 +8,7 @@ namespace Hexa2Go {
 	public class HexagonView : MonoBehaviour, IHexagonView, IPointerClickHandler {
 
 		public event EventHandler<EventArgs> OnClicked = (sender, e) => {};
+		public event EventHandler<EventArgs> OnCheckIsBlocked = (sender, e) => {};
 
 		private Color _defaultAreaColor;
 		private Color _defaultBorderColor;
@@ -22,6 +23,14 @@ namespace Hexa2Go {
 		private float _animationTime = 0f;
 
 		const float SPEED = 1.8f;
+
+		public AudioClip BurningClip;
+		public AudioClip SelectClip;
+		public AudioClip FocusClip;
+		public AudioClip ActivateClip;
+		public AudioClip DeactivateClip;
+
+		private AudioSource audioSource;
 
 		void Awake () {	
 			//_defaultAreaColor = HexagonColors.WHITE;
@@ -50,6 +59,8 @@ namespace Hexa2Go {
 		}
 
 		public void Init (GridPos gridPos, IHexagonState state) {
+			audioSource = GetComponent<AudioSource>();
+
 			Vector3 tmp = GridHelper.HexagonPosition (gridPos);
 			transform.position = tmp;
 			UpdateState (state);
@@ -93,6 +104,10 @@ namespace Hexa2Go {
 			if (animated) {
 				_animationTime = 0f;
 				_deactivate = true;
+				IGameMode gm = GameManager.Instance.GetGameMode();
+				if (gm.GetMatchStateName(gm.GetMatchState()) != MatchStates.NullState) {
+					audioSource.PlayOneShot(DeactivateClip);
+				}
 			} else {
 				transform.position = new Vector3 (transform.position.x, GridHelper.DEACTIVATED_Y_POS, transform.position.z);
 				Tint (_state);
@@ -101,13 +116,20 @@ namespace Hexa2Go {
 
 		void FixedUpdate () {
 			if (_activate) {
+
+				if (_animationTime <= 0f) {
+					audioSource.PlayOneShot(ActivateClip);
+				}
 				
 				_animationTime += Time.deltaTime * SPEED;
 				
-				if (_animationTime > 1) {
+				if (_animationTime > 1f) {
 					_animationTime = 1f;
 					
 					_activate = false;
+					if (OnCheckIsBlocked != null) {
+						OnCheckIsBlocked (this, new EventArgs ());
+					}
 					GameManager.Instance.GetGameMode ().SwitchToNextState ();
 				}
 				
@@ -124,7 +146,7 @@ namespace Hexa2Go {
 				
 				_animationTime += Time.deltaTime * SPEED;
 				
-				if (_animationTime > 1) {
+				if (_animationTime > 1f) {
 					_animationTime = 1f;
 					
 					_deactivate = false;
@@ -155,6 +177,15 @@ namespace Hexa2Go {
 				}
 				particle.Play ();
 			}
+			audioSource.PlayOneShot(BurningClip);
+		}
+
+		public void PlaySelectionClip () {
+			audioSource.PlayOneShot(SelectClip);
+		}
+
+		public void PlayFocusClip () {
+			audioSource.PlayOneShot(FocusClip);
 		}
 
 		#endregion

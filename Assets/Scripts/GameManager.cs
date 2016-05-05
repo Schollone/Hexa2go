@@ -35,6 +35,8 @@ namespace Hexa2Go {
 		private GridHandler _gridHandler;
 		private GridFacade _gridFacade;
 
+		private CameraController _cameraController;
+
 		private GameState _gameState;
 		private PlayerState _playerState;
 		private PlayerState _prevPlayerState;
@@ -67,6 +69,12 @@ namespace Hexa2Go {
 		public GridFacade GridFacade {
 			get {
 				return _gridFacade;
+			}
+		}
+
+		public CameraController CameraHandler {
+			get {
+				return _cameraController;
 			}
 		}
 		
@@ -125,13 +133,17 @@ namespace Hexa2Go {
 
 		private void InitGame () {
 			Debug.LogWarning ("InitGame");
-			UIHandler.Instance.Init();
+			UIHandler.Instance.Init ();
 
 			GetGameMode ().Init ();
-			_gridFacade = new GridFacade();
+			_gridFacade = new GridFacade ();
+
+			GameObject camera = GameObject.Find ("Camera");
+			CameraView cameraView = camera.GetComponent<CameraView> ();
+			_cameraController = new CameraController (cameraView);
 		}
 
-		private void OnExitGame() {
+		private void OnExitGame () {
 			_gridFacade = null;
 		}
 
@@ -141,12 +153,13 @@ namespace Hexa2Go {
 				InitGame ();
 			} else {
 				Debug.LogWarning ("ResetGame");
+
 				if (_gridHandler != null) {
 					_gridHandler.Unregister ();
 				}
 				_gridHandler = null;
 				if (prevGameState != GameState.NullState && nextGameState == GameState.MainMenu) {
-					OnExitGame();
+					OnExitGame ();
 				}
 
 			}

@@ -92,14 +92,14 @@ namespace Hexa2Go {
 			}
 		}
 
-		public bool AddCharacter (ICharacterModel character) {
+		public bool AddCharacter (ICharacterModel character, bool ignoreCheckIsBlocked = false) {
 			bool result = false;
-			if (_characters.Count < MAX_AMOUNT_OF_ALLOWED_CHARACTERS) {
+			if (!IsBlocked) {
 				_characters.Add (character);
 				result = true;
 			}
 
-			if (_characters.Count >= MAX_AMOUNT_OF_ALLOWED_CHARACTERS) {
+			if (!ignoreCheckIsBlocked && IsBlocked) {
 				State.MarkAsBlocked ();
 			}
 			return result;
@@ -181,7 +181,7 @@ namespace Hexa2Go {
 			get {
 				bool result = false;
 				IList<ICharacterModel> characters = GetCharacters ();
-				if (characters.Count >= 2) {
+				if (characters.Count >= MAX_AMOUNT_OF_ALLOWED_CHARACTERS) {
 					result = true;
 				}
 				return result;

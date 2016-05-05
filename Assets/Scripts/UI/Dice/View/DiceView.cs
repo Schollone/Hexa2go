@@ -17,7 +17,14 @@ namespace Hexa2Go {
 		private Dictionary<CharacterType, Sprite> _characterTypes;
 		private Dictionary<TeamColor, Color> _teamColors;
 
+		private Image _background;
+
 		private float[] noiseValues;
+
+		public AudioClip DiceRollClip;
+		public AudioClip DoubleDiceClip;
+
+		private AudioSource audioSource;
 		
 		// Use this for initialization
 		protected override void Awake () {
@@ -34,12 +41,15 @@ namespace Hexa2Go {
 
 			_symbol = transform.FindChild ("Symbol");
 
+			_background = transform.GetChild(0).GetComponent<Image>();
+
 			UpdateViewByIndex (-1, -1);
 		}
 
 		// Use this for initialization
 		protected override void Start () {
 			base.Start ();
+			audioSource = GetComponent<AudioSource>();
 		}
 		
 		// Update is called once per frame
@@ -49,6 +59,14 @@ namespace Hexa2Go {
 		
 		#region IDiceView implementation
 		public event EventHandler<DiceThrowedEventArgs> OnThrowed = (sender, e) => {};
+
+		public void UpdateBackground (bool select = false) {
+			if (select) {
+				_background.color = HexagonColors.ORANGE;
+			} else {
+				_background.color = HexagonColors.WHITE;
+			}
+		}
 
 		public void UpdateView (CharacterType characterType, TeamColor teamColor) {
 			Sprite sprite = null;
@@ -77,6 +95,14 @@ namespace Hexa2Go {
 
 		public void StartThrow () {
 			StartCoroutine ("Throw");
+		}
+
+		public void PlayDiceRoll () {
+			audioSource.PlayOneShot (DiceRollClip);
+		}
+
+		public void PlayDoubleDice () {
+			audioSource.PlayOneShot (DoubleDiceClip);
 		}
 		#endregion
 

@@ -12,7 +12,6 @@ namespace Hexa2Go {
 			UIHandler.Instance.AcceptController.View.Show ();
 			
 			player.GameOver ();
-			Debug.Log ("GameOver: " + player);
 
 			Color color = HexagonColors.GetColor (player.Model.TeamColor);
 			if (player.Equals(GameManager.Instance.GetGameMode().GetPlayers()[0])) {

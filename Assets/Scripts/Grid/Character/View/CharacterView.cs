@@ -19,6 +19,10 @@ namespace Hexa2Go {
 		private float _placingTime = 0f;
 		const float PLACING_SPEED = 2f;
 
+		public AudioClip PlaceClip;
+
+		private AudioSource audioSource;
+
 		void FixedUpdate () {
 			if (move) {
 				Vector3 bezier = (target + start) / 2;
@@ -45,6 +49,9 @@ namespace Hexa2Go {
 				if (_placingTime >= 1f) {
 					_placingTime = 1f;
 					_place = false;
+
+					audioSource.PlayOneShot(PlaceClip);
+
 					if (!UIHandler.Instance.DicesController.Double) {
 						GameManager.Instance.GetGameMode ().SwitchToNextState ();
 					}
@@ -59,6 +66,8 @@ namespace Hexa2Go {
 			tmp += GridHelper.CharacterOffset (offsetPosition);
 			transform.position = tmp;
 			Tint (color);
+
+			audioSource = GetComponent<AudioSource>();
 		}
 
 		public void UpdateState (ICharacterState state) {

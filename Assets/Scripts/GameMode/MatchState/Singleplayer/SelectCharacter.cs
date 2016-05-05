@@ -19,8 +19,8 @@ namespace Hexa2Go {
 			player.SelectCharacter ();
 		}
 
-		public override void HandleClick (IHexagonModel hexagon) {
-			if (hexagon.State is FocusableHexagon) {
+		public override void HandleClick (IHexagonController hexagon) {
+			if (hexagon.Model.State is FocusableHexagon) {
 				GameManager.Instance.GridFacade.HexagonFacade.FocusHexagon (hexagon, _player);
 			}
 		}

@@ -46,13 +46,18 @@ namespace Hexa2Go {
 
 		public void SelectCharacter (CharacterType type, TeamColor teamColor) {
 			if (_characterFacade.SelectedCharacter == null || _characterFacade.SelectedCharacter.Type != type) {
+				UIHandler.Instance.DicesController.ResetDicesBackground ();
+
+
 				_characterFacade.SelectCharacter (type, teamColor);
 				_hexagonFacade.SelectCharacter (_characterFacade.SelectedCharacter.GridPos);
+
+				UIHandler.Instance.DicesController.SelectCharacter (type, teamColor);
 			}
 		}
 
 		public void MoveCharacter () {
-			Debug.Log (_hexagonFacade.FocusedHexagon.GetCharacters ().Count + " __ " + _hexagonFacade.SelectedHexagon.GetCharacters ().Count);
+			//Debug.Log (_hexagonFacade.FocusedHexagon.GetCharacters ().Count + " __ " + _hexagonFacade.SelectedHexagon.GetCharacters ().Count);
 
 			_characterFacade.SelectedCharacter.GridPos = _hexagonFacade.FocusedHexagon.GridPos;
 			_hexagonFacade.FocusedHexagon.AddCharacter (_characterFacade.SelectedCharacter);
@@ -60,13 +65,13 @@ namespace Hexa2Go {
 
 			CheckReachedTarget ();
 
-			Debug.Log (_hexagonFacade.FocusedHexagon.GetCharacters ().Count + " __ " + _hexagonFacade.SelectedHexagon.GetCharacters ().Count);
+			//Debug.Log (_hexagonFacade.FocusedHexagon.GetCharacters ().Count + " __ " + _hexagonFacade.SelectedHexagon.GetCharacters ().Count);
 		}
 
 		private void CheckReachedTarget () {
 			if (_hexagonFacade.FocusedHexagon.State.TeamColor == _characterFacade.SelectedCharacter.TeamColor) {
 				_characterFacade.SelectedCharacter.Remove ();
-				GameManager.Instance.GetGameMode().CurrentPlayer.Model.RemoveCharacter();
+				GameManager.Instance.GetGameMode ().CurrentPlayer.Model.RemoveCharacter ();
 
 				_hexagonFacade.RemoveCharacter (_characterFacade.SelectedCharacter);
 			}
@@ -82,7 +87,7 @@ namespace Hexa2Go {
 			_hexagonFacade.FocusedHexagon.State.Activate (_hexagonFacade.SelectedHexagon.State.TeamColor);
 
 			foreach (ICharacterModel character in models) {
-				_hexagonFacade.FocusedHexagon.AddCharacter (character);
+				_hexagonFacade.FocusedHexagon.AddCharacter (character, true);
 				_hexagonFacade.SelectedHexagon.RemoveCharacter (character);
 				character.GridPos = _hexagonFacade.FocusedHexagon.GridPos;
 			}
@@ -91,9 +96,9 @@ namespace Hexa2Go {
 
 		}
 
-		public void Reset() {
-			ResetField();
-			ResetSelectionInfos();
+		public void Reset () {
+			ResetField ();
+			ResetSelectionInfos ();
 		}
 
 		public void ResetField () {
@@ -102,8 +107,8 @@ namespace Hexa2Go {
 		}
 
 		public void ResetSelectionInfos () {
-			_characterFacade.ResetSelectionInfos();
-			_hexagonFacade.ResetSelectionInfos();
+			_characterFacade.ResetSelectionInfos ();
+			_hexagonFacade.ResetSelectionInfos ();
 		}
 	}
 }

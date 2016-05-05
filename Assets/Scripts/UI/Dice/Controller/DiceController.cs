@@ -37,6 +37,7 @@ namespace Hexa2Go {
 				case MatchStates.SelectCharacter: {
 					// TODO extract method in command
 
+
 					foreach (ICharacterController controller in GameManager.Instance.GridFacade.CharacterFacade.GetCharactersByDices()) {
 						if (controller.Model.Type == Model.CharacterType) {
 							DiceObject diceObject = new DiceObject (Model.CharacterType, Model.TeamColor);
@@ -44,6 +45,8 @@ namespace Hexa2Go {
 							break;
 						}
 					}
+
+					//View.UpdateBackground(true);
 					break;
 				}					
 			}

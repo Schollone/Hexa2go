@@ -32,8 +32,8 @@ namespace Hexa2Go {
 			Debug.Log ("Init GameMode");
 			System.Random r = new System.Random ();
 			int randomPlayer = r.Next (0, 2);
-			//_currentPlayer = players [randomPlayer];
-			_currentPlayer = players [0];
+			_currentPlayer = players [randomPlayer];
+			//_currentPlayer = players [0];
 		}
 
 		public virtual IPlayer[] GetPlayers () {
@@ -60,7 +60,6 @@ namespace Hexa2Go {
 			matchState.OnExitState (_currentPlayer);
 			matchState = state;
 			GameManager.Instance.MatchStateChanged = true;
-			Debug.Log ("SetMatchState: " + matchState);
 		}
 
 		public virtual void SwitchToNextState () {
@@ -72,10 +71,8 @@ namespace Hexa2Go {
 
 		public virtual void SwitchPlayer () {
 			if (_currentPlayer.Equals(players[0])) {
-				Debug.LogWarning("Player 2");
 				_currentPlayer = players[1];
 			} else {
-				Debug.LogWarning("Player 1");
 				_currentPlayer = players[0];
 			}
 		}

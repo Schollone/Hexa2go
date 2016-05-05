@@ -10,6 +10,7 @@ namespace Hexa2Go {
 		public override void Operate (IPlayer player) {
 			UIHandler.Instance.DicesController.Hide ();
 			UIHandler.Instance.AcceptController.View.Hide ();
+			UIHandler.Instance.DicesController.ResetDicesBackground();
 
 			player.Moving ();
 
