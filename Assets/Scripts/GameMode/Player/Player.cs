@@ -4,8 +4,12 @@ using System;
 namespace Hexa2Go {
 
 	public class Player : AbstractPlayer {
-		public Player (TeamColor teamColor) {
-			_model = new PlayerModel (teamColor, (LocalizationManager.GetText (TextIdentifier.PLAYER.ToString ())));
+		public Player (TeamColor teamColor, int playernumber = -1) {
+			String playername = (LocalizationManager.GetText (TextIdentifier.PLAYER.ToString ()));
+			if (playernumber != -1) {
+				playername += " " + playernumber.ToString();
+			}
+			_model = new PlayerModel (teamColor, playername);
 
 			_model.OnMatchFinished += HandleOnMatchFinished;
 		}
@@ -14,6 +18,7 @@ namespace Hexa2Go {
 			Color color = HexagonColors.GetColor (GameManager.Instance.GetGameMode ().CurrentPlayer.Model.TeamColor);
 			String name = GameManager.Instance.GetGameMode ().CurrentPlayer.Model.Name;
 			GameManager.Instance.GetGameMode ().CurrentPlayer.View.UpdatePlayer (color, name);
+			UIHandler.Instance.HintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_THROW_DICE.ToString ()));
 		}
 
 		public override void Throwing () {

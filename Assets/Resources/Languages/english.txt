@@ -8,20 +8,18 @@ QUIT
 Quit
 MENU
 Menu
+PAUSE
+Pause
 CONTINUE
 Continue
 MAINMENU
 Mainmenu
 HINT_THROW_DICE
-Please throw dice!
+Please roll dice!
 HINT_SELECT_CHARACTER
-Select one of your moveable characters!
-HINT_FOCUS_CHARACTER_TARGET
-Decide on the new position of the figure!
+Click on a dice and decide the new hexagon!
 HINT_SELECT_HEXAGON
-Double - Select a moveable Hexagon!
-HINT_FOCUS_HEXAGON_TARGET
-Decide on the new position of the hexagon!
+Select a Hexagon to replace with neighbor!
 PLAYER
 Player
 OPPONENT

@@ -21,8 +21,8 @@ namespace Hexa2Go {
 
 			SetMatchState (MatchStates.NullState);
 			
-			players [0] = new Player (TeamColor.RED);
-			players [1] = new Player (TeamColor.BLUE);
+			players [0] = new Player (TeamColor.RED, 1);
+			players [1] = new Player (TeamColor.BLUE, 2);
 			
 			base.Init ();
 		}

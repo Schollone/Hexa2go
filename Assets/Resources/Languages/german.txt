@@ -8,6 +8,8 @@ QUIT
 Beenden
 MENU
 Menü
+PAUSE
+Pause
 CONTINUE
 Fortfahren
 MAINMENU
@@ -15,13 +17,9 @@ Hauptmenü
 HINT_THROW_DICE
 Bitte würfeln!
 HINT_SELECT_CHARACTER
-Selektiere eine deiner beweglichen Figuren!
-HINT_FOCUS_CHARACTER_TARGET
-Bestimme die neue Position der Figur!
+Klick auf ein Würfel und bestimme das neue Hexagon!
 HINT_SELECT_HEXAGON
-Pasch - Selektiere ein verschiebbares Hexagon!
-HINT_FOCUS_HEXAGON_TARGET
-Bestimme die neue Position des Hexagons!
+Selektiere ein Hexagon, um es mit einem Nachbarn zu tauschen!
 PLAYER
 Spieler
 OPPONENT

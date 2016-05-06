@@ -6,7 +6,7 @@ namespace Hexa2Go {
 	public class CameraView : MonoBehaviour {
 
 		public float MouseSpeed = 25f;
-		public float TouchSpeed = 1f;
+		public float TouchSpeed = 5f;
 		public float PerspectiveZoomSpeed = 0.5f;
 		public float MouseWheelZoomSpeed = 400f;
 
@@ -24,8 +24,9 @@ namespace Hexa2Go {
 
 			HandleTouchInputs ();
 
-			
-			HandleMouseInputs ();
+			if (SystemInfo.deviceType == DeviceType.Desktop) {
+				HandleMouseInputs ();
+			}
 
 		}
 
