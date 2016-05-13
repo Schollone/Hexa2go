@@ -14,11 +14,10 @@ namespace Hexa2Go {
 			clickCommandMap = new Dictionary<ClickTypes, IClickCommand> ();
 			clickCommandMap.Add (ClickTypes.ThrowDice, new ThrowDiceCommand ());
 			clickCommandMap.Add (ClickTypes.SelectCharacter, new SelectCharacterCommand ());
-			clickCommandMap.Add (ClickTypes.AcceptCharacter, new AcceptCharacterCommand ());
 			clickCommandMap.Add (ClickTypes.SelectHexagon, new SelectHexagonCommand ());
-			clickCommandMap.Add (ClickTypes.AcceptHexagon, new AcceptHexagonCommand ());
-			//clickCommandMap.Add (ClickTypes.FocusHexagonTarget, new FocusHexagonCommand ());
-			//clickCommandMap.Add (ClickTypes.AcceptFocusedHexagonTarget, new AcceptFocusedCHexagonCommand ());
+			clickCommandMap.Add (ClickTypes.FocusHexagon, new FocusHexagonCommand ());
+			clickCommandMap.Add (ClickTypes.FinishCharacterMove, new FinishCharacterMoveCommand ());
+			clickCommandMap.Add (ClickTypes.FinishHexagonMove, new FinishHexagonMoveCommand ());
 		}
 
 		public static ClickHandler Instance {

@@ -12,7 +12,7 @@ namespace Hexa2Go {
 		Image bgHintBox;
 		Text text;
 
-		private AudioSource audioSource;
+		private AudioSource _audioSource;
 
 		void Awake () {
 			animator = GameObject.Find ("Player_Change").GetComponent<Animator> ();
@@ -21,7 +21,8 @@ namespace Hexa2Go {
 			bgHintBox = GameObject.Find ("BG_HintBox").GetComponent<Image> ();
 			text = GetComponent<Text> ();
 
-			audioSource = GetComponent<AudioSource>();
+			_audioSource = GetComponent<AudioSource>();
+			SoundManager.Instance.RegisterClip(_audioSource);
 		}
 
 		public void UpdatePlayer (Color color, string name) {
@@ -33,7 +34,11 @@ namespace Hexa2Go {
 
 			animator.SetTrigger (Animator.StringToHash ("ChangePlayer"));
 
-			audioSource.Play();
+			_audioSource.Play();
+		}
+
+		void OnDestroy () {
+			SoundManager.Instance.UnregisterClip(_audioSource);
 		}
 	}
 

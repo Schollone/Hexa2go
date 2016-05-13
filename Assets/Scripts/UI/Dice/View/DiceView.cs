@@ -24,7 +24,7 @@ namespace Hexa2Go {
 		public AudioClip DiceRollClip;
 		public AudioClip DoubleDiceClip;
 
-		private AudioSource audioSource;
+		private AudioSource _audioSource;
 		
 		// Use this for initialization
 		protected override void Awake () {
@@ -49,7 +49,8 @@ namespace Hexa2Go {
 		// Use this for initialization
 		protected override void Start () {
 			base.Start ();
-			audioSource = GetComponent<AudioSource>();
+			_audioSource = GetComponent<AudioSource>();
+			SoundManager.Instance.RegisterClip(_audioSource);
 		}
 		
 		// Update is called once per frame
@@ -98,11 +99,11 @@ namespace Hexa2Go {
 		}
 
 		public void PlayDiceRoll () {
-			audioSource.PlayOneShot (DiceRollClip);
+			_audioSource.PlayOneShot (DiceRollClip);
 		}
 
 		public void PlayDoubleDice () {
-			audioSource.PlayOneShot (DoubleDiceClip);
+			_audioSource.PlayOneShot (DoubleDiceClip);
 		}
 		#endregion
 
@@ -149,6 +150,10 @@ namespace Hexa2Go {
 				index = rnd.Next (0, colorArray.Length);
 			}
 			return colorArray [index];
+		}
+
+		void OnDestroy () {
+			SoundManager.Instance.UnregisterClip(_audioSource);
 		}
 	}
 

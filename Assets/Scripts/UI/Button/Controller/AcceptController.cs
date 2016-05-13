@@ -14,11 +14,11 @@ namespace Hexa2Go {
 
 			switch(matchStateName) {
 				case MatchStates.SelectCharacter: {
-					ClickHandler.Instance.OnClick (ClickTypes.AcceptCharacter);
+					ClickHandler.Instance.OnClick (ClickTypes.FinishCharacterMove);
 					break;
 				}
 				case MatchStates.SelectHexagon: {
-					ClickHandler.Instance.OnClick (ClickTypes.AcceptHexagon);
+					ClickHandler.Instance.OnClick (ClickTypes.FinishHexagonMove);
 					break;
 				}
 				case MatchStates.GameOver: {

@@ -4,8 +4,12 @@ MULTIPLAYER
 Multiplayer
 ONLINE_MULTIPLAYER
 Online Multiplayer
+LANGUAGES
+Languages
 QUIT
 Quit
+BACK
+back
 MENU
 Menu
 PAUSE
@@ -15,11 +19,13 @@ Continue
 MAINMENU
 Mainmenu
 HINT_THROW_DICE
-Please roll dice!
+Please roll dices!
 HINT_SELECT_CHARACTER
 Click on a dice and decide the new hexagon!
 HINT_SELECT_HEXAGON
 Select a Hexagon to replace with neighbor!
+HINT_GAME_OVER
+GAME OVER
 PLAYER
 Player
 OPPONENT

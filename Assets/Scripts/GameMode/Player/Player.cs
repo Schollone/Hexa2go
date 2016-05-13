@@ -30,23 +30,24 @@ namespace Hexa2Go {
 			UIHandler.Instance.HintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_SELECT_CHARACTER.ToString ()));
 		}
 
-		public override void HandleAcceptButton () {
-			UIHandler.Instance.AcceptController.View.Show ();
-		}
-
 		public override void SelectHexagon () {
 			UIHandler.Instance.DicesController.Disable ();
 			UIHandler.Instance.HintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_SELECT_HEXAGON.ToString ()));
 
 			GameManager.Instance.GridFacade.HexagonFacade.InitSelectableHexagons ();
 		}
-
-		public override void FocusHexagonTarget () {
-
+		
+		public override void HandleAcceptButton () {
+			UIHandler.Instance.AcceptController.View.Show ();
 		}
 
 		public override void Moving () {
 
+		}
+
+		public override void GameOver () {
+			base.GameOver ();
+			UIHandler.Instance.HintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_GAME_OVER.ToString ()));
 		}
 	}
 }

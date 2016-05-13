@@ -5,11 +5,10 @@ namespace Hexa2Go {
 	public enum ClickTypes {
 		ThrowDice,
 		SelectCharacter,
-		AcceptCharacter,
 		SelectHexagon,
-		AcceptHexagon,
-		FocusHexagonTarget,
-		AcceptFocusedHexagonTarget,
+		FocusHexagon,
+		FinishCharacterMove,
+		FinishHexagonMove,
 		Pause,
 		LeaveMatch,
 		ContinueMatch

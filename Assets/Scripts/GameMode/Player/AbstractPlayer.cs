@@ -44,15 +44,11 @@ namespace Hexa2Go {
 			throw new NotImplementedException ();
 		}
 
-		public virtual void HandleAcceptButton () {
-			throw new NotImplementedException ();
-		}
-
 		public virtual void SelectHexagon () {
 			throw new NotImplementedException ();
 		}
 
-		public virtual void FocusHexagonTarget () {
+		public virtual void HandleAcceptButton () {
 			throw new NotImplementedException ();
 		}
 

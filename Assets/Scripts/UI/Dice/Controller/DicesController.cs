@@ -99,6 +99,7 @@ namespace Hexa2Go {
 				}
 				return _double;
 				//return true;
+				//return false;
 			}
 		}
 	}

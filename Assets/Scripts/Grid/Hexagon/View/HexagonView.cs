@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -30,7 +30,7 @@ namespace Hexa2Go {
 		public AudioClip ActivateClip;
 		public AudioClip DeactivateClip;
 
-		private AudioSource audioSource;
+		private AudioSource _audioSource;
 
 		void Awake () {	
 			//_defaultAreaColor = HexagonColors.WHITE;
@@ -59,7 +59,8 @@ namespace Hexa2Go {
 		}
 
 		public void Init (GridPos gridPos, IHexagonState state) {
-			audioSource = GetComponent<AudioSource>();
+			_audioSource = GetComponent<AudioSource>();
+			SoundManager.Instance.RegisterClip(_audioSource);
 
 			Vector3 tmp = GridHelper.HexagonPosition (gridPos);
 			transform.position = tmp;
@@ -106,7 +107,7 @@ namespace Hexa2Go {
 				_deactivate = true;
 				IGameMode gm = GameManager.Instance.GetGameMode();
 				if (gm.GetMatchStateName(gm.GetMatchState()) != MatchStates.NullState) {
-					audioSource.PlayOneShot(DeactivateClip);
+					_audioSource.PlayOneShot(DeactivateClip);
 				}
 			} else {
 				transform.position = new Vector3 (transform.position.x, GridHelper.DEACTIVATED_Y_POS, transform.position.z);
@@ -118,7 +119,7 @@ namespace Hexa2Go {
 			if (_activate) {
 
 				if (_animationTime <= 0f) {
-					audioSource.PlayOneShot(ActivateClip);
+					_audioSource.PlayOneShot(ActivateClip);
 				}
 				
 				_animationTime += Time.deltaTime * SPEED;
@@ -130,7 +131,7 @@ namespace Hexa2Go {
 					if (OnCheckIsBlocked != null) {
 						OnCheckIsBlocked (this, new EventArgs ());
 					}
-					GameManager.Instance.GetGameMode ().SwitchToNextState ();
+					GameManager.Instance.GetGameMode ().SwitchToNextMatchState ();
 				}
 				
 				Color colorArea = Color.Lerp (_defaultAreaColor, _nextAreaColor, _animationTime);
@@ -177,15 +178,19 @@ namespace Hexa2Go {
 				}
 				particle.Play ();
 			}
-			audioSource.PlayOneShot(BurningClip);
+			_audioSource.PlayOneShot(BurningClip);
 		}
 
 		public void PlaySelectionClip () {
-			audioSource.PlayOneShot(SelectClip);
+			_audioSource.PlayOneShot(SelectClip);
 		}
 
 		public void PlayFocusClip () {
-			audioSource.PlayOneShot(FocusClip);
+			_audioSource.PlayOneShot(FocusClip);
+		}
+
+		void OnDestroy () {
+			SoundManager.Instance.UnregisterClip(_audioSource);
 		}
 
 		#endregion

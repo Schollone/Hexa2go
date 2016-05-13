@@ -5,10 +5,12 @@ namespace Hexa2Go {
 
 	public class CameraView : MonoBehaviour {
 
-		public float MouseSpeed = 25f;
-		public float TouchSpeed = 5f;
-		public float PerspectiveZoomSpeed = 0.5f;
-		public float MouseWheelZoomSpeed = 400f;
+		public float MouseSpeed = 2f;
+		public float MouseWheelZoomSpeed = 100f;
+
+		public float TouchSpeed = 2f;
+		public float PerspectiveZoomSpeed = 100f;
+
 
 		private Camera cameraComponent;
 
@@ -64,7 +66,7 @@ namespace Hexa2Go {
 				Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
 				// Move object across XY plane
 				//transform.Translate (-touchDeltaPosition.x, 0, -touchDeltaPosition.y);
-				transform.position += new Vector3 (-touchDeltaPosition.x * Time.deltaTime * TouchSpeed, 0.0f, -touchDeltaPosition.y * Time.deltaTime * TouchSpeed);
+				transform.position += new Vector3 (-touchDeltaPosition.x * TouchSpeed, 0.0f, -touchDeltaPosition.y * Time.deltaTime * TouchSpeed);
 				//transform.Translate (-touchDeltaPosition.x * Time.deltaTime * TouchSpeed, 0.0f, -touchDeltaPosition.y * Time.deltaTime * TouchSpeed);
 				if (transform.position.z <= -70) {
 					transform.position = new Vector3 (transform.position.x, transform.position.y, -70);
@@ -92,7 +94,7 @@ namespace Hexa2Go {
 				// Find the difference in the distances between each frame.
 				float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 				// Otherwise change the field of view based on the change in distance between the touches.
-				cameraComponent.fieldOfView += deltaMagnitudeDiff * Time.deltaTime * PerspectiveZoomSpeed;
+				cameraComponent.fieldOfView += deltaMagnitudeDiff * PerspectiveZoomSpeed;
 				// Clamp the field of view to make sure it's between 0 and 180.
 				cameraComponent.fieldOfView = Mathf.Clamp (cameraComponent.fieldOfView, 20f, 75f);
 			}
@@ -100,11 +102,8 @@ namespace Hexa2Go {
 
 		private void HandleMouseInputs () {
 			if (Input.GetMouseButton (0)) {
-				if (Input.GetAxis ("Mouse X") > 0) {
-					transform.position -= new Vector3 (Input.GetAxisRaw ("Mouse X") * Time.deltaTime * MouseSpeed, 0.0f, Input.GetAxisRaw ("Mouse Y") * Time.deltaTime * MouseSpeed);
-				} else
-					if (Input.GetAxis ("Mouse X") < 0) {
-					transform.position -= new Vector3 (Input.GetAxisRaw ("Mouse X") * Time.deltaTime * MouseSpeed, 0.0f, Input.GetAxisRaw ("Mouse Y") * Time.deltaTime * MouseSpeed);
+				if (Input.GetAxis ("Mouse X") != 0) {
+					transform.position -= new Vector3 (Input.GetAxisRaw ("Mouse X") * MouseSpeed, 0.0f, Input.GetAxisRaw ("Mouse Y") * MouseSpeed);
 				}
 				if (transform.position.z <= -70) {
 					transform.position = new Vector3 (transform.position.x, transform.position.y, -70);
@@ -122,7 +121,7 @@ namespace Hexa2Go {
 
 			float delta = Input.GetAxis ("Mouse ScrollWheel");
 			if (delta != 0f) {
-				cameraComponent.fieldOfView -= delta * Time.deltaTime * MouseWheelZoomSpeed;
+				cameraComponent.fieldOfView -= delta * MouseWheelZoomSpeed;
 				cameraComponent.fieldOfView = Mathf.Clamp (cameraComponent.fieldOfView, 20f, 75f);
 			}
 		}

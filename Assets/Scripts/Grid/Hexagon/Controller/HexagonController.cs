@@ -43,8 +43,10 @@ namespace Hexa2Go {
 		}
 
 		private void HandleOnClicked (object sender, EventArgs e) {
-			Debug.Log ("Clicked on: " + Model.GridPos);
-			GameManager.Instance.GetGameMode ().GetMatchState ().HandleClick (this);
+			if (GameManager.Instance.GetGameMode().CurrentPlayer is Player) {
+				Debug.Log ("Clicked on: " + Model.GridPos);
+				GameManager.Instance.GetGameMode ().GetMatchState ().HandleClick (this);
+			}
 		}
 
 		private void HandleUpdatedData (object sender, EventArgs e) {

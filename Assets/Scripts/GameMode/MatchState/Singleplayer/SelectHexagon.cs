@@ -20,9 +20,12 @@ namespace Hexa2Go {
 
 		public override void HandleClick (IHexagonController hexagon) {
 			if (hexagon.Model.State is SelectableHexagon) {
-				GameManager.Instance.GridFacade.HexagonFacade.SelectHexagon (hexagon);
+				ClickHandler.Instance.OnClick (ClickTypes.SelectHexagon, hexagon.Model.GridPos);
+				//GameManager.Instance.GridFacade.HexagonFacade.SelectHexagon (hexagon);
 			} else if (hexagon.Model.State is DeactivatedFocusableHexagon) {
-				GameManager.Instance.GridFacade.HexagonFacade.FocusHexagon (hexagon, _player);
+				ContainerObject data = new ContainerObject (hexagon.Model.GridPos, _player);
+				ClickHandler.Instance.OnClick (ClickTypes.FocusHexagon, data);
+				//GameManager.Instance.GridFacade.HexagonFacade.FocusHexagon (hexagon, _player);
 			}
 
 		}
@@ -30,19 +33,6 @@ namespace Hexa2Go {
 		public override MatchStates GetNextState () {
 			return MatchStates.Moving;
 		}
-
-		/*
-		public void OnClickAccept () {
-			GameManager.Instance.SetCurrentMatchState (new FocusHexagonTarget ());
-		}
-
-		public void OnClickNextHexagonTarget () {
-			GameManager.Instance.GridHandler.SelectNextHexagon ();
-		}
-
-		public void OnClickPrevHexagonTarget () {
-			GameManager.Instance.GridHandler.SelectPrevHexagon ();
-		}*/
 
 	}
 }

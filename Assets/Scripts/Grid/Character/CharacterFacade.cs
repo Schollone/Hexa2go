@@ -68,6 +68,10 @@ namespace Hexa2Go {
 			return _characterHandler.GetCharacters ();
 		}
 
+		public IList<ICharacterController> GetCharacters (TeamColor teamColor) {
+			return _characterHandler.GetCharacters (teamColor);
+		}
+
 		public void ResetCharacters () {
 			_characterHandler.ResetCharacters ();
 		}

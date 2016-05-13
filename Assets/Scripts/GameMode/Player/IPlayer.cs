@@ -11,9 +11,8 @@ namespace Hexa2Go {
 		void ThrowDice ();
 		void Throwing ();
 		void SelectCharacter ();
-		void HandleAcceptButton ();
 		void SelectHexagon ();
-		void FocusHexagonTarget ();
+		void HandleAcceptButton ();
 		void Moving ();		
 		void GameOver ();
 	}

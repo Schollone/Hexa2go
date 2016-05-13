@@ -7,8 +7,12 @@ using System.IO;
 namespace Hexa2Go {
 
 	public enum Languages {
+		English,
+		French,
 		German,
-		English
+		Italian,
+		Russian,
+		Spanish
 	}
 
 	public delegate void LanguageChangeHandler ();

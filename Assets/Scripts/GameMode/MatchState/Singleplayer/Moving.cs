@@ -4,8 +4,6 @@ using UnityEngine;
 namespace Hexa2Go {
 
 	public class Moving : AbstractMatchState {
-		public Moving () {
-		}
 
 		public override void Operate (IPlayer player) {
 			UIHandler.Instance.DicesController.Hide ();
@@ -23,10 +21,6 @@ namespace Hexa2Go {
 			}
 
 			GameManager.Instance.GridFacade.ResetSelectionInfos();
-		}
-
-		public override void OnExitState (IPlayer player) {
-
 		}
 
 		public override MatchStates GetNextState () {

@@ -5,25 +5,25 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Hexa2Go {
-	public enum AIType {
+	/*public enum AIType {
 		Constructive,
 		Destructive,
 		Mixed
-	}
+	}*/
 
-	public delegate bool StrategyDelegate ();
+	//public delegate bool StrategyDelegate ();
 
 	public class AIHandler {
 
-		private AIType _aiType;
-		private static System.Random r = new System.Random ();
+		//private AIType _aiType;
+		//private static System.Random r = new System.Random ();
 
 		public AIHandler () {
 
-			_aiType = AIType.Constructive;
+			/*_aiType = AIType.Constructive;
 			int random = r.Next (0, 3);
 			_aiType = (AIType)random;
-
+*/
 			//GameManager.Instance.OnMatchStateChange += HandleOnMatchStateChange;
 		}
 

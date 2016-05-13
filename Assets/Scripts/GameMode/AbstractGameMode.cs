@@ -30,7 +30,7 @@ namespace Hexa2Go {
 
 		public virtual void Init () {
 			Debug.Log ("Init GameMode");
-			System.Random r = new System.Random ();
+			System.Random r = new System.Random (Guid.NewGuid ().GetHashCode ());
 			int randomPlayer = r.Next (0, 2);
 			_currentPlayer = players [randomPlayer];
 			//_currentPlayer = players [0];
@@ -62,7 +62,7 @@ namespace Hexa2Go {
 			GameManager.Instance.MatchStateChanged = true;
 		}
 
-		public virtual void SwitchToNextState () {
+		public virtual void SwitchToNextMatchState () {
 			MatchStates nextState = matchState.GetNextState ();
 			if (nextState != MatchStates.NullState) {
 				SetMatchState (nextState);

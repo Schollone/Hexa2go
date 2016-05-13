@@ -13,7 +13,6 @@ namespace Hexa2Go {
 			UIHandler.Instance.DicesController.Show ();
 
 			GameManager.Instance.GridFacade.InitCharacterSelection ();
-			//GameManager.Instance.GridFacade.InitNeighbors();
 
 			_player = player;
 			player.SelectCharacter ();
@@ -21,43 +20,15 @@ namespace Hexa2Go {
 
 		public override void HandleClick (IHexagonController hexagon) {
 			if (hexagon.Model.State is FocusableHexagon) {
-				GameManager.Instance.GridFacade.HexagonFacade.FocusHexagon (hexagon, _player);
+				ContainerObject data = new ContainerObject (hexagon.Model.GridPos, _player);
+				ClickHandler.Instance.OnClick (ClickTypes.FocusHexagon, data);
+				//GameManager.Instance.GridFacade.HexagonFacade.FocusHexagon (hexagon, _player);
 			}
 		}
 
 		public override MatchStates GetNextState () {
 			return MatchStates.Moving;
 		}
-
-		/*public void OnClick () { // what Click?
-			GameManager.Instance.MatchState = MatchState.Throwing;
-		}*/
-		/*
-		private void UpdateGUI () {
-			GameManager.Instance.UIHandler.DicesController.Show ();
-			//_dicesController.Disable ();
-			GameManager.Instance.UIHandler.PrevHexagonController.View.Hide ();
-			GameManager.Instance.UIHandler.NextHexagonController.View.Hide ();
-
-			GameManager.Instance.GameModeHandler.GetGameMode ().UpdateSelectCharacterGUI ();
-		}
-
-		public void OnClickAccept () {
-			GameManager.Instance.SetCurrentMatchState (new FocusCharacterTarget ());
-		}
-
-		public void OnClickDice (IDiceController diceController) {
-			GameManager.Instance.GridHandler.SelectNextCharacter ();
-			//Debug.Log (sender.ToString ());
-			ICharacterController controller = GameManager.Instance.GridHandler.CharacterHandler_P1.GetCharacter (diceController.Model.CharacterType);
-			controller.Model.Deselect ();
-			GameManager.Instance.GridHandler.HexagonHandler.Deselect (controller.Model.GridPos);
-		}
-
-		public void OnClickNextCharacter () {
-			GameManager.Instance.GridHandler.SelectNextCharacter ();
-		}*/
-
 	}
 }
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 namespace Hexa2Go {
@@ -21,7 +21,7 @@ namespace Hexa2Go {
 
 		public AudioClip PlaceClip;
 
-		private AudioSource audioSource;
+		private AudioSource _audioSource;
 
 		void FixedUpdate () {
 			if (move) {
@@ -50,10 +50,10 @@ namespace Hexa2Go {
 					_placingTime = 1f;
 					_place = false;
 
-					audioSource.PlayOneShot(PlaceClip);
+					_audioSource.PlayOneShot(PlaceClip);
 
 					if (!UIHandler.Instance.DicesController.Double) {
-						GameManager.Instance.GetGameMode ().SwitchToNextState ();
+						GameManager.Instance.GetGameMode ().SwitchToNextMatchState ();
 					}
 				}
 				float yPos = Mathf.Lerp (-GridHelper.ACTIVATED_Y_POS, GridHelper.DEACTIVATED_Y_POS, _placingTime);
@@ -67,7 +67,8 @@ namespace Hexa2Go {
 			transform.position = tmp;
 			Tint (color);
 
-			audioSource = GetComponent<AudioSource>();
+			_audioSource = GetComponent<AudioSource>();
+			SoundManager.Instance.RegisterClip(_audioSource);
 		}
 
 		public void UpdateState (ICharacterState state) {
@@ -117,6 +118,10 @@ namespace Hexa2Go {
 
 		public void Rotate () {
 			transform.Rotate (0f, 180f, 0f);
+		}
+
+		void OnDestroy () {
+			SoundManager.Instance.UnregisterClip(_audioSource);
 		}
 	}
 

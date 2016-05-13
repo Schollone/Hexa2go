@@ -4,8 +4,12 @@ MULTIPLAYER
 Mehrspieler
 ONLINE_MULTIPLAYER
 Online Mehrspieler
+LANGUAGES
+Sprachen
 QUIT
 Beenden
+BACK
+Zurück
 MENU
 Menü
 PAUSE
@@ -20,6 +24,8 @@ HINT_SELECT_CHARACTER
 Klick auf ein Würfel und bestimme das neue Hexagon!
 HINT_SELECT_HEXAGON
 Selektiere ein Hexagon, um es mit einem Nachbarn zu tauschen!
+HINT_GAME_OVER
+Ende des Spiels
 PLAYER
 Spieler
 OPPONENT

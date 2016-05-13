@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace Hexa2Go {
@@ -19,7 +19,7 @@ namespace Hexa2Go {
 		override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 			//GameManager.Instance.MatchState = MatchState.ThrowDice;
 			//GameManager.Instance.SetCurrentMatchState (new ThrowDice ());
-			GameManager.Instance.GetGameMode ().SwitchToNextState ();
+			GameManager.Instance.GetGameMode ().SwitchToNextMatchState ();
 		}
 
 		// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

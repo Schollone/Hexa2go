@@ -4,8 +4,6 @@ using UnityEngine;
 namespace Hexa2Go {
 
 	public class GameOverMP : AbstractMatchState {
-		public GameOverMP () {
-		}
 
 		public override void Operate (IPlayer player) {
 			UIHandler.Instance.DicesController.Hide ();

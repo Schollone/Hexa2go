@@ -19,22 +19,18 @@ namespace Hexa2Go {
 		public override void Throwing () {
 			
 		}
-		
+
 		public override void SelectCharacter () {
 			UIHandler.Instance.DicesController.Disable ();
 			UIHandler.Instance.AcceptController.View.Hide ();
 		}
 
-		public override void HandleAcceptButton () {
-			UIHandler.Instance.AcceptController.View.Hide ();
-		}
-		
 		public override void SelectHexagon () {
 			
 		}
-		
-		public override void FocusHexagonTarget () {
-			
+
+		public override void HandleAcceptButton () {
+			UIHandler.Instance.AcceptController.View.Hide ();
 		}
 		
 		public override void Moving () {
