@@ -36,8 +36,8 @@ namespace Hexa2Go {
 			_characterTypes.Add (CharacterType.SQUARE, symbol_Square);
 			
 			_teamColors = new Dictionary<TeamColor, Color> ();
-			_teamColors.Add (TeamColor.BLUE, HexagonColors.BLUE);
-			_teamColors.Add (TeamColor.RED, HexagonColors.RED);
+			_teamColors.Add (TeamColor.BLUE, HexagonColors.DICE_BLUE);
+			_teamColors.Add (TeamColor.RED, HexagonColors.DICE_RED);
 
 			_symbol = transform.FindChild ("Symbol");
 

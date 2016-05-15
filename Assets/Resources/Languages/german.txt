@@ -4,8 +4,8 @@ MULTIPLAYER
 Mehrspieler
 ONLINE_MULTIPLAYER
 Online Mehrspieler
-LANGUAGES
-Sprachen
+LANGUAGE
+Sprache
 QUIT
 Beenden
 BACK
@@ -42,3 +42,11 @@ LOSE
 Verloren!
 LOADING
 Lädt
+PLAY
+Spielen
+TUTORIAL
+Tutorial
+SETTINGS
+Einstellungen
+SETTING
+Umgebung

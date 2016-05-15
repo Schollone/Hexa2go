@@ -160,21 +160,24 @@ namespace Hexa2Go {
 		public bool Strategy (IList<ICharacterController> characters, bool fromCharacterToTarget = true, bool checkForShortDistance = false) {
 			Nullable<GridPos> nextPos = null;
 
-			Debug.LogWarning (characters.Count + " - fromCharacterToTarget: " + fromCharacterToTarget + " _ checkForShortDistance: " + checkForShortDistance);
+			//Debug.LogWarning (characters.Count + " - fromCharacterToTarget: " + fromCharacterToTarget + " _ checkForShortDistance: " + checkForShortDistance);
 
 			if (characters != null) {
 				
 				foreach (ICharacterController character in characters) {
 					//ICharacterController character = characters [i];
+
+					if (character.Model.IsInGame) {
 					
-					nextPos = fromCharacterToTarget ? StrategyFromCharacterToTarget (character, checkForShortDistance) : StrategyFromTargetToCharacter (character, checkForShortDistance);
-					
-					if (nextPos != null) {
-						Debug.Log (nextPos + " !!! ");
-						_focusedHexagon = _hexagonHandler.Get ( (GridPos) nextPos).Model;
-						//_hexagonHandler.SetHexagonToPosition ((GridPos)nextPos);
-						Debug.Log ("_focusedHexagon " + _focusedHexagon);
-						return true;
+						nextPos = fromCharacterToTarget ? StrategyFromCharacterToTarget (character, checkForShortDistance) : StrategyFromTargetToCharacter (character, checkForShortDistance);
+						
+						if (nextPos != null) {
+							Debug.Log (nextPos + " !!! ");
+							_focusedHexagon = _hexagonHandler.Get ( (GridPos) nextPos).Model;
+							//_hexagonHandler.SetHexagonToPosition ((GridPos)nextPos);
+							Debug.Log ("_focusedHexagon " + _focusedHexagon);
+							return true;
+						}
 					}
 				}
 			} else { // choose a random hexagon
@@ -211,10 +214,6 @@ namespace Hexa2Go {
 		}
 
 		public Nullable<GridPos> StrategyFromCharacterToTarget (ICharacterController startCharacter, bool checkForShortDistance) {
-			if (!startCharacter.Model.IsInGame) {
-				return null;
-			}
-
 			IHexagonController start = _hexagonHandler.Get (startCharacter.Model.GridPos);
 			IHexagonController target = _hexagonHandler.Get (startCharacter.Model.TeamColor).First ();
 			if (target == null) {
@@ -233,10 +232,6 @@ namespace Hexa2Go {
 		}
 		
 		public Nullable<GridPos> StrategyFromTargetToCharacter (ICharacterController targetCharacter, bool checkForShortDistance) {
-			if (!targetCharacter.Model.IsInGame) {
-				return null;
-			}
-
 			IHexagonController target = _hexagonHandler.Get (targetCharacter.Model.GridPos);
 			IHexagonController start = _hexagonHandler.Get (targetCharacter.Model.TeamColor).First ();
 			

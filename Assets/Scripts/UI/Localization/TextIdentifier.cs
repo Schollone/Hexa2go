@@ -4,7 +4,7 @@ namespace Hexa2Go {
 		SINGLEPLAYER,
 		MULTIPLAYER,
 		ONLINE_MULTIPLAYER,
-		LANGUAGES,
+		LANGUAGE,
 		QUIT,
 		BACK,
 		MENU,
@@ -22,7 +22,11 @@ namespace Hexa2Go {
 		PLAYER_2,
 		WON,
 		LOSE,
-		LOADING
+		LOADING,
+		PLAY,
+		TUTORIAL,
+		SETTINGS,
+		SETTING
 	}
 
 }

@@ -20,7 +20,7 @@ namespace Hexa2Go {
 		}
 
 		void OnDestroy () {
-			Debug.Log ("Delete: " + GetComponent<Text> ().text);
+			//Debug.Log ("Delete: " + GetComponent<Text> ().text);
 			LocalizationManager.Instance.OnLanguageChanged -= HandleOnLanguageChanged;
 		}
 	}

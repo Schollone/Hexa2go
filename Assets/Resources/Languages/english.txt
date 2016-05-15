@@ -4,12 +4,12 @@ MULTIPLAYER
 Multiplayer
 ONLINE_MULTIPLAYER
 Online Multiplayer
-LANGUAGES
-Languages
+LANGUAGE
+Language
 QUIT
 Quit
 BACK
-back
+Back
 MENU
 Menu
 PAUSE
@@ -42,3 +42,11 @@ LOSE
 You lose!
 LOADING
 Loading
+PLAY
+Play
+TUTORIAL
+Tutorial
+SETTINGS
+Settings
+SETTING
+Setting

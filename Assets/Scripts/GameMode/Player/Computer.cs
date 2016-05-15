@@ -66,21 +66,6 @@ namespace Hexa2Go {
 
 			GameManager gm = GameManager.Instance;
 
-			//IHexagonController hexagon = GameManager.Instance.GridFacade.HexagonFacade.GetHexagonToFocus();
-
-
-
-			/*ICollection<ICharacterController> opponentCollection = GameManager.Instance.GridHandler.CharacterHandler_P2.Characters.Values;
-			ICharacterController[] opponentCharacters = new ICharacterController[opponentCollection.Count];
-			opponentCollection.CopyTo (opponentCharacters, 0);
-			
-			ICollection<ICharacterController> playerCollection = GameManager.Instance.GridHandler.CharacterHandler_P1.Characters.Values;
-			ICharacterController[] playerCharacters = new ICharacterController[playerCollection.Count];
-			playerCollection.CopyTo (playerCharacters, 0);*/
-			
-			//opponentCharacters = hexagonHandler.SortCharacterByDistance (opponentCharacters);
-			//playerCharacters = hexagonHandler.SortCharacterByDistance (playerCharacters);
-
 			IList<ICharacterController> playerCharacters = gm.GridFacade.CharacterFacade.GetCharacters (gm.GetGameMode ().GetPlayers()[0].Model.TeamColor);
 			IList<ICharacterController> opponentCharacters = gm.GridFacade.CharacterFacade.GetCharacters (gm.GetGameMode ().GetPlayers()[1].Model.TeamColor);
 			
