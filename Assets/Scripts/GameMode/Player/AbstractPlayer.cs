@@ -9,11 +9,15 @@ namespace Hexa2Go {
 		
 		protected IPlayerView _view;
 
+		protected StatsView _statsView;
+
 		public AbstractPlayer () {
-			GameObject player_change = GameObject.Find ("Player_Change");
-			IPlayerView playerView = player_change.GetComponent<IPlayerView> ();
-			
-			_view = playerView;
+			GameObject currentPlayerDisplay = GameObject.Find ("CurrentPlayer");
+			_view = currentPlayerDisplay.GetComponent<IPlayerView> ();
+		}
+
+		protected void HandleOnCharacterRemoved (object sender, EventArgs e) {
+			_statsView.UpdateStats (_model.Name, _model.SavedCharacters);
 		}
 
 		protected void HandleOnMatchFinished (object sender, EventArgs e) {
@@ -29,6 +33,11 @@ namespace Hexa2Go {
 		public IPlayerView View {
 			get {
 				return _view;
+			}
+		}
+		public StatsView StatsView {
+			get {
+				return _statsView;
 			}
 		}
 

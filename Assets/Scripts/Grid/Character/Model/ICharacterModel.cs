@@ -18,7 +18,7 @@ namespace Hexa2Go {
 
 		bool IsInGame { get; }
 
-		GridHelper.OffsetPosition OffsetPosition { get; set; }
+		OffsetPosition OffsetPosition { get; set; }
 
 		void Remove ();
 	}

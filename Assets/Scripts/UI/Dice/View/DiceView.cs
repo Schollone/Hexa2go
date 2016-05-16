@@ -39,7 +39,7 @@ namespace Hexa2Go {
 			_teamColors.Add (TeamColor.BLUE, HexagonColors.DICE_BLUE);
 			_teamColors.Add (TeamColor.RED, HexagonColors.DICE_RED);
 
-			_symbol = transform.FindChild ("Symbol");
+			_symbol = transform.FindChild ("Dice_Symbol");
 
 			_background = transform.GetChild(0).GetComponent<Image>();
 

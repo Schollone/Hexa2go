@@ -15,6 +15,7 @@ namespace Hexa2Go {
 		void RemoveCharacter();
 
 		event EventHandler<EventArgs> OnMatchFinished;
+		event EventHandler<EventArgs> OnCharacterRemoved;
 
 	}
 

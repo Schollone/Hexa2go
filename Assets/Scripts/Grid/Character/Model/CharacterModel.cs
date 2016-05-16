@@ -14,14 +14,14 @@ namespace Hexa2Go {
 		private ICharacterState _state;
 
 		private bool _isInGame = true;
-		private GridHelper.OffsetPosition _offsetPosition;
+		private OffsetPosition _offsetPosition;
 
 		public CharacterModel (GridPos gridPos, TeamColor teamColor, CharacterType type) {
 			_gridPos = gridPos;
 
 			System.Random rnd = new System.Random (Guid.NewGuid ().GetHashCode ());
 			int offsetPositionIndex = rnd.Next (0, 4);
-			_offsetPosition = (GridHelper.OffsetPosition) offsetPositionIndex;
+			_offsetPosition = (OffsetPosition) offsetPositionIndex;
 
 			_teamColor = teamColor;
 
@@ -82,7 +82,7 @@ namespace Hexa2Go {
 			}
 		}
 
-		public GridHelper.OffsetPosition OffsetPosition {
+		public OffsetPosition OffsetPosition {
 			get {
 				return _offsetPosition;
 			}

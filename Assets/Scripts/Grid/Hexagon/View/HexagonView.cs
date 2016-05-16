@@ -33,8 +33,6 @@ namespace Hexa2Go {
 		private AudioSource _audioSource;
 
 		void Awake () {	
-			//_defaultAreaColor = HexagonColors.WHITE;
-			//_defaultBorderColor = HexagonColors.WHITE;
 		}
 
 		private void TintBorder (Color color) {

@@ -12,11 +12,6 @@ namespace Hexa2Go {
 		Options,
 		Quit
 	}
-	public enum PlayerState {
-		NullState,
-		Player,
-		Opponent
-	}
 	public enum GameMode {
 		Singleplayer,
 		Multiplayer,
@@ -24,7 +19,6 @@ namespace Hexa2Go {
 	}
 
 	public delegate void GameStateChangeHandler (GameState prevGameState,GameState nextGameState);
-	public delegate void PlayerStateChangeHandler (PlayerState prevPlayerState,PlayerState nextPlayerState);
 
 	public class GameManager {
 
@@ -32,14 +26,11 @@ namespace Hexa2Go {
 
 		public event GameStateChangeHandler OnGameStateChange;
 
-		private GridHandler _gridHandler;
 		private GridFacade _gridFacade;
 
 		private CameraController _cameraController;
 
 		private GameState _gameState;
-		private PlayerState _playerState;
-		private PlayerState _prevPlayerState;
 
 		public bool MatchStateChanged = false;
 		public bool PlayerStateChanged = false;
@@ -47,10 +38,7 @@ namespace Hexa2Go {
 		private IGameMode _gameMode;
 
 		protected GameManager () {
-			Debug.LogWarning ("GameManager");
 			_gameState = GameState.NullState;
-			_playerState = PlayerState.NullState;
-			_prevPlayerState = PlayerState.NullState;
 
 			LocalizationManager.Instance.LoadLanguage ("english");
 
@@ -77,12 +65,6 @@ namespace Hexa2Go {
 				return _cameraController;
 			}
 		}
-		
-		/*public GridHandler GridHandler {
-			get {
-				return _gridHandler;
-			}
-		}*/
 
 		public GameState GameState {
 			get {
@@ -116,23 +98,7 @@ namespace Hexa2Go {
 			GetGameMode ().Operate ();
 		}
 
-		public PlayerState PlayerState {
-			get {
-				return _playerState;
-			}
-			set {
-				if (_playerState == value) {
-					return;
-				}
-
-				_prevPlayerState = _playerState;
-				_playerState = value;
-				PlayerStateChanged = true;
-			}
-		}
-
 		private void InitGame () {
-			Debug.LogWarning ("InitGame");
 			UIHandler.Instance.Init ();
 
 			GetGameMode ().Init ();
@@ -148,16 +114,9 @@ namespace Hexa2Go {
 		}
 
 		void HandleOnGameStateChange (GameState prevGameState, GameState nextGameState) {
-			Debug.Log ("OnGameStateChange: " + nextGameState);
 			if (prevGameState == GameState.MainMenu && nextGameState == GameState.Match) {
 				InitGame ();
 			} else {
-				Debug.LogWarning ("ResetGame");
-
-				if (_gridHandler != null) {
-					_gridHandler.Unregister ();
-				}
-				_gridHandler = null;
 				if (prevGameState != GameState.NullState && nextGameState == GameState.MainMenu) {
 					OnExitGame ();
 				}

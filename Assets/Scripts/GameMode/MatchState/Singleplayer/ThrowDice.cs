@@ -4,8 +4,6 @@ using UnityEngine;
 namespace Hexa2Go {
 
 	public class ThrowDice : AbstractMatchState {
-		public ThrowDice () {
-		}
 
 		public override void Operate (IPlayer player) {
 			UIHandler.Instance.DicesController.Show ();

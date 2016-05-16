@@ -17,7 +17,6 @@ namespace Hexa2Go {
 		}
 
 		private void HandleOnClicked () {
-			//GameManager.Instance.GameModeHandler.GameMode = gameMode;
 			switch (gameMode) {
 				case GameMode.Singleplayer:
 					GameManager.Instance.SetGameMode (new Singleplayer ());
@@ -26,7 +25,6 @@ namespace Hexa2Go {
 					GameManager.Instance.SetGameMode (new Multiplayer ());
 					break;
 				case GameMode.OnlineMultiplayer:
-					//GameManager.Instance.GameModeHandler.SetGameMode (new OnlineMultiplayer ());
 					break;
 				default:
 					throw new System.ArgumentOutOfRangeException ();

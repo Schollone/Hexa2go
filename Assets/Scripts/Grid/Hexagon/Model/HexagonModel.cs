@@ -11,7 +11,6 @@ namespace Hexa2Go {
 
 		private const int MAX_AMOUNT_OF_ALLOWED_CHARACTERS = 2;
 
-
 		private GridPos _gridPos;
 		private IHexagonState _state;
 		private IList<GridPos> _neighbors;
@@ -79,8 +78,8 @@ namespace Hexa2Go {
 			
 			neighbors.RemoveAll (item => item.x < 0);
 			neighbors.RemoveAll (item => item.y < 0);
-			neighbors.RemoveAll (item => item.x >= GridHandler.WIDTH);
-			neighbors.RemoveAll (item => item.y >= GridHandler.HEIGHT);
+			neighbors.RemoveAll (item => item.x >= HexagonFacade.WIDTH);
+			neighbors.RemoveAll (item => item.y >= HexagonFacade.HEIGHT);
 			
 			_neighbors = neighbors;
 		}

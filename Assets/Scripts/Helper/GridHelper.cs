@@ -11,15 +11,6 @@ namespace Hexa2Go {
 		public const float ACTIVATED_Y_POS = -0.3f;
 		public const float DEACTIVATED_Y_POS = 0f;
 
-		//HexagonTree<GridPos> _tree;
-
-		public enum OffsetPosition {
-			TopLeft,
-			TopRight,
-			BottomLeft,
-			BottomRight
-		}
-
 		public static Vector3 HexagonPosition (GridPos gridPos) {
 			float yOffset = 4.75f;
 			float zValue = -9.5f * gridPos.y;
@@ -34,25 +25,25 @@ namespace Hexa2Go {
 			float zOffset = 0f;
 
 			switch (position) {
-				case OffsetPosition.TopLeft:
+				case OffsetPosition.TOP_LEFT:
 					{
 						xOffset = -1.6f;
 						zOffset = 1.6f;
 						break;
 					}
-				case OffsetPosition.TopRight:
+				case OffsetPosition.TOP_RIGHT:
 					{
 						xOffset = 1.6f;
 						zOffset = 1.6f;
 						break;
 					}
-				case OffsetPosition.BottomLeft:
+				case OffsetPosition.BOTTOM_LEFT:
 					{
 						xOffset = -1.6f;
 						zOffset = -1.6f;
 						break;
 					}
-				case OffsetPosition.BottomRight:
+				case OffsetPosition.BOTTOM_RIGHT:
 					{
 						xOffset = 1.6f;
 						zOffset = -1.6f;
@@ -88,24 +79,24 @@ namespace Hexa2Go {
 			if (characters.Count > 0) {
 				offsetPosition = characters [0].OffsetPosition;
 				switch (offsetPosition) {
-					case OffsetPosition.TopLeft:
+					case OffsetPosition.TOP_LEFT:
 					{
-						offsetPosition = OffsetPosition.BottomRight;
+						offsetPosition = OffsetPosition.BOTTOM_RIGHT;
 						break;
 					}
-					case OffsetPosition.TopRight:
+					case OffsetPosition.TOP_RIGHT:
 					{
-						offsetPosition = OffsetPosition.BottomLeft;
+						offsetPosition = OffsetPosition.BOTTOM_LEFT;
 						break;
 					}
-					case OffsetPosition.BottomLeft:
+					case OffsetPosition.BOTTOM_LEFT:
 					{
-						offsetPosition = OffsetPosition.TopRight;
+						offsetPosition = OffsetPosition.TOP_RIGHT;
 						break;
 					}
-					case OffsetPosition.BottomRight:
+					case OffsetPosition.BOTTOM_RIGHT:
 					{
-						offsetPosition = OffsetPosition.TopLeft;
+						offsetPosition = OffsetPosition.TOP_LEFT;
 						break;
 					}
 				}

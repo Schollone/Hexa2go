@@ -19,7 +19,6 @@ namespace Hexa2Go {
 		public override Color BorderColor {
 			get {
 				return _state.BorderColor;
-				//return (TeamColor == TeamColor.NONE) ? HexagonColors.LIGHT_GRAY : HexagonColors.GetColor (TeamColor);
 			}
 		}
 		public override bool IsActivated {

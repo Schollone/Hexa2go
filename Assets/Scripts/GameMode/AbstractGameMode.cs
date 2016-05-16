@@ -14,7 +14,6 @@ namespace Hexa2Go {
 		protected IDictionary<MatchStates, IMatchState> stateMap;
 
 		public AbstractGameMode (int amountOfPlayers) {
-			Debug.Log ("AbstractGameMode");
 			stateMap = new Dictionary<MatchStates, IMatchState> ();
 
 			matchState = new NullState ();
@@ -29,11 +28,9 @@ namespace Hexa2Go {
 		}
 
 		public virtual void Init () {
-			Debug.Log ("Init GameMode");
 			System.Random r = new System.Random (Guid.NewGuid ().GetHashCode ());
 			int randomPlayer = r.Next (0, 2);
 			_currentPlayer = players [randomPlayer];
-			//_currentPlayer = players [0];
 		}
 
 		public virtual IPlayer[] GetPlayers () {
@@ -41,7 +38,6 @@ namespace Hexa2Go {
 		}
 
 		public virtual void Operate () {
-			Debug.LogWarning ("Operate " + matchState + " currentPlayer: " + _currentPlayer + " TeamColor: " + _currentPlayer.Model.TeamColor);
 			matchState.Operate (_currentPlayer);
 		}
 

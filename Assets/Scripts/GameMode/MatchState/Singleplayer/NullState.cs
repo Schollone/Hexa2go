@@ -6,7 +6,6 @@ namespace Hexa2Go {
 	public class NullState : AbstractMatchState {
 
 		public override void Operate (IPlayer player) {
-			//player.ThrowDiceGUI ();
 		}
 
 		public override MatchStates GetNextState () {

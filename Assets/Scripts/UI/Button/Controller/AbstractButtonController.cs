@@ -17,7 +17,6 @@ namespace Hexa2Go {
 		}
 
 		protected virtual void HandleOnClicked (object sender, ButtonClickedEventArgs e) {
-			Debug.Log ("virtual HandleOnClicked");
 			throw new NotImplementedException ();
 		}
 

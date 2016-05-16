@@ -13,7 +13,6 @@ namespace Hexa2Go {
 		void SwitchToNextMatchState ();
 		IPlayer[] GetPlayers ();
 		IPlayer CurrentPlayer { get; }
-		//IDictionary<MatchStates, IMatchState> GetStateMap ();
 		void SwitchPlayer ();
 
 	}

@@ -1,28 +1,40 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Hexa2Go {
 
-	public class StatsView : MonoBehaviour, IPlayerView {
+	public class StatsView : MonoBehaviour {
 
-		Animator animator;
-		Image background;
-		Text text;
-
-		void Awake () {
-			animator = GameObject.Find ("Player_Change").GetComponent<Animator> ();
-			background = GameObject.Find ("Background").GetComponent<Image> ();
-			text = GetComponent<Text> ();
+		[SerializeField]
+		private Text
+			playername;
+		[SerializeField]
+		private Text
+			progress;
+		
+		// Use this for initialization
+		void Start () {
+			//playername.text = GameManager.Instance.GetGameMode ().GetPlayers () [0].Model.Name; // UIHandler.PlayerController_One.Model.Name;
+			//playername2.text = GameManager.Instance.GetGameMode ().GetPlayers () [1].Model.Name;
+			
+			//progress.text = "0 / 3";
+			//progress2.text = "0 / 3";
 		}
+		
+		// Update is called once per frame
+		/*void Update () {
+			int savedCharacters1 = GameManager.Instance.GetGameMode().GetPlayers()[0].Model.SavedCharacters;
+			int savedCharacters2 = GameManager.Instance.GetGameMode().GetPlayers()[1].Model.SavedCharacters;
+			//ICollection<ICharacterController> collectionPlayerTwo = GameManager.Instance.GridHandler.CharacterHandler_P2.Characters.Values;
+			progress1.text = savedCharacters1 + " / " + "3";
+			progress2.text = savedCharacters2 + " / " + "3";
+		}*/
 
-		public void UpdatePlayer (Color color, string name) {
-			text.text = name;
-			text.color = color;
-			background.color = color;
-
-			animator.SetTrigger (Animator.StringToHash ("ChangePlayer"));
-			//animator.Play ("player_change");
+		public void UpdateStats (string name, int savedCharacters) {
+			playername.text = name;
+			progress.text = savedCharacters + " / 3";
 		}
 	}
 

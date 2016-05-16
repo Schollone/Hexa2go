@@ -8,12 +8,15 @@ namespace Hexa2Go {
 
 	public class HexagonFacade {
 
+		public static int WIDTH = 10;
+		public static int HEIGHT = 7;
+
 		private HexagonHandler _hexagonHandler;
 		private IHexagonModel _selectedHexagon;
 		private IHexagonModel _focusedHexagon;
 
 		public HexagonFacade () {
-			_hexagonHandler = new HexagonHandler (10, 7);
+			_hexagonHandler = new HexagonHandler (WIDTH, HEIGHT);
 		}
 
 		public IHexagonModel SelectedHexagon {
@@ -54,7 +57,6 @@ namespace Hexa2Go {
 
 			// Remark last selected hexagon
 			if (_selectedHexagon != null) {
-				Debug.LogWarning (_selectedHexagon.State.GetType () + " - " + _selectedHexagon.State.IsHome + " _ " + _selectedHexagon.GridPos);
 				if (_selectedHexagon.IsBlocked) {
 					_selectedHexagon.State.MarkAsBlocked ();
 				} else {
@@ -85,7 +87,6 @@ namespace Hexa2Go {
 
 		public void SelectHexagon (IHexagonController hexagon) {
 			_hexagonHandler.ResetDeactivatedField ();
-
 
 			if (_selectedHexagon != null) {
 				_selectedHexagon.State.MarkAsSelectable ();
@@ -144,15 +145,11 @@ namespace Hexa2Go {
 			_hexagonHandler.Get(teamColor).First().View.PlayExplosion(true);
 		}
 
-
-
 		public IHexagonController GetHexagonToFocus () {
 			TeamColor targetTeamColor = GameManager.Instance.GetGameMode().CurrentPlayer.Model.TeamColor;
 			IHexagonController target = _hexagonHandler.Get(targetTeamColor).First();
-			Debug.Log(target + " - " + SelectedHexagon);
 			Nullable<GridPos> nextPos = _hexagonHandler.GetNextHexagonToFocus (SelectedHexagon.GridPos, target.Model.GridPos);
-			//Debug.LogWarning (nextPos);
-			
+
 			IHexagonController hexagon = _hexagonHandler.Get ((GridPos)nextPos);
 			return hexagon;
 		}
@@ -160,22 +157,15 @@ namespace Hexa2Go {
 		public bool Strategy (IList<ICharacterController> characters, bool fromCharacterToTarget = true, bool checkForShortDistance = false) {
 			Nullable<GridPos> nextPos = null;
 
-			//Debug.LogWarning (characters.Count + " - fromCharacterToTarget: " + fromCharacterToTarget + " _ checkForShortDistance: " + checkForShortDistance);
-
 			if (characters != null) {
 				
 				foreach (ICharacterController character in characters) {
-					//ICharacterController character = characters [i];
-
 					if (character.Model.IsInGame) {
 					
 						nextPos = fromCharacterToTarget ? StrategyFromCharacterToTarget (character, checkForShortDistance) : StrategyFromTargetToCharacter (character, checkForShortDistance);
 						
 						if (nextPos != null) {
-							Debug.Log (nextPos + " !!! ");
 							_focusedHexagon = _hexagonHandler.Get ( (GridPos) nextPos).Model;
-							//_hexagonHandler.SetHexagonToPosition ((GridPos)nextPos);
-							Debug.Log ("_focusedHexagon " + _focusedHexagon);
 							return true;
 						}
 					}
@@ -189,7 +179,6 @@ namespace Hexa2Go {
 					if (hexagon.Model.State.IsHome) {
 						continue;
 					}
-					GridPos gridPos = hexagon.Model.GridPos;
 
 					IList<ICharacterModel> list = hexagon.Model.GetCharacters ();
 					if (list.Count <= 0) {
@@ -201,8 +190,6 @@ namespace Hexa2Go {
 				foreach (GridPos neighborPos in selectedHexagon.Model.Neighbors) {
 					IHexagonController neighbor = _hexagonHandler.Get (neighborPos);
 					if (_hexagonHandler.IsFocusableForHexagon (selectedHexagon, neighbor)) {
-						//_hexagonHandler.SetHexagonToPosition (neighborPos);
-						Debug.Log ("Override!");
 						_focusedHexagon = _hexagonHandler.Get (neighborPos).Model;
 						break;
 					}
@@ -219,15 +206,13 @@ namespace Hexa2Go {
 			if (target == null) {
 				return null;
 			}
-			//Debug.LogWarning ("Start Pos: " + start.Model.GridPos);
-			//Debug.LogWarning ("Ziel Pos: " + target.Model.GridPos);
+
 			int distanceFromOldPosition = _hexagonHandler.GetDistance (start, target.Model.GridPos);
 			
 			Nullable<GridPos> result = _hexagonHandler.CheckDistanceFromNeighbors (target, start, distanceFromOldPosition, checkForShortDistance);
 			if (result != null) {
 				_selectedHexagon = _hexagonHandler.Get (start.Model.GridPos).Model;
 			}
-			Debug.Log ("StrategyFromCharacterToTarget: " + result);
 			return result;
 		}
 		
@@ -238,8 +223,6 @@ namespace Hexa2Go {
 			if (start == null) {
 				return null;
 			}
-			//Debug.LogWarning ("Start Pos: " + start.Model.GridPos);
-			//Debug.LogWarning ("Ziel Pos: " + target.Model.GridPos);
 			
 			int distanceFromOldPosition = _hexagonHandler.GetDistance (start, target.Model.GridPos);
 			if (distanceFromOldPosition == 1) {
@@ -250,7 +233,6 @@ namespace Hexa2Go {
 			if (result != null) {
 				_selectedHexagon = _hexagonHandler.Get (start.Model.GridPos).Model;
 			}
-			Debug.Log ("StrategyFromTargetToCharacter: " + result);
 			return result;
 		}
 	}

@@ -12,7 +12,6 @@ namespace Hexa2Go {
 		private static UIHandler _instance = null;
 
 		private UIHandler () {
-			Debug.Log ("UIHandler");
 		}
 
 		public static UIHandler Instance {
@@ -25,7 +24,6 @@ namespace Hexa2Go {
 		}
 
 		public void Init () {
-			Debug.Log ("Init UIHandler");
 			InitAcceptController ();
 			
 			InitDicesController ();
@@ -34,16 +32,16 @@ namespace Hexa2Go {
 		}
 
 		private void InitAcceptController () {
-			GameObject accept = GameObject.Find ("Btn_Accept");
+			GameObject accept = GameObject.Find ("Accept_Btn");
 			AcceptView acceptView = accept.GetComponent<AcceptView> ();
 			_acceptController = new AcceptController (acceptView);
 			_acceptController.View.Hide ();
 		}
 
 		private void InitDicesController () {
-			GameObject dice_left = GameObject.Find ("Btn_Dice_Left");
+			GameObject dice_left = GameObject.Find ("GamelpayButtons_Dice1");
 			IDiceView diceView_left = dice_left.GetComponent<IDiceView> ();
-			GameObject dice_right = GameObject.Find ("Btn_Dice_Right");
+			GameObject dice_right = GameObject.Find ("GamelpayButtons_Dice2");
 			IDiceView diceView_right = dice_right.GetComponent<IDiceView> ();
 			
 			IDiceController diceController_left = new DiceController (diceView_left);
@@ -54,7 +52,7 @@ namespace Hexa2Go {
 		}
 
 		private void InitHintController () {
-			GameObject hint = GameObject.Find ("Hint");
+			GameObject hint = GameObject.Find ("HintBox_Text");
 			HintView hintView = hint.GetComponent<HintView> ();
 			_hintController = new HintController (hintView);
 		}

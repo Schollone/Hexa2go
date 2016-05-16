@@ -7,30 +7,30 @@ namespace Hexa2Go {
 	public class PlayerView : MonoBehaviour, IPlayerView {
 
 		Animator animator;
-		Image background;
-		Image bgAccept;
-		Image bgHintBox;
-		Text text;
+		Image gameplayButtons;
+		Image acceptBg;
+		Image hintBoxBg;
+		Text currentPlayerText;
 
 		private AudioSource _audioSource;
 
 		void Awake () {
-			animator = GameObject.Find ("Player_Change").GetComponent<Animator> ();
-			background = GameObject.Find ("Background").GetComponent<Image> ();
-			bgAccept = GameObject.Find ("BG_Accept").GetComponent<Image> ();
-			bgHintBox = GameObject.Find ("BG_HintBox").GetComponent<Image> ();
-			text = GetComponent<Text> ();
+			animator = GameObject.Find ("CurrentPlayer").GetComponent<Animator> ();
+			gameplayButtons = GameObject.Find ("GameplayButtons").GetComponent<Image> ();
+			acceptBg = GameObject.Find ("Accept_Bg").GetComponent<Image> ();
+			hintBoxBg = GameObject.Find ("HintBox_Bg").GetComponent<Image> ();
+			currentPlayerText = GetComponent<Text> ();
 
 			_audioSource = GetComponent<AudioSource>();
 			SoundManager.Instance.RegisterClip(_audioSource);
 		}
 
 		public void UpdatePlayer (Color color, string name) {
-			text.text = name;
-			text.color = color;
-			background.color = color;
-			bgAccept.color = color;
-			bgHintBox.color = color;
+			currentPlayerText.text = name;
+			currentPlayerText.color = color;
+			gameplayButtons.color = color;
+			acceptBg.color = color;
+			hintBoxBg.color = color;
 
 			animator.SetTrigger (Animator.StringToHash ("ChangePlayer"));
 

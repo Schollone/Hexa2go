@@ -37,7 +37,6 @@ namespace Hexa2Go {
 			} else {
 				Debug.LogError ("Command not found: " + type);
 			}
-
 		}
 	}
 }

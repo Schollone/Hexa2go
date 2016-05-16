@@ -36,7 +36,6 @@ namespace Hexa2Go {
 
 		public void RegisterClip (AudioSource clip) {
 			if (!_clips.Contains(clip)) {
-				Debug.Log("Register Clip: " + clip);
 				clip.mute = _muted;
 				_clips.Add(clip);
 			}
@@ -59,7 +58,6 @@ namespace Hexa2Go {
 			AudioSource[] array = new AudioSource[_clips.Count];
 			_clips.CopyTo (array, 0);
 			foreach (AudioSource source in array) {
-				Debug.Log("Muted Clips");
 				source.mute = true;
 			}
 			_muted = true;
@@ -69,10 +67,27 @@ namespace Hexa2Go {
 			AudioSource[] array = new AudioSource[_clips.Count];
 			_clips.CopyTo (array, 0);
 			foreach (AudioSource source in array) {
-				Debug.Log("Unmuted Clips");
 				source.mute = false;
 			}
 			_muted = false;
+		}
+
+		public void PauseClips () {
+			AudioSource[] array = new AudioSource[_clips.Count];
+			_clips.CopyTo (array, 0);
+			foreach (AudioSource source in array) {
+				if (source.isPlaying) {
+					source.Pause();
+				}
+			}
+		}
+
+		public void ResumeClips () {
+			AudioSource[] array = new AudioSource[_clips.Count];
+			_clips.CopyTo (array, 0);
+			foreach (AudioSource source in array) {
+				source.UnPause();
+			}
 		}
 	}
 }

@@ -41,7 +41,7 @@ You won!
 LOSE
 You lose!
 LOADING
-Loading
+Loading...
 PLAY
 Play
 TUTORIAL

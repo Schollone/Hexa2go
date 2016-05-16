@@ -25,15 +25,10 @@ namespace Hexa2Go {
 
 			ICharacterController controller = null;
 			characterControllers.TryGetValue (CharacterType.TRIANGLE, out controller);
-			if (controller != null)
+			if (controller != null) {
 				controller.View.Rotate ();
+			}
 			_characters.Add (TeamColor.RED, characterControllers);
-
-			/*foreach (ICharacterController contr in characterControllers.Values) {
-				if (contr.Model.Type != CharacterType.CIRCLE) {
-					contr.Model.Remove();
-				}
-			}*/
 		}
 
 		public ICharacterController GetCharacter (CharacterType type, TeamColor teamColor) {

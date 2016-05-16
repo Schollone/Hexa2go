@@ -46,7 +46,6 @@ namespace Hexa2Go {
 
 		public void SelectCharacter (CharacterType type, TeamColor teamColor) {
 			ICharacterController controller = _characterHandler.GetCharacter (type, teamColor);
-			Debug.Log ("CharacterFacade.SelectCharacter: " + controller.Model.Type + " - " + controller.Model.TeamColor);
 			if (controller.Model.IsInGame) {
 				// Remark last selected character
 				if (_selectedCharacter != null) {

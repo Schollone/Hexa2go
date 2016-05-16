@@ -10,7 +10,7 @@ namespace Hexa2Go {
 		// Update is called once per frame
 		void Update () {
 			if (transform != null) {
-				transform.Rotate (0f, 0f, -1f * speed);
+				transform.Rotate (0f, 0f, -1f * Time.deltaTime * speed);
 			}
 		}
 	}

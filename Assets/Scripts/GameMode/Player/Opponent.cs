@@ -4,10 +4,16 @@ using System;
 namespace Hexa2Go {
 	
 	public class Opponent : AbstractPlayer {
+
 		public Opponent () {
 			_model = new PlayerModel (TeamColor.BLUE, (LocalizationManager.GetText (TextIdentifier.OPPONENT.ToString ())));
 
 			_model.OnMatchFinished += HandleOnMatchFinished;
+			_model.OnCharacterRemoved += HandleOnCharacterRemoved;
+
+			GameObject playerStats = GameObject.Find ("PlayerStats_Player2");
+			_statsView = playerStats.GetComponent<StatsView> ();
+			_statsView.UpdateStats (_model.Name, _model.SavedCharacters);
 		}
 
 		public override void ThrowDice () {

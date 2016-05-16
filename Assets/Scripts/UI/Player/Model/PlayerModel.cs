@@ -36,6 +36,9 @@ namespace Hexa2Go {
 
 		public void RemoveCharacter() {
 			_savedCharacters++;
+			if (OnCharacterRemoved != null) {
+				OnCharacterRemoved(this, new EventArgs());
+			}
 			if (_savedCharacters >= 3) {
 				if (OnMatchFinished != null) {
 					OnMatchFinished(this, new EventArgs());
@@ -44,6 +47,7 @@ namespace Hexa2Go {
 		}
 
 		public event EventHandler<EventArgs> OnMatchFinished;
+		public event EventHandler<EventArgs> OnCharacterRemoved;
 	}
 
 }

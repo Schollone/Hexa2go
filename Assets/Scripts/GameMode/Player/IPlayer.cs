@@ -8,6 +8,8 @@ namespace Hexa2Go {
 		
 		IPlayerView View { get; }
 
+		StatsView StatsView { get; }
+
 		void ThrowDice ();
 		void Throwing ();
 		void SelectCharacter ();

@@ -12,6 +12,8 @@ namespace Hexa2Go {
 
 		private void OnContinue () {
 			GameObject.Find ("PauseScreen").transform.GetChild (0).gameObject.SetActive (false);
+			Time.timeScale = 1f;
+			SoundManager.Instance.ResumeClips();
 		}
 	}
 }

@@ -11,7 +11,6 @@ namespace Hexa2Go {
 		void Awake () {
 			hint = gameObject.GetComponent<Text> ();
 		}
-
 		
 		public void UpdateHint (string text) {
 			if (hint != null) {

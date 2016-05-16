@@ -41,7 +41,7 @@ Gewonnen!
 LOSE
 Verloren!
 LOADING
-Lädt
+Lädt...
 PLAY
 Spielen
 TUTORIAL

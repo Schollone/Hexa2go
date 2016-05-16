@@ -35,20 +35,8 @@ namespace Hexa2Go {
 					break;
 				}
 				case MatchStates.SelectCharacter: {
-					// TODO extract method in command
 					DiceObject diceObject = new DiceObject (Model.CharacterType, Model.TeamColor);
-
 					ClickHandler.Instance.OnClick (ClickTypes.SelectCharacter, diceObject);
-
-					/*foreach (ICharacterController controller in GameManager.Instance.GridFacade.CharacterFacade.GetCharactersByDices()) {
-						if (controller.Model.Type == Model.CharacterType) {
-							DiceObject diceObject = new DiceObject (Model.CharacterType, Model.TeamColor);
-							ClickHandler.Instance.OnClick (ClickTypes.SelectCharacter, diceObject);
-							break;
-						}
-					}*/
-
-					//View.UpdateBackground(true);
 					break;
 				}					
 			}

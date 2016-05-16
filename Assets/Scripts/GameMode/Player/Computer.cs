@@ -20,6 +20,11 @@ namespace Hexa2Go {
 			_model = new PlayerModel (TeamColor.BLUE, (LocalizationManager.GetText (TextIdentifier.COMPUTER.ToString ())));
 
 			_model.OnMatchFinished += HandleOnMatchFinished;
+			_model.OnCharacterRemoved += HandleOnCharacterRemoved;
+
+			GameObject playerStats = GameObject.Find ("PlayerStats_Player2");
+			_statsView = playerStats.GetComponent<StatsView> ();
+			_statsView.UpdateStats (_model.Name, _model.SavedCharacters);
 
 			_aiType = AIType.Constructive;
 			int random = new System.Random(Guid.NewGuid ().GetHashCode ()).Next (0, 3);
@@ -31,18 +36,14 @@ namespace Hexa2Go {
 			String name = GameManager.Instance.GetGameMode ().GetPlayers () [1].Model.Name;
 			GameManager.Instance.GetGameMode ().GetPlayers () [1].View.UpdatePlayer (color, name);
 
-			//this.OnClick (ClickTypes.ThrowDice);
 			ClickHandler.Instance.OnClick (ClickTypes.ThrowDice);
-			Debug.Log ("Throw Dice Computer");
 		}
 		
 		public override void Throwing () {
-			Debug.Log ("Throwing Computer");
 		}
 		
 		public override void SelectCharacter () {
 			UIHandler.Instance.DicesController.Disable ();
-			Debug.Log ("SelectCharacter Computer");
 
 			// TODO choose a character with the best next movement.
 			
@@ -59,10 +60,7 @@ namespace Hexa2Go {
 		}
 		
 		public override void SelectHexagon () {
-			//this.OnClick (ClickTypes.SelectHexagon);
-			//this.OnClick (ClickTypes.AcceptHexagon);
 			UIHandler.Instance.DicesController.Disable ();
-			Debug.Log ("SelectHexagon Computer");
 
 			GameManager gm = GameManager.Instance;
 
@@ -104,7 +102,6 @@ namespace Hexa2Go {
 		}
 		
 		public override void Moving () {
-			Debug.Log ("Moving Computer");
 		}
 	}
 }

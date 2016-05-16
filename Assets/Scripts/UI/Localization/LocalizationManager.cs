@@ -33,10 +33,7 @@ namespace Hexa2Go {
 			}
 		}
 
-
 		public void LoadLanguage (string filename) {
-			Debug.Log ("Load Language");
-
 			string fullpath = "Languages/" + filename;
 			
 			TextAsset textAsset = (TextAsset)Resources.Load (fullpath);

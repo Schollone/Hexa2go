@@ -47,7 +47,6 @@ namespace Hexa2Go {
 			if (!_diceThrowed) {
 				_diceThrowed = true;
 			} else {
-				//Debug.LogWarning (_diceController_left.Model.CharacterType + " - " + _diceController_right.Model.CharacterType);
 				if (Double) {
 					_diceControllerArray [0].View.PlayDoubleDice();
 					GameManager.Instance.GetGameMode().SetMatchState(MatchStates.SelectHexagon);
@@ -93,8 +92,6 @@ namespace Hexa2Go {
 					return _double;
 				if (_diceControllerArray [0].Model.CharacterType == _diceControllerArray [1].Model.CharacterType &&
 					_diceControllerArray [0].Model.TeamColor == _diceControllerArray [1].Model.TeamColor) {
-					//Debug.LogWarning (_diceController_left.Model.CharacterType + " == " + _diceController_right.Model.CharacterType);
-					//Debug.LogWarning (_diceController_left.Model.TeamColor + " == " + _diceController_right.Model.TeamColor);
 					_double = true;
 				}
 				return _double;

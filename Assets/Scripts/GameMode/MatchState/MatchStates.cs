@@ -4,7 +4,6 @@ namespace Hexa2Go {
 
 	public enum MatchStates {
 		NullState,
-
 		ThrowDice,
 		Throwing,
 		SelectCharacter,

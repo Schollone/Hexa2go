@@ -6,7 +6,7 @@ namespace Hexa2Go {
 
 		void UpdateState (ICharacterState state);
 
-		void Init (GridPos gridPos, GridHelper.OffsetPosition offsetPosition, Color color);
+		void Init (GridPos gridPos, OffsetPosition offsetPosition, Color color);
 
 		void Tint (Color color);
 
@@ -14,7 +14,7 @@ namespace Hexa2Go {
 
 		void Deselect ();
 
-		void Move (GridPos gridPos, GridHelper.OffsetPosition offsetPosition, bool jump = false);
+		void Move (GridPos gridPos, OffsetPosition offsetPosition, bool jump = false);
 
 		void Remove ();
 

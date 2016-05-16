@@ -34,18 +34,13 @@ namespace Hexa2Go {
 
 			Color color = HexagonColors.GetColor (_model.TeamColor);
 			_view.Init (gridPos, _model.OffsetPosition, color);
-
-			//if (type == CharacterType.CIRCLE)
-			//_model.Remove();
 		}
 
 		void HandleOnUpdatedData (object sender, EventArgs e) {
 			View.UpdateState (Model.State);
 			if (Model.State.IsSelected) {
-				Debug.LogWarning ("Selected");
 				View.Select ();
 			} else {
-				Debug.LogWarning ("Deselected");
 				View.Deselect ();
 			}
 		}

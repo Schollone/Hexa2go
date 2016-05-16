@@ -10,15 +10,9 @@ namespace Hexa2Go {
 			UIHandler.Instance.AcceptController.View.Show ();
 			
 			player.GameOver ();
-			IPlayer otherPlayer = GameManager.Instance.GetGameMode().GetPlayers()[0];
 
-			if (player.Equals(otherPlayer)) {
-				Color color = HexagonColors.GetColor (player.Model.TeamColor);
-				player.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.WON.ToString ()));
-			} else {
-				Color color = HexagonColors.GetColor (player.Model.TeamColor);
-				player.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.WON.ToString ()));
-			}
+			Color color = HexagonColors.GetColor (player.Model.TeamColor);
+			player.View.UpdatePlayer (color, LocalizationManager.GetText (TextIdentifier.WON.ToString ()));
 
 		}
 

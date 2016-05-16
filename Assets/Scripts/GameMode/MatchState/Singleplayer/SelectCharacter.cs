@@ -6,9 +6,6 @@ namespace Hexa2Go {
 	public class SelectCharacter : AbstractMatchState {
 		private IPlayer _player;
 
-		public SelectCharacter () {
-		}
-
 		public override void Operate (IPlayer player) {
 			UIHandler.Instance.DicesController.Show ();
 
@@ -22,7 +19,6 @@ namespace Hexa2Go {
 			if (hexagon.Model.State is FocusableHexagon) {
 				ContainerObject data = new ContainerObject (hexagon.Model.GridPos, _player);
 				ClickHandler.Instance.OnClick (ClickTypes.FocusHexagon, data);
-				//GameManager.Instance.GridFacade.HexagonFacade.FocusHexagon (hexagon, _player);
 			}
 		}
 

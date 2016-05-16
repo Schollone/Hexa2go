@@ -25,7 +25,6 @@ namespace Hexa2Go {
 			instance.transform.SetParent (grid.transform);
 			IHexagonView view = instance.GetComponent<IHexagonView> ();
 
-
 			_hexagonView = view;
 
 			_hexagonModel = new HexagonModel (gridPos);
@@ -44,13 +43,11 @@ namespace Hexa2Go {
 
 		private void HandleOnClicked (object sender, EventArgs e) {
 			if (GameManager.Instance.GetGameMode().CurrentPlayer is Player) {
-				Debug.Log ("Clicked on: " + Model.GridPos);
 				GameManager.Instance.GetGameMode ().GetMatchState ().HandleClick (this);
 			}
 		}
 
 		private void HandleUpdatedData (object sender, EventArgs e) {
-			//IHexagonModel model = (IHexagonModel)sender;
 			bool hexagonWasActivated = View.IsActivated;
 			View.UpdateState (Model.State);
 			if (Model.State.IsActivated) {

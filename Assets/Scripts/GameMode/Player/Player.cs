@@ -4,6 +4,7 @@ using System;
 namespace Hexa2Go {
 
 	public class Player : AbstractPlayer {
+
 		public Player (TeamColor teamColor, int playernumber = -1) {
 			String playername = (LocalizationManager.GetText (TextIdentifier.PLAYER.ToString ()));
 			if (playernumber != -1) {
@@ -12,6 +13,11 @@ namespace Hexa2Go {
 			_model = new PlayerModel (teamColor, playername);
 
 			_model.OnMatchFinished += HandleOnMatchFinished;
+			_model.OnCharacterRemoved += HandleOnCharacterRemoved;
+
+			GameObject playerStats = GameObject.Find ("PlayerStats_Player1");
+			_statsView = playerStats.GetComponent<StatsView> ();
+			_statsView.UpdateStats (_model.Name, _model.SavedCharacters);
 		}
 
 		public override void ThrowDice () {
@@ -22,7 +28,6 @@ namespace Hexa2Go {
 		}
 
 		public override void Throwing () {
-
 		}
 
 		public override void SelectCharacter () {
@@ -42,7 +47,6 @@ namespace Hexa2Go {
 		}
 
 		public override void Moving () {
-
 		}
 
 		public override void GameOver () {

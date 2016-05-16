@@ -9,7 +9,6 @@ namespace Hexa2Go {
 		private GameObject _mainMenu;
 
 		void Start() {
-
 			GetComponent<Button>().onClick.AddListener (GoBack);
 
 			Transform canvas = GameObject.Find ("Canvas").transform;

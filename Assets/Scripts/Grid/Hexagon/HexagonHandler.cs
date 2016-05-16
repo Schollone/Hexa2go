@@ -13,7 +13,6 @@ namespace Hexa2Go {
 		private Queue queue;
 
 		public HexagonHandler (int width, int height) {
-			Debug.LogWarning ("HexagonHandler");
 			_width = width;
 			_height = height;
 			_hexagons = new Dictionary<GridPos, IHexagonController> ();
@@ -188,25 +187,6 @@ namespace Hexa2Go {
 			foreach (IHexagonController hexagon in list) {
 				hexagon.Model.State.MarkAsSelectable ();
 			}
-
-			/*foreach (IHexagonController hexagon in _hexagons.Values) {
-				if (hexagon.Model.State.IsActivated) {
-
-					foreach (GridPos neighborGridPos in hexagon.Model.Neighbors) {
-						IHexagonController neighbor = Get (neighborGridPos);
-						if (neighbor == null) {
-							break;
-						}
-
-						if (!neighbor.Model.State.IsActivated && IsFocusableForHexagon (hexagon, neighbor)) {
-
-							hexagon.Model.State.MarkAsSelectable ();
-							break;
-						}
-					}
-
-				}
-			}*/
 		}
 
 		public IList<IHexagonController> GetMoveableHexagons () {
@@ -222,7 +202,6 @@ namespace Hexa2Go {
 						
 						if (!neighbor.Model.State.IsActivated && IsFocusableForHexagon (hexagon, neighbor)) {
 							result.Add(hexagon);
-							//hexagon.Model.State.MarkAsSelectable ();
 							break;
 						}
 					}
@@ -248,22 +227,18 @@ namespace Hexa2Go {
 			int seed = Guid.NewGuid ().GetHashCode ();
 			System.Random rnd = new System.Random (seed);
 			Boolean randomBool = Convert.ToBoolean(rnd.Next (0, 3));
-			Debug.LogWarning("counterClockWise: " + randomBool);
 
 			IHexagonController hexagon = CalcNextHexagonToFocus (start, targetPos, randomBool);
 
 			if (hexagon == null || hexagon.Model.IsBlocked) {
-				Debug.Log("hexagon is blocked");
 				hexagon = CalcNextHexagonToFocus (start, targetPos, !randomBool);
 			}
 			if (hexagon == null || hexagon.Model.IsBlocked) {
-				//hexagon = RandomHexagonToFocus();
-				Debug.Log("hexagon is blocked again");
 				hexagon = null;
 
 				foreach (GridPos neighborPos in root.Model.Neighbors) {
 					IHexagonController neighbor = Get (neighborPos);
-					if (!neighbor.Model.IsBlocked) {
+					if (neighbor.Model.State.IsActivated && !neighbor.Model.IsBlocked) {
 						hexagon = neighbor;
 						break;
 					}
@@ -273,7 +248,6 @@ namespace Hexa2Go {
 			result = hexagon.Model.GridPos;
 
 			resetHexagonVisit ();
-			//Debug.Log (result);
 			return result;
 		}
 
@@ -282,11 +256,10 @@ namespace Hexa2Go {
 			IHexagonController hexagon = null;
 			GridPos predHexagon = targetPos;
 
-			BFS (root, targetPos, false);
+			BFS (root, targetPos, counterclockwiseNeighborSearch);
 			while (!predHexagon.Equals (start)) {
 				hexagon = Get (predHexagon);
 				predHexagon = (GridPos)hexagon.Pred;
-				//hexagon.Model.GridPos;
 			}
 			return hexagon;
 		}
@@ -297,7 +270,6 @@ namespace Hexa2Go {
 				if (IsFocusableForHexagon (start, neighbor)) {
 					int distanceFromNewPosition = GetDistance (neighbor, target.Model.GridPos);
 					bool condition = checkForShortDistance ? (distanceFromNewPosition < distanceFromOldPosition) : (distanceFromNewPosition > distanceFromOldPosition);
-					//Debug.LogWarning (distanceFromNewPosition + " < " + distanceFromOldPosition + " --> " + neighborPos);
 					if (condition) {
 						return neighborPos;
 					}
@@ -356,7 +328,6 @@ namespace Hexa2Go {
 						neighbor.Pred = hexagon.Model.GridPos;
 						neighbor.Distance = hexagon.Distance + 1;
 						
-						//Debug.Log ("Current: " + hexagon.Model.GridPos + " ; Nachbar: " + neighbor.Model.GridPos + " ; Distance: " + neighbor.Distance);
 						if (neighborPos.Equals (targetPos)) {
 							target = neighbor;
 							queue.Clear ();

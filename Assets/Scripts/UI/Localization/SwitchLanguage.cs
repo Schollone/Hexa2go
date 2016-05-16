@@ -9,15 +9,13 @@ namespace Hexa2Go {
 
 		public Languages language;
 
-		private Image _FlagBg;
 		private GameObject _FlagBtn;
 		private GameObject _FlagSelection;
 
 		// Use this for initialization
 		void Start () {
-			_FlagBg = transform.GetChild(0).gameObject.GetComponent<Image>();
-			_FlagBtn = transform.GetChild(1).gameObject;
-			_FlagSelection = transform.GetChild(2).gameObject;
+			_FlagBtn = transform.GetChild(0).gameObject;
+			_FlagSelection = transform.GetChild(1).gameObject;
 
 			_FlagBtn.GetComponent<Button> ().onClick.AddListener (OnClick);
 		}
@@ -28,14 +26,12 @@ namespace Hexa2Go {
 		}
 
 		void OnClick () {
-			_FlagBg.color = HexagonColors.DARK_GREEN;
 			_FlagSelection.SetActive(true);
 
 			LocalizationManager.Instance.LoadLanguage (language.ToString ().ToLower ());
 		}
 
 		public void ResetFlag() {
-			_FlagBg.color = HexagonColors.DARK_GRAY;
 			_FlagSelection.SetActive(false);
 		}
 	}
