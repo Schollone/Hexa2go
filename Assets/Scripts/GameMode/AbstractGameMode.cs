@@ -38,6 +38,7 @@ namespace Hexa2Go {
 		}
 
 		public virtual void Operate () {
+			Debug.LogWarning ("Operate: " + matchState + " - " + _currentPlayer);
 			matchState.Operate (_currentPlayer);
 		}
 
@@ -52,7 +53,7 @@ namespace Hexa2Go {
 		public virtual void SetMatchState (MatchStates stateName) {
 			IMatchState state = null;
 			stateMap.TryGetValue(stateName, out state);
-
+			Debug.Log("SetMatchState: " + stateName);
 			matchState.OnExitState (_currentPlayer);
 			matchState = state;
 			GameManager.Instance.MatchStateChanged = true;

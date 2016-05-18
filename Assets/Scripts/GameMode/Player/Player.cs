@@ -15,7 +15,8 @@ namespace Hexa2Go {
 			_model.OnMatchFinished += HandleOnMatchFinished;
 			_model.OnCharacterRemoved += HandleOnCharacterRemoved;
 
-			GameObject playerStats = GameObject.Find ("PlayerStats_Player1");
+			String playerStatsGameObject = "PlayerStats_Player" + Math.Abs(playernumber).ToString();
+			GameObject playerStats = GameObject.Find (playerStatsGameObject);
 			_statsView = playerStats.GetComponent<StatsView> ();
 			_statsView.UpdateStats (_model.Name, _model.SavedCharacters);
 		}
@@ -30,7 +31,7 @@ namespace Hexa2Go {
 		public override void Throwing () {
 		}
 
-		public override void SelectCharacter () {
+		public override void SelectCharacter (bool hasFoundACharacter) {
 			UIHandler.Instance.DicesController.Enable ();
 			UIHandler.Instance.HintController.View.UpdateHint (LocalizationManager.GetText (TextIdentifier.HINT_SELECT_CHARACTER.ToString ()));
 		}

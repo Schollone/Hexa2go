@@ -7,6 +7,8 @@ namespace Hexa2Go {
 
 		private ICharacterState _state;
 		private Color _defaultColor;
+		private MeshRenderer _characterArea;
+		private MeshRenderer _characterBorder;
 
 		private Vector3 target = new Vector3 ();
 		private Vector3 start = new Vector3 ();
@@ -62,10 +64,13 @@ namespace Hexa2Go {
 		}
 
 		public void Init (GridPos gridPos, OffsetPosition offsetPosition, Color color) {
+			_characterArea = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MeshRenderer>();
+			_characterBorder = transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<MeshRenderer>();
+
 			Vector3 tmp = GridHelper.HexagonPosition (gridPos);
 			tmp += GridHelper.CharacterOffset (offsetPosition);
 			transform.position = tmp;
-			Tint (color);
+			Tint (color, color);
 
 			_audioSource = GetComponent<AudioSource>();
 			SoundManager.Instance.RegisterClip(_audioSource);
@@ -73,11 +78,12 @@ namespace Hexa2Go {
 
 		public void UpdateState (ICharacterState state) {
 			_state = state;
-			Tint (_state.Color);
+			Tint (_state.AreaColor, _state.BorderColor);
 		}
 
-		public void Tint (Color color) {
-			transform.GetChild (0).GetChild (0).GetComponent<MeshRenderer> ().material.color = color;
+		public void Tint (Color areaColor, Color borderColor) {
+			_characterArea.material.color = areaColor;
+			_characterBorder.material.color = borderColor;
 		}
 
 		public void Select () {

@@ -49,7 +49,7 @@ namespace Hexa2Go {
 			throw new NotImplementedException ();
 		}
 
-		public virtual void SelectCharacter () {
+		public virtual void SelectCharacter (bool hasFoundACharacter) {
 			throw new NotImplementedException ();
 		}
 

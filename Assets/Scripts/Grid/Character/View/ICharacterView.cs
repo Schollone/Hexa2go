@@ -8,7 +8,7 @@ namespace Hexa2Go {
 
 		void Init (GridPos gridPos, OffsetPosition offsetPosition, Color color);
 
-		void Tint (Color color);
+		void Tint (Color areaColor, Color borderColor);
 
 		void Select ();
 

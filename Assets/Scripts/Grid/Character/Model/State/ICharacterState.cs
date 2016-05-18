@@ -4,7 +4,8 @@ namespace Hexa2Go {
 
 	public interface ICharacterState {
 
-		Color Color { get; }
+		Color AreaColor { get; }
+		Color BorderColor { get; }
 		bool IsSelected { get; }
 
 		void MarkAsNormal ();

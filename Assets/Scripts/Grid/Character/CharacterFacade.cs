@@ -26,7 +26,7 @@ namespace Hexa2Go {
 			}
 		}
 
-		public void InitCharacterSelection () {
+		public bool InitCharacterSelection () {
 			IList<ICharacterController> useableCharacters = _characterHandler.GetCharactersByDices ();
 
 			foreach (ICharacterController character in useableCharacters) {
@@ -35,13 +35,11 @@ namespace Hexa2Go {
 					_selectedCharacter.State.MarkAsSelected ();
 
 					UIHandler.Instance.DicesController.SelectCharacter(character.Model.Type, character.Model.TeamColor);
-					return;
+					return true;
 				}
 			}
 
-			GameManager.Instance.GetGameMode().SwitchPlayer();
-			GameManager.Instance.GetGameMode().SetMatchState(MatchStates.ThrowDice);
-
+			return false;
 		}
 
 		public void SelectCharacter (CharacterType type, TeamColor teamColor) {

@@ -37,11 +37,8 @@ namespace Hexa2Go {
 			}
 		}
 
-		public void InitCharacterSelection () {
-			_characterFacade.InitCharacterSelection ();
-			if (_characterFacade.SelectedCharacter != null) {
-				_hexagonFacade.SelectCharacter (_characterFacade.SelectedCharacter.GridPos);
-			}
+		public bool InitCharacterSelection () {
+			return _characterFacade.InitCharacterSelection ();
 		}
 
 		public void SelectCharacter (CharacterType type, TeamColor teamColor) {

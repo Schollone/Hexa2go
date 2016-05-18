@@ -11,9 +11,14 @@ namespace Hexa2Go {
 		}
 
 		#region ICharacterState implementation
-		public Color Color {
+		public Color AreaColor {
 			get {
 				return HexagonColors.GetColor(_character.TeamColor);
+			}
+		}
+		public Color BorderColor {
+			get {
+				return HexagonColors.BLACK;
 			}
 		}
 		public bool IsSelected {

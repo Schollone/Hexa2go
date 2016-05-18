@@ -26,7 +26,7 @@ namespace Hexa2Go {
 			
 		}
 
-		public override void SelectCharacter () {
+		public override void SelectCharacter (bool hasFoundACharacter) {
 			UIHandler.Instance.DicesController.Disable ();
 			UIHandler.Instance.AcceptController.View.Hide ();
 		}

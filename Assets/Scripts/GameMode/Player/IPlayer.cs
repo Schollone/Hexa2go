@@ -12,7 +12,7 @@ namespace Hexa2Go {
 
 		void ThrowDice ();
 		void Throwing ();
-		void SelectCharacter ();
+		void SelectCharacter (bool hasFoundACharacter);
 		void SelectHexagon ();
 		void HandleAcceptButton ();
 		void Moving ();		

@@ -14,6 +14,7 @@ namespace Hexa2Go {
 		void Start () {
 			Button start = GetComponent<Button> ();
 			start.onClick.AddListener (HandleOnClicked);
+			Time.timeScale = 1f;
 		}
 
 		private void HandleOnClicked () {

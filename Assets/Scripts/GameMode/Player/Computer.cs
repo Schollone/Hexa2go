@@ -42,17 +42,20 @@ namespace Hexa2Go {
 		public override void Throwing () {
 		}
 		
-		public override void SelectCharacter () {
+		public override void SelectCharacter (bool hasFoundACharacter) {
 			UIHandler.Instance.DicesController.Disable ();
 
 			// TODO choose a character with the best next movement.
-			
-			IHexagonController hexagon = GameManager.Instance.GridFacade.HexagonFacade.GetHexagonToFocus();
 
-			ContainerObject data = new ContainerObject (hexagon.Model.GridPos, this);
-			ClickHandler.Instance.OnClick (ClickTypes.FocusHexagon, data);
+			if (hasFoundACharacter) {
+				IHexagonController hexagon = GameManager.Instance.GridFacade.HexagonFacade.GetHexagonToFocus();
+				
+				ContainerObject data = new ContainerObject (hexagon.Model.GridPos, this);
+				ClickHandler.Instance.OnClick (ClickTypes.FocusHexagon, data);
+				
+				ClickHandler.Instance.OnClick (ClickTypes.FinishCharacterMove);
+			}
 
-			ClickHandler.Instance.OnClick (ClickTypes.FinishCharacterMove);
 		}
 
 		public override void HandleAcceptButton () {

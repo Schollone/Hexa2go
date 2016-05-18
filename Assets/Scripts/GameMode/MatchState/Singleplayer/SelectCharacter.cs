@@ -9,10 +9,20 @@ namespace Hexa2Go {
 		public override void Operate (IPlayer player) {
 			UIHandler.Instance.DicesController.Show ();
 
-			GameManager.Instance.GridFacade.InitCharacterSelection ();
+			bool hasFoundACharacter = GameManager.Instance.GridFacade.InitCharacterSelection ();
+
+			if (hasFoundACharacter) {
+				GridPos gridPos = GameManager.Instance.GridFacade.CharacterFacade.SelectedCharacter.GridPos;
+				GameManager.Instance.GridFacade.HexagonFacade.SelectCharacter (gridPos);
+			}
 
 			_player = player;
-			player.SelectCharacter ();
+			player.SelectCharacter (hasFoundACharacter);
+
+			if (!hasFoundACharacter) {
+				GameManager.Instance.GetGameMode().SwitchPlayer();
+				GameManager.Instance.GetGameMode().SetMatchState(MatchStates.ThrowDice);
+			}
 		}
 
 		public override void HandleClick (IHexagonController hexagon) {
